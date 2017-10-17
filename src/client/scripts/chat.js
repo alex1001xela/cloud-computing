@@ -35,5 +35,3 @@ function Chat() {
 
 	}
 }
-
-// Schreib hier weitere Klassen
