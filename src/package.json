@@ -1,0 +1,14 @@
+{
+  "name": "cloud-computing",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+	"start": "node server/app.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.2",
+    "socket.io": "^2.0.3"
+  }
+}
