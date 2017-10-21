@@ -21,25 +21,31 @@ function MessageEditor(parent) {
             parseMessage(messageInputField.value);
         }
     };
+	var addAttachmentButton;
+    function createAddAttachmentButton() {
+    	if(!addAttachmentButton){
+			addAttachmentButton = document.createElement("INPUT");
+			addAttachmentButton.type = "file";
+			addAttachmentButton.className = "add-attachment-button";
+			addAttachmentButton.onchange = function (event) {
+				var reader = new FileReader();
 
-    var addAttachmentButton = document.createElement("INPUT");
-    addAttachmentButton.type = "file";
-    addAttachmentButton.className = "add-attachment-button";
-    addAttachmentButton.onchange = function (event) {
-        var reader = new FileReader();
+				var file = event.target.files[0];
 
-        reader.onload = function () {
-            attachment = new Attachment(parent, reader.result)
-        };
+				reader.onload = function () {
+					attachment = new Attachment(reader.result, file.type, file.name, file.size);
+				};
 
-        reader.readAsArrayBuffer(event.target.files[0]);
+				reader.readAsArrayBuffer(file);
+			};
 
-
-    };
+			domElement.appendChild(addAttachmentButton);
+		}
+	}
 
     domElement.appendChild(messageInputField);
     domElement.appendChild(sendMessageButton);
-    domElement.appendChild(addAttachmentButton);
+	createAddAttachmentButton();
 
 
     parent.appendChild(domElement);
@@ -68,9 +74,10 @@ function MessageEditor(parent) {
         if(attachment){
             socket.emit("messageWithAttachment", {
                 "message": message,
-                "attachment": attachment.fileBuffer
+                "attachment": attachment
             }, function () {
                 clearTextField();
+                clearAttachment();
             });
         }
         else{
@@ -87,9 +94,10 @@ function MessageEditor(parent) {
             socket.emit("privateMessageWithAttachment", {
                 "message": message,
                 "otherUsername": getUserForPrivateMessage(message),
-                "attachment": attachment.fileBuffer
+                "attachment": attachment
             }, function () {
                 clearTextField();
+				clearAttachment();
             });
         }
         else{
@@ -105,6 +113,15 @@ function MessageEditor(parent) {
     function clearTextField() {
         messageInputField.value = "";
     }
+
+    function clearAttachment() {
+		domElement.removeChild(addAttachmentButton);
+    	attachment = null;
+		addAttachmentButton = null;
+		createAddAttachmentButton();
+	}
+
+
 
     function getUserForPrivateMessage(message) {
         return (message.substr(1, message.length).split(" "))[0];

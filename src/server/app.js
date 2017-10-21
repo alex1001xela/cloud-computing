@@ -8,7 +8,7 @@ const SocketGateway = require("./SocketGateway");
 const port = "3001";
 const homePath = path.join(__dirname, "..");
 const clientPath = path.join(homePath, "client");
-const resourcesPath = path.join(clientPath, "resources");
+
 
 function App() {
 

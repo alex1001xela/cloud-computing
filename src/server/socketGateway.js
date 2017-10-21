@@ -1,10 +1,13 @@
 "use strict";
 
+const FileManager = require("./fileManager");
+
 function SocketGateway(app) {
 
 	this.app = app;
 	this.io = app.io;
 	this.activateSocketListeners(app.io);
+	this.fileManager = new FileManager();
 }
 
 SocketGateway.prototype.activateSocketListeners = function (io){
@@ -75,7 +78,10 @@ SocketGateway.prototype.emitMessage = function (username, message, timestamp) {
 };
 
 SocketGateway.prototype.emitMessageWithAttachment = function (username, message, attachment, timestamp) {
-	this.io.emit("messageWithAttachment", username, message, attachment, timestamp);
+
+	this.fileManager.saveFile(attachment, (attachmentURL) => {
+		this.io.emit("messageWithAttachment", username, message, attachmentURL, timestamp);
+	});
 };
 
 SocketGateway.prototype.emitPrivateMessage = function (username, message, otherUsername, timestamp) {
@@ -88,7 +94,9 @@ SocketGateway.prototype.emitPrivateMessage = function (username, message, otherU
 SocketGateway.prototype.emitPrivateMessageWithAttachment = function (username, message, attachment, otherUsername, timestamp) {
 	const userSocket = this.app.users[otherUsername];
 	if(userSocket) {
-		userSocket.emit("privateMessageWithAttachment", username, message, attachment, timestamp);
+		this.fileManager.saveFile(attachment, (attachmentURL) => {
+			userSocket.emit("privateMessageWithAttachment", username, message, attachmentURL, timestamp);
+		});
 	}
 };
 
