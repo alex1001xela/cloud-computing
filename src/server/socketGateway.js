@@ -71,7 +71,6 @@ SocketGateway.prototype.emitUserLeft = function (username) {
 };
 
 SocketGateway.prototype.emitMessage = function (username, message, timestamp) {
-	console.log(username, message, timestamp);
 	this.io.emit("message", username, message, timestamp);
 };
 

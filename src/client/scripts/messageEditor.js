@@ -4,14 +4,17 @@ function MessageEditor(parent) {
 
     var domElement = document.createElement("DIV");
     domElement.className = "message-editor";
+
     var messageInputField = document.createElement("INPUT");
+    messageInputField.className = "message-input-field";
     messageInputField.onkeydown = function (event) {
         if(event.key === "Enter" && messageInputField.value.length > 0){
             parseMessage(messageInputField.value);
         }
-    }
+    };
 
     var sendMessageButton = document.createElement("BUTTON");
+    sendMessageButton.className = "send-message-button";
     sendMessageButton.textContent = "Send";
     sendMessageButton.onclick = function () {
         if(messageInputField.value.length > 0){
@@ -19,8 +22,20 @@ function MessageEditor(parent) {
         }
     };
 
-    var addAttachmentButton = document.createElement("BUTTON");
-    addAttachmentButton.textContent = "+";
+    var addAttachmentButton = document.createElement("INPUT");
+    addAttachmentButton.type = "file";
+    addAttachmentButton.className = "add-attachment-button";
+    addAttachmentButton.onchange = function (event) {
+        var reader = new FileReader();
+
+        reader.onload = function () {
+            attachment = new Attachment(parent, reader.result)
+        };
+
+        reader.readAsArrayBuffer(event.target.files[0]);
+
+
+    };
 
     domElement.appendChild(messageInputField);
     domElement.appendChild(sendMessageButton);
@@ -86,14 +101,6 @@ function MessageEditor(parent) {
             });
         }
     }
-    
-    function addAttachment(file) {
-        
-    }
-    
-    function removeAttachment() {
-
-    }
 
     function clearTextField() {
         messageInputField.value = "";
@@ -102,10 +109,6 @@ function MessageEditor(parent) {
     function getUserForPrivateMessage(message) {
         return (message.substr(1, message.length).split(" "))[0];
     }
-
-
-
-
 
     return messageEditor;
 }

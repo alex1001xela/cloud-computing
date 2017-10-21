@@ -1,7 +1,7 @@
-function Attachment(parent) {
+function Attachment(parent, fileBuffer) {
     var attachment = {};
 
-    attachment.fileBuffer;
+    attachment.fileBuffer = fileBuffer;
 
 
 
