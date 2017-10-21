@@ -5,28 +5,25 @@ function LoginScreen(parent){
     domElement.className = "login-screen";
     var usernameInputField = document.createElement("INPUT");
     usernameInputField.className = "username-input-field";
-    var submitButton = document.createElement("BUTTON");
-    submitButton.className = "submit-login-button";
-    submitButton.textContent = "Submit";
-
-    domElement.appendChild(usernameInputField);
-    domElement.appendChild(submitButton);
-
-    parent.appendChild(domElement);
-
-
-    submitButton.onclick = function () {
-        if(usernameInputField.value.length > 0){
-            submitUsername(usernameInputField.value);
-        }
-    };
-
     usernameInputField.onkeyup = function (event) {
         if(event.key === "Enter" && usernameInputField.value.length > 0){
             submitUsername(usernameInputField.value);
         }
     };
+    domElement.appendChild(usernameInputField);
 
+    var submitButton = document.createElement("BUTTON");
+    submitButton.className = "submit-login-button";
+    submitButton.textContent = "Submit";
+    submitButton.onclick = function () {
+        if(usernameInputField.value.length > 0){
+            submitUsername(usernameInputField.value);
+        }
+    };
+    domElement.appendChild(submitButton);
+
+    parent.appendChild(domElement);
+    usernameInputField.focus();
 
     function submitUsername (username) {
         socket.emit("login", username, function (loginSuccessful) {

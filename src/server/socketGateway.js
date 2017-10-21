@@ -25,27 +25,31 @@ SocketGateway.prototype.activateSocketListeners = function (io){
 			}
 		});
 
-		socket.on("message", (message) => {
+		socket.on("message", (args, callback) => {
 			if(this.isUserLoggedIn(socket)) {
-				this.emitMessage(socket.username, message);
+				this.emitMessage(socket.username, args.message, Date.now());
+                callback();
 			}
 		});
 
-		socket.on("messageWithAttachment", (message, attachment) => {
+		socket.on("messageWithAttachment", (args, callback) => {
 			if(this.isUserLoggedIn(socket)) {
-				this.emitMessageWithAttachment(socket.username, message, attachment);
+				this.emitMessageWithAttachment(socket.username, args.message, args.attachment, Date.now());
+                callback();
 			}
 		});
 
-		socket.on("privateMessage", (message, otherUsername) => {
+		socket.on("privateMessage", (args, callback) => {
 			if(this.isUserLoggedIn(socket)) {
-				this.emitPrivateMessage(socket.username, message, otherUsername);
+				this.emitPrivateMessage(socket.username, args.message, args.otherUsername, Date.now());
+				callback();
 			}
 		});
 
-		socket.on("privateMessageWithAttachment", (message, attachment, otherUsername) => {
+		socket.on("privateMessageWithAttachment", (args, callback) => {
 			if(this.isUserLoggedIn(socket)) {
-				this.emitPrivateMessageWithAttachment(socket.username, message, attachment, otherUsername);
+				this.emitPrivateMessageWithAttachment(socket.username, args.message, args.attachment, args.otherUsername, Date.now());
+                callback();
 			}
 		});
 
@@ -66,25 +70,26 @@ SocketGateway.prototype.emitUserLeft = function (username) {
 	this.io.emit("userLeft", username);
 };
 
-SocketGateway.prototype.emitMessage = function (username, message) {
-	this.io.emit("message", username, message);
+SocketGateway.prototype.emitMessage = function (username, message, timestamp) {
+	console.log(username, message, timestamp);
+	this.io.emit("message", username, message, timestamp);
 };
 
-SocketGateway.prototype.emitMessageWithAttachment = function (username, message, attachment) {
-	this.io.emit("messageWithAttachment", username, message, attachment);
+SocketGateway.prototype.emitMessageWithAttachment = function (username, message, attachment, timestamp) {
+	this.io.emit("messageWithAttachment", username, message, attachment, timestamp);
 };
 
-SocketGateway.prototype.emitPrivateMessage = function (username, message, otherUsername) {
+SocketGateway.prototype.emitPrivateMessage = function (username, message, otherUsername, timestamp) {
 	const userSocket = this.app.users[otherUsername];
 	if(userSocket) {
-		userSocket.emit("privateMessage", username, message);
+		userSocket.emit("privateMessage", username, message, timestamp);
 	}
 };
 
-SocketGateway.prototype.emitPrivateMessageWithAttachment = function (username, message, attachment, otherUsername) {
+SocketGateway.prototype.emitPrivateMessageWithAttachment = function (username, message, attachment, otherUsername, timestamp) {
 	const userSocket = this.app.users[otherUsername];
 	if(userSocket) {
-		userSocket.emit("privateMessageWithAttachment", username, message, attachment);
+		userSocket.emit("privateMessageWithAttachment", username, message, attachment, timestamp);
 	}
 };
 
