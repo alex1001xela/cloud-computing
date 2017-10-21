@@ -5,8 +5,10 @@
 .textField {
     background: #f3f2f2;
     width: 100%;
-    height: 500px;
-    position: absolute;
+   	height: 500px;
+    max-height: 500px;
+    position: fixed;
+    overflow: auto;
 }
 
 .messageText {
@@ -44,7 +46,8 @@
 }
 
 .message-editor {
-	position: relative;
+	position: fixed;
+    top: 600px;
 }
 
 

@@ -20,7 +20,7 @@ function ChatScreen(parent,username) {
 	textField.className = "textField";
 
 
-    function showMessage(username, message, timestamp) {
+    function showMessage(username, message, timestamp, public) {
 
    	var messageBox = document.createElement("DIV");
   	var usernameText = document.createElement("DIV");
@@ -36,18 +36,17 @@ function ChatScreen(parent,username) {
 	messageBox.appendChild(messageText);
 	messageBox.appendChild(messageTime);
 
-	messageBox.className = "messageBox";
-	usernameText.className = "usernameText";
-	messageText.className = "messageText";
-	messageTime.className = "messageTime";
+	messageBox.className = public ? "messageBox" : "messageBoxPrivate";
+	usernameText.className = public ? "usernameText" : "usernameTextPrivate";
+	messageText.className = public ? "messageText" : "messageTextPrivate"; 
+	messageTime.className = public ? "messageTime" : "messageTimePrivate";
 
-	
 
     }
 
     socket.on("message", function(username, message, timestamp) {
 
-    	showMessage(username, message, timestamp);
+    	showMessage(username, message, timestamp, true);
 
     })
 
