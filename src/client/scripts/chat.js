@@ -1,12 +1,23 @@
+var socket = io();
 function Chat() {
-	var socket = io();
+
 	var username = "";
 	var domElement = document.createElement("DIV");
 	document.body.appendChild(domElement);
 
+	//var loginScreen = new LoginScreen(domElement);
+
+	loginScreen.onLogin(function () {
+
+		new ChatScreen();
+    });
 
 
-	// BEISPIEL
+
+
+
+
+	/* BEISPIEL
 
 	var randomDiv = document.createElement("DIV");
 	randomDiv.textContent = "Connected!";
@@ -28,8 +39,7 @@ function Chat() {
 		domElement.appendChild(randomButton);
 	});
 
-
-	// BEISPIEL ENDE
+	// BEISPIEL ENDE */
 
 	function showChatScreen() {
 
