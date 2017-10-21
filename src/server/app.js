@@ -9,7 +9,6 @@ const port = "3001";
 const homePath = path.join(__dirname, "..");
 const clientPath = path.join(homePath, "client");
 
-
 function App() {
 
 	this.expressApp = express();
@@ -30,9 +29,6 @@ App.prototype.addUser = function(username, socket) {
 	if(!(username in this.users)){
 		this.users[username] = socket;
 		loginSuccessful = true;
-	}
-	else{
-		loginSuccessful = false;
 	}
 	return loginSuccessful;
 };

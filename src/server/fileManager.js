@@ -1,3 +1,5 @@
+"use strict";
+
 const path = require("path");
 
 const uploadsPath = path.join("uploads", "/");
@@ -9,14 +11,26 @@ function FileManager() {
 
 FileManager.prototype.saveFile = function (file, callback) {
 
-	this.fs.writeFile(savePath + file.name, file.fileBuffer, 'utf8', (err) => {
+	const fileName = Date.now() + "-" + (Math.floor(Math.random() * 1000)) + this.fileExtensionFromType(file.type);
+
+	this.fs.writeFile(savePath + fileName, file.fileBuffer, 'utf8', (err) => {
 		if(err) {
 			console.error(err);
 		}
 		else{
-			callback(uploadsPath + file.name);
+			callback(uploadsPath + fileName);
 		}
 	});
+};
+
+FileManager.prototype.fileExtensionFromType = function (type) {
+	let extension = "";
+	switch (type){
+		case "image/jpeg":
+			extension = ".jpg";
+			break;
+	}
+	return extension
 };
 
 module.exports = FileManager;

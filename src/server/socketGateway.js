@@ -6,8 +6,9 @@ function SocketGateway(app) {
 
 	this.app = app;
 	this.io = app.io;
-	this.activateSocketListeners(app.io);
 	this.fileManager = new FileManager();
+	this.activateSocketListeners(app.io);
+
 }
 
 SocketGateway.prototype.activateSocketListeners = function (io){
@@ -59,6 +60,12 @@ SocketGateway.prototype.activateSocketListeners = function (io){
 		socket.on("getUsersList", (args, callback) => {
 			if(this.isUserLoggedIn(socket)) {
 				callback(this.getMembersList());
+			}
+		});
+
+		socket.on("getUsersCount", (args, callback) => {
+			if(this.isUserLoggedIn(socket)) {
+				callback(this.getMembersList().length);
 			}
 		});
 	});
