@@ -7,15 +7,14 @@ function Chat() {
 
 	//var loginScreen = new LoginScreen(domElement);
 
+	new ChatScreen(domElement);
+
+	/*
 	loginScreen.onLogin(function () {
 
 		new ChatScreen();
     });
-
-
-
-
-
+	*/
 
 	/* BEISPIEL
 
