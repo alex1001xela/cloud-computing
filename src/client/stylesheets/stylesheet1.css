@@ -21,7 +21,7 @@
     font-family: Roboto;
 }
 
-.username {
+.usernameText {
 	margin-top: 10px;
     margin-left: 5px;
     padding-top: 2px;
@@ -41,6 +41,10 @@
     font-family: Roboto;
     font-size: 7px;
     text-align: right;
+}
+
+.message-editor {
+	position: relative;
 }
 
 
