@@ -7,7 +7,8 @@ function Chat() {
 
     });
 	new ChatScreen(domElement);
-	new MessageEditor(domElement);
+	
+	//new MessageEditor(domElement);
 
 	/*var loginScreen = new LoginScreen(domElement);
 	loginScreen.onLogin(function (username) {

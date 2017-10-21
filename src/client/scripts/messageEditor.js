@@ -3,7 +3,7 @@ function MessageEditor(parent) {
     var attachment;
 
     var domElement = document.createElement("DIV");
-
+    domElement.className = "message-editor";
     var messageInputField = document.createElement("INPUT");
     messageInputField.onkeydown = function (event) {
         if(event.key === "Enter" && messageInputField.value.length > 0){
