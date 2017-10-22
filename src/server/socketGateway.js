@@ -85,10 +85,11 @@ SocketGateway.prototype.emitMessage = function (username, message, timestamp) {
 };
 
 SocketGateway.prototype.emitMessageWithAttachment = function (username, message, attachment, timestamp) {
-
-	this.fileManager.saveFile(attachment, (attachmentURL) => {
-		this.io.emit("messageWithAttachment", username, message, attachmentURL, timestamp);
-	});
+	if(this.fileManager.isFileTypeAllowed(attachment.type)){
+		this.fileManager.saveFile(attachment, (attachmentURL) => {
+			this.io.emit("messageWithAttachment", username, message, attachmentURL, timestamp);
+		});
+	}
 };
 
 SocketGateway.prototype.emitPrivateMessage = function (username, message, otherUsername, timestamp) {
@@ -100,7 +101,7 @@ SocketGateway.prototype.emitPrivateMessage = function (username, message, otherU
 
 SocketGateway.prototype.emitPrivateMessageWithAttachment = function (username, message, attachment, otherUsername, timestamp) {
 	const userSocket = this.app.users[otherUsername];
-	if(userSocket) {
+	if(userSocket && this.fileManager.isFileTypeAllowed(attachment.type)) {
 		this.fileManager.saveFile(attachment, (attachmentURL) => {
 			userSocket.emit("privateMessageWithAttachment", username, message, attachmentURL, timestamp);
 		});

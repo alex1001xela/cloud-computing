@@ -4,6 +4,7 @@ const path = require("path");
 
 const uploadsPath = path.join("uploads", "/");
 const savePath = path.join("client", uploadsPath, "/");
+const allowedMimeTypes = ["image/jpeg", "audio/mpeg"];
 
 function FileManager() {
 	this.fs = require("fs");
@@ -11,7 +12,10 @@ function FileManager() {
 
 FileManager.prototype.saveFile = function (file, callback) {
 
-	const fileName = Date.now() + "-" + (Math.floor(Math.random() * 1000)) + this.fileExtensionFromType(file.type);
+	const splitFileName = file.name.split(".");
+	const extension = splitFileName.pop();
+
+	const fileName = Date.now() + "-" + (Math.floor(Math.random() * 1000)) + "." + extension;
 
 	this.fs.writeFile(savePath + fileName, file.fileBuffer, 'utf8', (err) => {
 		if(err) {
@@ -23,14 +27,8 @@ FileManager.prototype.saveFile = function (file, callback) {
 	});
 };
 
-FileManager.prototype.fileExtensionFromType = function (type) {
-	let extension = "";
-	switch (type){
-		case "image/jpeg":
-			extension = ".jpg";
-			break;
-	}
-	return extension
+FileManager.prototype.isFileTypeAllowed = function (type) {
+	return (allowedMimeTypes.indexOf(type) > -1);
 };
 
 module.exports = FileManager;

@@ -26,6 +26,7 @@ function MessageEditor(parent) {
     	if(!addAttachmentButton){
 			addAttachmentButton = document.createElement("INPUT");
 			addAttachmentButton.type = "file";
+			addAttachmentButton.accept = "image/jpeg, audio/mpeg";
 			addAttachmentButton.className = "add-attachment-button";
 			addAttachmentButton.onchange = function (event) {
 				var reader = new FileReader();
