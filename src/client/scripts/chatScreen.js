@@ -91,10 +91,12 @@ function ChatScreen(parent, username) {
 
     function showServerMessage(message) {
         var messageBox = document.createElement("DIV");
+        messageBox.className = "messageBoxServer";
         var messageText = document.createElement("DIV");
-
+        messageText.className = "messageTextServer";
         messageText.textContent = message;
         messageBox.appendChild(messageText);
+        textField.appendChild(messageBox);
     }
 
     socket.on("message", function (username, message, timestamp) {
@@ -139,14 +141,16 @@ function ChatScreen(parent, username) {
         });
     });
 
-    socket.on("newUser", function () {
+    socket.on("newUser", function (username) {
         numberOfUsers++;
         setNumberOfUsersElement();
+        showServerMessage(username + " joined!");
     });
 
-    socket.on("userLeft", function () {
+    socket.on("userLeft", function (username) {
         numberOfUsers--;
         setNumberOfUsersElement();
+        showServerMessage(username + " left!");
     });
 
     return chatScreen;
