@@ -1,71 +1,109 @@
-function ChatScreen(parent,username) {
-    
+function ChatScreen(parent, username) {
+
     var chatScreen = {};
 
     var domElement = document.createElement("DIV");
     var logo = document.createElement("IMG");
     var textField = document.createElement("DIV");
-   
+
 
     parent.appendChild(domElement);
     domElement.appendChild(logo);
     domElement.appendChild(textField);
     new MessageEditor(domElement);
 
-    logo.setAttribute("src","resources/logo.jpg");
-	logo.setAttribute("width", "250");
-	logo.setAttribute("height", "67");
+    logo.setAttribute("src", "resources/logo.jpg");
+    logo.setAttribute("width", "250");
+    logo.setAttribute("height", "67");
 
-	domElement.className = "ChatScreen";
-	textField.className = "textField";
+    domElement.className = "ChatScreen";
+    textField.className = "textField";
 
+    function getTimeRepresentation(dateObject){
+        var hours = dateObject.getHours() < 10 ? "0" + dateObject.getHours() : dateObject.getHours();
+        var minutes = dateObject.getMinutes() < 10 ? "0" + dateObject.getMinutes() : dateObject.getMinutes();
+        var seconds = dateObject.getSeconds() < 10 ? "0" + dateObject.getSeconds() : dateObject.getSeconds();
 
-    function showMessage(username, message, timestamp, public) {
-
-   	var messageBox = document.createElement("DIV");
-  	var usernameText = document.createElement("DIV");
-  	var messageText = document.createElement("DIV");
-  	var messageTime = document.createElement("DIV");
-  	
-  	usernameText.textContent = username;
-	messageText.textContent = message;
-	messageTime.textContent = timestamp;
-
-  	textField.appendChild(messageBox);
-	messageBox.appendChild(usernameText);
-	messageBox.appendChild(messageText);
-	messageBox.appendChild(messageTime);
-
-	messageBox.className = public ? "messageBox" : "messageBoxPrivate";
-	usernameText.className = public ? "usernameText" : "usernameTextPrivate";
-	messageText.className = public ? "messageText" : "messageTextPrivate"; 
-	messageTime.className = public ? "messageTime" : "messageTimePrivate";
-
-
+        return hours + ":" + minutes + ":" + seconds;
     }
 
-    socket.on("message", function(username, message, timestamp) {
+    function showMessage(args) {
 
-    	showMessage(username, message, timestamp, true);
+        var messageBox = document.createElement("DIV");
+        var usernameText = document.createElement("DIV");
+        var messageText = document.createElement("DIV");
+        var messageTime = document.createElement("DIV");
 
-    })
+        usernameText.textContent = args.username;
+        messageText.textContent = args.message;
+        messageTime.textContent = getTimeRepresentation(new Date(args.timestamp));
 
+        messageBox.className = args.isPublic ? "messageBox" : "messageBoxPrivate";
+        usernameText.className = args.isPublic ? "usernameText" : "usernameTextPrivate";
+        messageText.className = args.isPublic ? "messageText" : "messageTextPrivate";
+        messageTime.className = args.isPublic ? "messageTime" : "messageTimePrivate";
 
-  	
-  	
-  	
-	
-	
-	
+        messageBox.appendChild(usernameText);
+        messageBox.appendChild(messageText);
 
-	
-	
-    /*
-	messageText.textContent = "Hello world";
-	username.textContent = "TOM";
-	messageTime.textContent = "08:00";
-	*/
-	// messageText.textContent = "Lorem Ipsum adalah contoh teks atau dummy dalam industri percetakan dan penataan huruf atau typesetting. Lorem Ipsum telah menjadi standar contoh teks sejak tahun 1500an, saat seorang tukang cetak yang tidak dikenal mengambil sebuah kumpulan teks dan mengacaknya untuk menjadi sebuah buku contoh huruf. Ia tidak hanya bertahan selama 5 abad, tapi juga telah beralih ke penataan huruf elektronik, tanpa ada perubahan apapun. Ia mulai dipopulerkan pada tahun 1960 dengan diluncurkannya lembaran-lembaran Letraset yang menggunakan kalimat-kalimat dari Lorem Ipsum, dan seiring munculnya perangkat lunak Desktop Publishing seperti Aldus PageMaker juga memiliki versi Lorem Ipsum";
+        if(args.attachment) {
+            var attachmentButton = document.createElement("BUTTON");
+            attachmentButton.className = "attachment-button";
+            attachmentButton.onclick = function () {
+                window.open(args.attachment);
+            };
+            var attachmentButtonImage = document.createElement("IMG");
+            attachmentButtonImage.src = "resources/Download.png";
+            attachmentButton.appendChild(attachmentButtonImage);
 
-	return chatScreen;
+            messageBox.appendChild(attachmentButton);
+        }
+
+        messageBox.appendChild(messageTime);
+        textField.appendChild(messageBox);
+    }
+
+    socket.on("message", function (username, message, timestamp) {
+
+        showMessage({
+            username: username,
+            message: message,
+            timestamp: timestamp,
+            isPublic: true
+        });
+    });
+
+    socket.on("privateMessage", function (username, message, timestamp) {
+
+        showMessage({
+            username: username,
+            message: message,
+            timestamp: timestamp,
+            isPublic: false
+        });
+    });
+
+    socket.on("messageWithAttachment", function (username, message, attachmentURL, timestamp) {
+
+        showMessage({
+            username: username,
+            message: message,
+            timestamp: timestamp,
+            isPublic: true,
+            attachment: attachmentURL
+        });
+    });
+
+    socket.on("privateMessageWithAttachment", function (username, message, attachmentURL, timestamp) {
+
+        showMessage({
+            username: username,
+            message: message,
+            timestamp: timestamp,
+            isPublic: false,
+            attachment: attachmentURL
+        });
+    });
+
+    return chatScreen;
 }
