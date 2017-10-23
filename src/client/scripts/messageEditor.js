@@ -22,7 +22,7 @@ function MessageEditor(parent) {
         }
     };
 
-	var fileUploadLabel;
+	var fileUploadLabel, fileName;
     function createAddAttachmentButton() {
     	if(!fileUploadLabel){
 
@@ -30,7 +30,7 @@ function MessageEditor(parent) {
 			fileUploadLabel.htmlFor = "add-attachment-button";
 			fileUploadLabel.className = "file-upload-label";
 
-			var fileName = document.createElement("DIV");
+			fileName = document.createElement("DIV");
 			fileName.className = "file-name";
 			fileName.textContent = "";
 
@@ -132,6 +132,7 @@ function MessageEditor(parent) {
 
     function clearAttachment() {
 		domElement.removeChild(fileUploadLabel);
+		domElement.removeChild(fileName);
     	attachment = null;
 		fileUploadLabel = null;
 		createAddAttachmentButton();
