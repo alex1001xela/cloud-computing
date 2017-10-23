@@ -19,7 +19,7 @@ function Chat() {
 	loginScreen.onLogin(function (username) {
 		loginScreen.detach();
 		loginScreen = null;
-		new ChatScreen(domElement, username);
+		new ChatScreen(domElement);
     });
     
 }

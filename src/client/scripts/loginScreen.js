@@ -12,7 +12,7 @@ function LoginScreen(parent){
     logo.className = "logo";
 
     var paragraph = document.createElement("P");
-    paragraph.textContent = "Please enter your name!"
+    paragraph.textContent = "Please enter your name!";
     paragraph.className = "paragraph";
     domElement.appendChild(paragraph);
 

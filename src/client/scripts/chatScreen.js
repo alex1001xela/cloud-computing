@@ -1,4 +1,4 @@
-function ChatScreen(parent, username) {
+function ChatScreen(parent) {
 
     var chatScreen = {};
 

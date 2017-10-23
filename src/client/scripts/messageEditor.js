@@ -21,11 +21,22 @@ function MessageEditor(parent) {
             parseMessage(messageInputField.value);
         }
     };
-	var addAttachmentButton;
+
+	var fileUploadLabel;
     function createAddAttachmentButton() {
-    	if(!addAttachmentButton){
-			addAttachmentButton = document.createElement("INPUT");
+    	if(!fileUploadLabel){
+
+			fileUploadLabel = document.createElement("LABEL");
+			fileUploadLabel.htmlFor = "add-attachment-button";
+			fileUploadLabel.className = "file-upload-label";
+
+			var fileName = document.createElement("DIV");
+			fileName.className = "file-name";
+			fileName.textContent = "";
+
+			var addAttachmentButton = document.createElement("INPUT");
 			addAttachmentButton.type = "file";
+			addAttachmentButton.id = "add-attachment-button";
 			addAttachmentButton.accept = "image/jpeg, audio/mpeg";
 			addAttachmentButton.className = "add-attachment-button";
 			addAttachmentButton.onchange = function (event) {
@@ -35,11 +46,14 @@ function MessageEditor(parent) {
 
 				reader.onload = function () {
 					attachment = new Attachment(reader.result, file.type, file.name, file.size);
+					fileName.textContent = file.name;
 				};
 
 				reader.readAsArrayBuffer(file);
 			};
 
+			domElement.appendChild(fileUploadLabel);
+			domElement.appendChild(fileName);
 			domElement.appendChild(addAttachmentButton);
 		}
 	}
@@ -50,6 +64,7 @@ function MessageEditor(parent) {
 
 
     parent.appendChild(domElement);
+	messageInputField.focus();
 
     function parseMessage(message) {
         message = message.trim();
@@ -116,9 +131,9 @@ function MessageEditor(parent) {
     }
 
     function clearAttachment() {
-		domElement.removeChild(addAttachmentButton);
+		domElement.removeChild(fileUploadLabel);
     	attachment = null;
-		addAttachmentButton = null;
+		fileUploadLabel = null;
 		createAddAttachmentButton();
 	}
 

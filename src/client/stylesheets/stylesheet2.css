@@ -1,0 +1,32 @@
+#add-attachment-button {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.file-upload-label {
+	position: absolute;
+	margin-left: 2px;
+	background-image: url("../resources/AddAttachment.png");
+	width: 29px;
+	height: 29px;
+}
+
+.file-upload-label:hover {
+	background-image: url("../resources/AddAttachmentFloat.png");
+}
+
+.users-container {
+	float: right;
+	position: relative;
+	display: inline-flex;
+	font-family: Roboto;
+}
+
+.file-name {
+	float: left;
+	position: relative;
+}
