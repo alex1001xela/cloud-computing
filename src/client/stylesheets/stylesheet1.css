@@ -92,6 +92,51 @@
     font-family: ROBOTO;
 }
 
+.send-message-button {
+	-webkit-border-radius: 0;
+  	-moz-border-radius: 0;
+  	font-family: ROBOTO;
+  	border: 0px;
+  	color: #ffffff;
+  	font-size: 15px;
+  	background: #000000;
+  	padding: 5px 10px 5px 10px;
+  	text-decoration: none;
+  	width: 124px;
+}
+
+.send-message-button:Hover {
+	background: #28b8ed;
+  	text-decoration: none;
+}
+
+/*
+.add-attachment-button {
+
+	-webkit-border-radius: 0;
+  	-moz-border-radius: 0;
+  	font-family: ROBOTO;
+  	border: 0px;
+  	color: #ffffff;
+  	font-size: 15px;
+  	background: #000000;
+  	padding: 5px 10px 5px 10px;
+  	text-decoration: none;
+  	width: 124px;
+}
+
+.add-attachment-button:Hover {
+	background: #28b8ed;
+  	text-decoration: none;
+}
+*/
+
+.message-input-field {
+	width: 500px;
+	height: 22px;
+    font-family: ROBOTO;
+}
+
 
 div {
     display: block;
