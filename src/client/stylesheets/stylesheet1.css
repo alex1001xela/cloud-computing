@@ -51,6 +51,47 @@
 }
 
 
+.logo {
+	display: block;
+    margin: 0 auto;
+    margin-top: 100px;
+}
+
+.paragraph {
+	margin-top: 100px;
+	text-align: center;
+	font-family: ROBOTO;
+}
+
+.submit-login-button {
+	display: block;
+    margin: 0 auto;
+	-webkit-border-radius: 0;
+  	-moz-border-radius: 0;
+  	font-family: ROBOTO;
+  	border: 0px;
+  	color: #ffffff;
+  	font-size: 15px;
+  	background: #000000;
+  	padding: 5px 10px 5px 10px;
+  	text-decoration: none;
+  	width: 124px;
+  	
+}
+
+.submit-login-button:hover {
+	background: #28b8ed;
+  	text-decoration: none;
+}
+
+.username-input-field {
+	display: block;
+    margin: 0 auto;
+    margin-top: 10px;
+    width: 120px;
+    font-family: ROBOTO;
+}
+
 
 div {
     display: block;
