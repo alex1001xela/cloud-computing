@@ -17,7 +17,7 @@ function MessageEditor(parent) {
     sendMessageButton.className = "send-message-button";
     sendMessageButton.textContent = "Send";
     sendMessageButton.onclick = function () {
-        if(messageInputField.value.length > 0){
+        if(attachment || messageInputField.value.length > 0){
             parseMessage(messageInputField.value);
         }
     };

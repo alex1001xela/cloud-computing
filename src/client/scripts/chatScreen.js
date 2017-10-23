@@ -4,11 +4,30 @@ function ChatScreen(parent, username) {
 
     var domElement = document.createElement("DIV");
     var logo = document.createElement("IMG");
+
+    var usersContainer = document.createElement("DIV");
+    usersContainer.className = "users-container";
+    var usersCount = document.createElement("DIV");
+    usersCount.className = "users-count";
+
+    var numberOfUsers = 0;
+    socket.emit("getUsersCount", {}, function (count) {
+        numberOfUsers = count;
+        setNumberOfUsersElement();
+    });
+
+    var usersIcon = document.createElement("IMG");
+    usersIcon.className = "users-icon";
+    usersIcon.src = "resources/Users.png";
+    usersContainer.appendChild(usersCount);
+    usersContainer.appendChild(usersIcon);
+
     var textField = document.createElement("DIV");
 
 
     parent.appendChild(domElement);
     domElement.appendChild(logo);
+    domElement.appendChild(usersContainer);
     domElement.appendChild(textField);
     new MessageEditor(domElement);
 
@@ -25,6 +44,10 @@ function ChatScreen(parent, username) {
         var seconds = dateObject.getSeconds() < 10 ? "0" + dateObject.getSeconds() : dateObject.getSeconds();
 
         return hours + ":" + minutes + ":" + seconds;
+    }
+
+    function setNumberOfUsersElement() {
+        usersCount.textContent = numberOfUsers + "/100";
     }
 
     function showMessage(args) {
@@ -44,7 +67,10 @@ function ChatScreen(parent, username) {
         messageTime.className = args.isPublic ? "messageTime" : "messageTimePrivate";
 
         messageBox.appendChild(usernameText);
-        messageBox.appendChild(messageText);
+        if(args.message){
+            messageBox.appendChild(messageText);
+        }
+
 
         if(args.attachment) {
             var attachmentButton = document.createElement("BUTTON");
@@ -61,6 +87,14 @@ function ChatScreen(parent, username) {
 
         messageBox.appendChild(messageTime);
         textField.appendChild(messageBox);
+    }
+
+    function showServerMessage(message) {
+        var messageBox = document.createElement("DIV");
+        var messageText = document.createElement("DIV");
+
+        messageText.textContent = message;
+        messageBox.appendChild(messageText);
     }
 
     socket.on("message", function (username, message, timestamp) {
@@ -103,6 +137,16 @@ function ChatScreen(parent, username) {
             isPublic: false,
             attachment: attachmentURL
         });
+    });
+
+    socket.on("newUser", function () {
+        numberOfUsers++;
+        setNumberOfUsersElement();
+    });
+
+    socket.on("userLeft", function () {
+        numberOfUsers--;
+        setNumberOfUsersElement();
     });
 
     return chatScreen;
