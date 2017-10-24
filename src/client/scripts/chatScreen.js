@@ -7,6 +7,18 @@ function ChatScreen(parent) {
 
     var usersContainer = document.createElement("DIV");
     usersContainer.className = "users-container";
+
+
+    usersContainer.onclick = function () {
+		if(popup){
+			popup.parentNode.removeChild(popup);
+		}
+		socket.emit("getUsersList", {}, function (members) {
+			popup = popupFactory.inform(members, function () {
+				popup = null;
+			});
+		});
+	};
     var usersCount = document.createElement("DIV");
     usersCount.className = "users-count";
 
@@ -91,9 +103,9 @@ function ChatScreen(parent) {
 
     function showServerMessage(message) {
         var messageBox = document.createElement("DIV");
-        messageBox.className = "messageBoxServer";
+        messageBox.className = "messageBox Server";
         var messageText = document.createElement("DIV");
-        messageText.className = "messageTextServer";
+        messageText.className = "messageText Server";
         messageText.textContent = message;
         messageBox.appendChild(messageText);
         textField.appendChild(messageBox);

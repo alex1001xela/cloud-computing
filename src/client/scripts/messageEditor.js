@@ -1,6 +1,10 @@
 function MessageEditor(parent) {
     var messageEditor = {};
     var attachment;
+    var howToUse = document.createElement("DIV");
+	howToUse.appendChild(document.createTextNode("1. /list to get a list of the available users"));
+    howToUse.appendChild(document.createElement("BR"));
+    howToUse.appendChild(document.createTextNode("2. @someUsername to send a private message to that username"));
 
     var domElement = document.createElement("DIV");
     domElement.className = "message-editor";
@@ -52,9 +56,23 @@ function MessageEditor(parent) {
 				reader.readAsArrayBuffer(file);
 			};
 
+			var helpButton = document.createElement("IMG");
+			helpButton.src = "../resources/Help.png";
+			helpButton.className = "help-button";
+			helpButton.onclick = function () {
+				if(popup){
+					popup.parentNode.removeChild(popup);
+				}
+
+				popup = popupFactory.inform(howToUse, function () {
+					popup = null;
+				});
+			};
+
 			domElement.appendChild(fileUploadLabel);
 			domElement.appendChild(fileName);
 			domElement.appendChild(addAttachmentButton);
+			domElement.appendChild(helpButton);
 		}
 	}
 
@@ -81,7 +99,12 @@ function MessageEditor(parent) {
 
     function getUsersList() {
         socket.emit("getUsersList", {}, function (members) {
-            alert(members);
+			if(popup){
+				popup.parentNode.removeChild(popup);
+			}
+			popup = popupFactory.inform(members, function () {
+				popup = null;
+			});
             clearTextField();
         })
     }

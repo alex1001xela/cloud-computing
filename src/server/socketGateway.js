@@ -15,12 +15,12 @@ SocketGateway.prototype.activateSocketListeners = function (io){
 	io.on("connection", (socket) => {
 
 		socket.on("login", (username, callback) => {
-			const loginSuccessful = this.app.addUser(username, socket);
-			if (loginSuccessful) {
+			const loginStatus = this.app.addUser(username, socket);
+			if (loginStatus.status) {
 				socket.username = username;
 				this.emitNewUser(username);
 			}
-			callback(loginSuccessful);
+			callback(loginStatus);
 		});
 
 		socket.on("disconnect", () => {

@@ -1,0 +1,48 @@
+.nbPopup.main {
+    border: 1px solid grey;
+    margin: 20px;
+    position: relative;
+    height: 200px;
+    max-width: 50%;
+    box-shadow: 3px 3px grey;
+    float: right;
+}
+
+.nbPopup.header {
+    width: 100%;
+    height: 20%;
+    position: relative;
+    background: #28b8ed;
+}
+
+.nbPopup.headerText {
+    padding: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-weight: bold;
+}
+
+.nbPopup.body {
+    width: 100%;
+    height: 60%;
+    position: relative;
+    background: #f3f9fb;
+}
+
+.nbPopup.bodyText {
+    padding: 15px;
+}
+
+.nbPopup.footer {
+    width: 100%;
+    height: 20%;
+    position: relative;
+    background: #d8e8ed;
+}
+
+.nbPopup.button {
+    position: relative;
+    float: right;
+    margin: 3px;
+    margin-top: 10px;
+}

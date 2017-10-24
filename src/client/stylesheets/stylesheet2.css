@@ -13,6 +13,7 @@
 	background-image: url("../resources/AddAttachment.png");
 	width: 29px;
 	height: 29px;
+	cursor: pointer;
 }
 
 .file-upload-label:hover {
@@ -24,9 +25,25 @@
 	position: relative;
 	display: inline-flex;
 	font-family: Roboto;
+	cursor: pointer;
+	margin: 15px;
+}
+
+.users-count {
+	margin: 5px 5px 0 0;
 }
 
 .file-name {
 	float: left;
 	position: relative;
+}
+
+.messageBox .Server {
+	background: #28b8ed;
+}
+
+.help-button {
+	float: right;
+	position: relative;
+	cursor: pointer;
 }

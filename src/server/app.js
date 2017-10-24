@@ -9,6 +9,8 @@ const port = "3001";
 const homePath = path.join(__dirname, "..");
 const clientPath = path.join(homePath, "client");
 
+const maxNumberOfUsers = 100;
+
 function App() {
 
 	this.expressApp = express();
@@ -25,10 +27,20 @@ function App() {
 }
 
 App.prototype.addUser = function(username, socket) {
-	let loginSuccessful = false;
-	if(!(username in this.users)){
+	let loginSuccessful = {
+		status: false,
+		reason: ""
+	};
+
+	if(Object.keys(this.users).length === maxNumberOfUsers){
+		loginSuccessful.reason = "The server is full";
+	}
+	else if(username in this.users){
+		loginSuccessful.reason = "This username already exists!";
+	}
+	else {
 		this.users[username] = socket;
-		loginSuccessful = true;
+		loginSuccessful.status = true;
 	}
 	return loginSuccessful;
 };

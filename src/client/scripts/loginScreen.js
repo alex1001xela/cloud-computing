@@ -45,11 +45,11 @@ function LoginScreen(parent){
 
     function submitUsername (username) {
         socket.emit("login", username, function (loginSuccessful) {
-            if(loginSuccessful){
+            if(loginSuccessful.status){
                 onLoginCallback();
             }
             else{
-                alert("This username already exists!");
+                alert(loginSuccessful.reason);
             }
         });
     }

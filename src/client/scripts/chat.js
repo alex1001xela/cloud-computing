@@ -1,4 +1,5 @@
 var socket = io();
+var popupFactory, popup;
 function Chat() {
 
 	/*
@@ -15,6 +16,9 @@ function Chat() {
 
 	var domElement = document.createElement("DIV");
 	document.body.appendChild(domElement);
+
+	popupFactory = new NoBlockPopupFactory(domElement);
+
 	var loginScreen = new LoginScreen(domElement);
 	loginScreen.onLogin(function (username) {
 		loginScreen.detach();
