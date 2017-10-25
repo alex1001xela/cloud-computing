@@ -73,10 +73,10 @@ function ChatScreen(parent) {
         messageText.textContent = args.message;
         messageTime.textContent = getTimeRepresentation(new Date(args.timestamp));
 
-        messageBox.className = args.isPublic ? "messageBox" : "messageBoxPrivate";
-        usernameText.className = args.isPublic ? "usernameText" : "usernameTextPrivate";
+        messageBox.className = "messageBox";
+        usernameText.className = "usernameText";
         messageText.className = args.isPublic ? "messageText" : "messageTextPrivate";
-        messageTime.className = args.isPublic ? "messageTime" : "messageTimePrivate";
+        messageTime.className = "messageTime";
 
         messageBox.appendChild(usernameText);
         if(args.message){
@@ -103,9 +103,9 @@ function ChatScreen(parent) {
 
     function showServerMessage(message) {
         var messageBox = document.createElement("DIV");
-        messageBox.className = "messageBox Server";
+        messageBox.className = "messageBoxServer";
         var messageText = document.createElement("DIV");
-        messageText.className = "messageText Server";
+        messageText.className = "messageTextServer";
         messageText.textContent = message;
         messageBox.appendChild(messageText);
         textField.appendChild(messageBox);

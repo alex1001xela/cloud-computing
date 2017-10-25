@@ -45,6 +45,53 @@
     text-align: right;
 }
 
+.messageTextPrivate {
+   	background: #5bdddb;
+    width: 35%;
+    margin-top: 2px;
+    margin-left: 10px;
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-bottom: 5px;
+    position: relative;
+    font-family: Roboto;
+}
+
+.usernameTextPrivate {
+	margin-top: 10px;
+    margin-left: 5px;
+    padding-top: 2px;
+    padding-left: 5px;
+    position: relative;
+    font-family: Roboto;
+    font-size: 12px;
+}
+
+.messageTimePrivate {
+	width: 35%;
+	margin-top: 1px;
+    margin-left: 5px;
+    padding-top: 2px;
+    padding-left: 5px;
+    position: relative;
+    font-family: Roboto;
+    font-size: 7px;
+    text-align: right;
+}
+
+.messageTextServer {
+    background: #f9b6c5;
+    width: 15%;
+    margin-top: 2px;
+    margin-left: 10px;
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-bottom: 5px;
+    position: relative;
+    font-family: Roboto;
+   	color:white;
+}
+
 .message-editor {
 	position: fixed;
     top: 600px;
