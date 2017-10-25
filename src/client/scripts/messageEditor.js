@@ -56,29 +56,35 @@ function MessageEditor(parent) {
 				reader.readAsArrayBuffer(file);
 			};
 
-			var helpButton = document.createElement("IMG");
-			helpButton.src = "../resources/Help.png";
-			helpButton.className = "help-button";
-			helpButton.onclick = function () {
-				if(popup){
-					popup.parentNode.removeChild(popup);
-				}
 
-				popup = popupFactory.inform(howToUse, function () {
-					popup = null;
-				});
-			};
 
 			domElement.appendChild(fileUploadLabel);
 			domElement.appendChild(fileName);
 			domElement.appendChild(addAttachmentButton);
-			domElement.appendChild(helpButton);
+
 		}
+	}
+
+	function createHelpButton() {
+		var helpButton = document.createElement("IMG");
+		helpButton.src = "../resources/Help.png";
+		helpButton.className = "help-button";
+		helpButton.onclick = function () {
+			if(popup){
+				popup.parentNode.removeChild(popup);
+			}
+
+			popup = popupFactory.inform(howToUse, function () {
+				popup = null;
+			});
+		};
+		domElement.appendChild(helpButton);
 	}
 
     domElement.appendChild(messageInputField);
     domElement.appendChild(sendMessageButton);
 	createAddAttachmentButton();
+	createHelpButton();
 
 
     parent.appendChild(domElement);
@@ -151,6 +157,7 @@ function MessageEditor(parent) {
 
     function clearTextField() {
         messageInputField.value = "";
+		messageInputField.focus();
     }
 
     function clearAttachment() {
