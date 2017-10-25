@@ -55,7 +55,6 @@ function NoBlockPopupFactory(parent) {
 	function createBodyTextContainer(text) {
 		var textContainer = document.createElement("div");
 		textContainer.className = "nbPopup bodyText";
-		console.log(text, typeof text, (typeof text) === "string");
 		if((typeof text) === "string"){
 			textContainer.textContent = text;
 		}

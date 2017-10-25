@@ -2,18 +2,6 @@ var socket = io();
 var popupFactory, popup;
 function Chat() {
 
-	/*
-	var domElement = document.createElement("DIV");
-	document.body.appendChild(domElement);
-	socket.emit("login", "Alex", function () {
-
-    });
-
-	new ChatScreen(domElement);
-	*/
-
-	//new MessageEditor(domElement);
-
 	var domElement = document.createElement("DIV");
 	document.body.appendChild(domElement);
 

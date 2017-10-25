@@ -14,7 +14,7 @@ function ChatScreen(parent) {
 			popup.parentNode.removeChild(popup);
 		}
 		socket.emit("getUsersList", {}, function (members) {
-			popup = popupFactory.inform(members, function () {
+			popup = popupFactory.inform(members.toString(), function () {
 				popup = null;
 			});
 		});

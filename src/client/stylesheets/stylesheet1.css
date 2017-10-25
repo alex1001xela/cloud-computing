@@ -1,7 +1,3 @@
-.ChatScreen {
-
-}
-
 .textField {
     background: #f3f2f2;
     width: 100%;
@@ -95,6 +91,7 @@
 .message-editor {
 	position: fixed;
     top: 600px;
+	width: calc(100% - 10px);
 }
 
 
@@ -150,6 +147,8 @@
   	padding: 5px 10px 5px 10px;
   	text-decoration: none;
   	width: 124px;
+	cursor: pointer;
+	float: left;
 }
 
 .send-message-button:Hover {
@@ -182,9 +181,66 @@
 	width: 500px;
 	height: 22px;
     font-family: ROBOTO;
+	float: left;
 }
 
 
 div {
     display: block;
+}
+
+#add-attachment-button {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.file-upload-label {
+	position: relative;
+	margin-left: 2px;
+	background-image: url("../resources/AddAttachment.png");
+	width: 29px;
+	height: 29px;
+	cursor: pointer;
+	float: left;
+}
+
+.file-upload-label:hover {
+	background-image: url("../resources/AddAttachmentFloat.png");
+}
+
+.users-container {
+	float: right;
+	position: relative;
+	display: inline-flex;
+	font-family: Roboto;
+	cursor: pointer;
+	margin: 15px;
+}
+
+.users-count {
+	margin: 5px 5px 0 0;
+}
+
+.file-name {
+	float: left;
+	position: relative;
+}
+
+.messageBox .Server {
+	background: #28b8ed;
+}
+
+.help-button {
+	float: right;
+	position: relative;
+	cursor: pointer;
+	margin: 0 10px 0 0;
+}
+
+.attachment-button {
+	margin-left: 10px;
 }

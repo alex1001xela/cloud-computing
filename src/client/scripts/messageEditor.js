@@ -2,9 +2,9 @@ function MessageEditor(parent) {
     var messageEditor = {};
     var attachment;
     var howToUse = document.createElement("DIV");
-	howToUse.appendChild(document.createTextNode("1. /list to get a list of the available users"));
+	howToUse.appendChild(document.createTextNode("1. \\list to get a list of the available users"));
     howToUse.appendChild(document.createElement("BR"));
-    howToUse.appendChild(document.createTextNode("2. @someUsername to send a private message to that username"));
+    howToUse.appendChild(document.createTextNode("2. Start your message with @username to send a private message to that username"));
 
     var domElement = document.createElement("DIV");
     domElement.className = "message-editor";
@@ -41,7 +41,7 @@ function MessageEditor(parent) {
 			var addAttachmentButton = document.createElement("INPUT");
 			addAttachmentButton.type = "file";
 			addAttachmentButton.id = "add-attachment-button";
-			addAttachmentButton.accept = "image/jpeg, audio/mpeg";
+			addAttachmentButton.accept = "image/jpeg, audio/mpeg, video/mp4";
 			addAttachmentButton.className = "add-attachment-button";
 			addAttachmentButton.onchange = function (event) {
 				var reader = new FileReader();
@@ -86,7 +86,7 @@ function MessageEditor(parent) {
 
     function parseMessage(message) {
         message = message.trim();
-        if(message === "/list"){
+        if(message === "\\list"){
             getUsersList();
         }
         else if (message.startsWith("@")){
@@ -102,7 +102,7 @@ function MessageEditor(parent) {
 			if(popup){
 				popup.parentNode.removeChild(popup);
 			}
-			popup = popupFactory.inform(members, function () {
+			popup = popupFactory.inform(members.toString(), function () {
 				popup = null;
 			});
             clearTextField();

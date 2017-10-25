@@ -45,14 +45,14 @@ SocketGateway.prototype.activateSocketListeners = function (io){
 
 		socket.on("privateMessage", (args, callback) => {
 			if(this.isUserLoggedIn(socket)) {
-				this.emitPrivateMessage(socket.username, args.message, args.otherUsername, Date.now());
+				this.emitPrivateMessage(socket, args.message, args.otherUsername, Date.now());
 				callback();
 			}
 		});
 
 		socket.on("privateMessageWithAttachment", (args, callback) => {
 			if(this.isUserLoggedIn(socket)) {
-				this.emitPrivateMessageWithAttachment(socket.username, args.message, args.attachment, args.otherUsername, Date.now());
+				this.emitPrivateMessageWithAttachment(socket, args.message, args.attachment, args.otherUsername, Date.now());
                 callback();
 			}
 		});
@@ -92,18 +92,20 @@ SocketGateway.prototype.emitMessageWithAttachment = function (username, message,
 	}
 };
 
-SocketGateway.prototype.emitPrivateMessage = function (username, message, otherUsername, timestamp) {
-	const userSocket = this.app.users[otherUsername];
-	if(userSocket) {
-		userSocket.emit("privateMessage", username, message, timestamp);
+SocketGateway.prototype.emitPrivateMessage = function (userSocket, message, otherUsername, timestamp) {
+	const otherUserSocket = this.app.users[otherUsername];
+	if(otherUserSocket) {
+		userSocket.emit("privateMessage", userSocket.username, message, timestamp);
+		otherUserSocket.emit("privateMessage", userSocket.username, message, timestamp);
 	}
 };
 
-SocketGateway.prototype.emitPrivateMessageWithAttachment = function (username, message, attachment, otherUsername, timestamp) {
-	const userSocket = this.app.users[otherUsername];
-	if(userSocket && this.fileManager.isFileTypeAllowed(attachment.type)) {
+SocketGateway.prototype.emitPrivateMessageWithAttachment = function (userSocket, message, attachment, otherUsername, timestamp) {
+	const otherUserSocket = this.app.users[otherUsername];
+	if(otherUserSocket && this.fileManager.isFileTypeAllowed(attachment.type)) {
 		this.fileManager.saveFile(attachment, (attachmentURL) => {
-			userSocket.emit("privateMessageWithAttachment", username, message, attachmentURL, timestamp);
+			userSocket.emit("privateMessageWithAttachment", userSocket.username, message, attachmentURL, timestamp);
+			otherUserSocket.emit("privateMessageWithAttachment", userSocket.username, message, attachmentURL, timestamp);
 		});
 	}
 };
