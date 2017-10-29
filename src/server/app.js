@@ -4,6 +4,7 @@ const express = require("express");
 const path = require("path");
 const initServer = require("./server");
 const SocketGateway = require("./SocketGateway");
+const FileManager = require("./fileManager");
 
 const port = "3001";
 const homePath = path.join(__dirname, "..");
@@ -22,11 +23,17 @@ function App() {
 	this.expressApp.use(express.static(clientPath));
 	this.io = require('socket.io')(initServer(port, this.expressApp));
 	this.users = {};
+	this.fileManager = new FileManager();
+
+	setInterval(() => {
+		this.fileManager.deleteFilesOlderThan(this.getOldestUserTimestamp());
+	}, 30 * 60 * 1000);
 
 	new SocketGateway(this);
 }
 
 App.prototype.addUser = function(username, socket) {
+
 	let loginSuccessful = {
 		status: false,
 		reason: ""
@@ -47,6 +54,20 @@ App.prototype.addUser = function(username, socket) {
 
 App.prototype.removeUser = function (username) {
 	delete this.users[username];
+};
+
+App.prototype.getOldestUserTimestamp = function () {
+	let oldestTimestamp = Date.now();
+	for(let key in this.users){
+		if(this.users.hasOwnProperty(key)){
+			let userSocket = this.users[key];
+			let userTimestamp = userSocket.handshake.issued;
+			if(oldestTimestamp === undefined || userTimestamp < oldestTimestamp){
+				oldestTimestamp = userTimestamp;
+			}
+		}
+	}
+	return oldestTimestamp;
 };
 
 

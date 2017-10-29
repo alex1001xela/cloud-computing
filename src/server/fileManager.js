@@ -8,6 +8,7 @@ const allowedMimeTypes = ["image/jpeg", "audio/mpeg", "video/mp4"];
 
 function FileManager() {
 	this.fs = require("fs");
+	this.deleteFilesOlderThan(Date.now());
 }
 
 FileManager.prototype.saveFile = function (file, callback) {
@@ -29,6 +30,29 @@ FileManager.prototype.saveFile = function (file, callback) {
 
 FileManager.prototype.isFileTypeAllowed = function (type) {
 	return (allowedMimeTypes.indexOf(type) > -1);
+};
+
+FileManager.prototype.deleteFilesOlderThan = function (timestamp) {
+	const dateTimestamp = new Date(timestamp);
+	this.fs.readdir(savePath, (err, files) => {
+
+		if(err) {
+			console.error(err);
+		}
+		else{
+			files.forEach(file => {
+
+				if(file !== ".gitignore") {
+					let splitFilename = file.split("-");
+					let fileTimestamp = splitFilename[0];
+					const fileDate = new Date(parseInt(fileTimestamp));
+					if (fileDate < dateTimestamp) {
+						this.fs.unlinkSync(savePath + file)
+					}
+				}
+			});
+		}
+	});
 };
 
 module.exports = FileManager;

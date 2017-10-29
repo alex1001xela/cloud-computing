@@ -165,5 +165,9 @@ function ChatScreen(parent) {
         showServerMessage(username + " left!");
     });
 
+	chatScreen.detach = function () {
+		parent.removeChild(domElement);
+	};
+
     return chatScreen;
 }

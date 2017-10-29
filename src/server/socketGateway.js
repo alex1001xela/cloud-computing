@@ -1,12 +1,10 @@
 "use strict";
 
-const FileManager = require("./fileManager");
-
 function SocketGateway(app) {
 
 	this.app = app;
 	this.io = app.io;
-	this.fileManager = new FileManager();
+	this.fileManager = app.fileManager;
 	this.activateSocketListeners(app.io);
 
 }

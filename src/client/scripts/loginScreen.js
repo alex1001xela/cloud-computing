@@ -44,15 +44,26 @@ function LoginScreen(parent){
     usernameInputField.focus();
 
     function submitUsername (username) {
-        socket.emit("login", username, function (loginSuccessful) {
-            if(loginSuccessful.status){
-                onLoginCallback();
-            }
-            else{
-                alert(loginSuccessful.reason);
-            }
-        });
+
+        if(isUsernameValid(username.trim())){
+			socket.emit("login", username, function (loginSuccessful) {
+				if(loginSuccessful.status){
+					onLoginCallback();
+				}
+				else{
+					alert(loginSuccessful.reason);
+				}
+			});
+        }
+        else{
+			alert("Please enter a username without an empty space.");
+        }
+
     }
+
+    function isUsernameValid(username) {
+        return !username.includes(" ");
+	}
 
     loginScreen.onLogin = function(callback) {
         onLoginCallback = callback;
