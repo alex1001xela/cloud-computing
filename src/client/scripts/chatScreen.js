@@ -62,6 +62,10 @@ function ChatScreen(parent) {
         usersCount.textContent = numberOfUsers + "/100";
     }
 
+    function scrollToBottom() {
+		textField.scrollTop = textField.scrollHeight;
+	}
+
     function showMessage(args) {
 
         var messageBox = document.createElement("DIV");
@@ -99,6 +103,7 @@ function ChatScreen(parent) {
 
         messageBox.appendChild(messageTime);
         textField.appendChild(messageBox);
+        scrollToBottom();
     }
 
     function showServerMessage(message) {
@@ -109,6 +114,7 @@ function ChatScreen(parent) {
         messageText.textContent = message;
         messageBox.appendChild(messageText);
         textField.appendChild(messageBox);
+		scrollToBottom();
     }
 
     socket.on("message", function (username, message, timestamp) {
