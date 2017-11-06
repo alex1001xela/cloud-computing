@@ -3,7 +3,7 @@
 const express = require("express");
 const path = require("path");
 const initServer = require("./server");
-const SocketGateway = require("./SocketGateway");
+const SocketGateway = require("./socketGateway");
 const FileManager = require("./fileManager");
 
 const port = "3001";

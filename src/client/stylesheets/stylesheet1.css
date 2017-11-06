@@ -201,7 +201,7 @@ div {
 .file-upload-label {
 	position: relative;
 	margin-left: 2px;
-	background-image: url("../resources/AddAttachment.png");
+	background-image: url("../resources/addattachment.png");
 	width: 29px;
 	height: 29px;
 	cursor: pointer;
@@ -209,7 +209,7 @@ div {
 }
 
 .file-upload-label:hover {
-	background-image: url("../resources/AddAttachmentFloat.png");
+	background-image: url("../resources/addattachmentfloat.png");
 }
 
 .users-container {

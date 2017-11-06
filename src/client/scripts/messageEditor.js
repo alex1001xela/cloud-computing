@@ -67,7 +67,7 @@ function MessageEditor(parent) {
 
 	function createHelpButton() {
 		var helpButton = document.createElement("IMG");
-		helpButton.src = "../resources/Help.png";
+		helpButton.src = "../resources/help.png";
 		helpButton.className = "help-button";
 		helpButton.onclick = function () {
 			if(popup){

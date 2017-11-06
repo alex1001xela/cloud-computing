@@ -1,7 +1,7 @@
 {
   "name": "cloud-computing",
   "version": "1.0.0",
-  "description": "",
+  "description": "A Chat application",
   "scripts": {
 	"start": "node server/app.js"
   },

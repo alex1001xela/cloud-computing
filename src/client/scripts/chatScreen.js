@@ -30,7 +30,7 @@ function ChatScreen(parent) {
 
     var usersIcon = document.createElement("IMG");
     usersIcon.className = "users-icon";
-    usersIcon.src = "resources/Users.png";
+    usersIcon.src = "resources/users.png";
     usersContainer.appendChild(usersCount);
     usersContainer.appendChild(usersIcon);
 
@@ -95,7 +95,7 @@ function ChatScreen(parent) {
                 window.open(args.attachment);
             };
             var attachmentButtonImage = document.createElement("IMG");
-            attachmentButtonImage.src = "resources/Download.png";
+            attachmentButtonImage.src = "resources/download.png";
             attachmentButton.appendChild(attachmentButtonImage);
 
             messageBox.appendChild(attachmentButton);
