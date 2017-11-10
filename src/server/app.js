@@ -6,7 +6,7 @@ const initServer = require("./server");
 const SocketGateway = require("./socketGateway");
 const FileManager = require("./fileManager");
 
-const port = "3001";
+const port = process.env.PORT || process.env.VCAP_APP_PORT || 8080;
 const homePath = path.join(__dirname, "..");
 const clientPath = path.join(homePath, "client");
 

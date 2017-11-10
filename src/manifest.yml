@@ -1,0 +1,4 @@
+applications:
+- name: awesome-chat-app
+  memory: 512M
+  instances: 1
