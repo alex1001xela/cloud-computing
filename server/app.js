@@ -16,9 +16,9 @@ function App() {
 
 	this.expressApp = express();
 
-	this.expressApp.get("/", (req, res) => {
+	/*this.expressApp.get("/", (req, res) => {
 		res.sendFile(clientPath + "/index.html");
-	});
+	});*/
 
 	this.expressApp.use(express.static(clientPath));
 	this.io = require('socket.io')(initServer(port, this.expressApp));
