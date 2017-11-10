@@ -9,7 +9,7 @@ const FileManager = require("./fileManager");
 const port = process.env.PORT || process.env.VCAP_APP_PORT || 8080;
 const homePath = path.join(__dirname, "..");
 const clientPath = path.join(homePath, "client");
-const resourcesPath = path.join(clientPath, "resources");
+
 const maxNumberOfUsers = 100;
 
 function App() {
@@ -21,7 +21,6 @@ function App() {
 	});
 
 	this.expressApp.use(express.static(clientPath));
-	this.expressApp.use(express.static(resourcesPath));
 	this.io = require('socket.io')(initServer(port, this.expressApp));
 	this.users = {};
 	this.fileManager = new FileManager();
