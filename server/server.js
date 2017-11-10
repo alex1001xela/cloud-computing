@@ -1,6 +1,6 @@
 "use strict";
 
-const http = require('https');
+const http = require('http');
 
 function initServer (port, app) {
 
