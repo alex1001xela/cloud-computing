@@ -9,7 +9,7 @@ const FileManager = require("./fileManager");
 const port = process.env.PORT || process.env.VCAP_APP_PORT || 8080;
 const homePath = path.join(__dirname, "..");
 const clientPath = path.join(homePath, "client");
-console.log(clientPath);
+
 const maxNumberOfUsers = 100;
 
 function App() {

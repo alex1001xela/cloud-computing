@@ -3,7 +3,8 @@
 const path = require("path");
 
 const uploadsPath = path.join("uploads", "/");
-const savePath = path.join("..", uploadsPath, "/");
+const savePath = path.join("client", uploadsPath, "/");
+
 const allowedMimeTypes = ["image/jpeg", "audio/mpeg", "video/mp4"];
 
 function FileManager() {
