@@ -1,9 +1,10 @@
 "use strict";
 
 const path = require("path");
-
+const homePath = path.join(__dirname, "..");
+const clientPath = path.join(homePath, "client");
 const uploadsPath = path.join("uploads", "/");
-const savePath = path.join("client", uploadsPath, "/");
+const savePath = path.join(clientPath, uploadsPath, "/");
 
 const allowedMimeTypes = ["image/jpeg", "audio/mpeg", "video/mp4"];
 
