@@ -3,12 +3,16 @@
   "version": "1.0.0",
   "description": "A Chat application",
   "scripts": {
-	"start": "node server/app.js"
+    "start": "node server/app.js"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.18.2",
+    "cfenv": "^1.0.4",
+    "dotenv": "^4.0.0",
     "express": "^4.16.2",
-    "socket.io": "^2.0.3"
+    "socket.io": "^2.0.4",
+    "watson-developer-cloud": "^2.42.0"
   }
 }

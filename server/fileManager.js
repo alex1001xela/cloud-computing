@@ -1,6 +1,8 @@
 "use strict";
 
 const path = require("path");
+const fs = require("fs");
+
 const homePath = path.join(__dirname, "..");
 const clientPath = path.join(homePath, "client");
 const uploadsPath = path.join("uploads", "/");
@@ -9,7 +11,6 @@ const savePath = path.join(clientPath, uploadsPath, "/");
 const allowedMimeTypes = ["image/jpeg", "audio/mpeg", "video/mp4"];
 
 function FileManager() {
-	this.fs = require("fs");
 	this.deleteFilesOlderThan(Date.now());
 }
 
@@ -20,7 +21,7 @@ FileManager.prototype.saveFile = function (file, callback) {
 
 	const fileName = Date.now() + "-" + (Math.floor(Math.random() * 1000)) + "." + extension;
 
-	this.fs.writeFile(savePath + fileName, file.fileBuffer, 'utf8', (err) => {
+	fs.writeFile(savePath + fileName, file.fileBuffer, 'utf8', (err) => {
 		if(err) {
 			console.error(err);
 		}
@@ -36,7 +37,7 @@ FileManager.prototype.isFileTypeAllowed = function (type) {
 
 FileManager.prototype.deleteFilesOlderThan = function (timestamp) {
 	const dateTimestamp = new Date(timestamp);
-	this.fs.readdir(savePath, (err, files) => {
+	fs.readdir(savePath, (err, files) => {
 
 		if(err) {
 			console.error(err);
@@ -49,7 +50,7 @@ FileManager.prototype.deleteFilesOlderThan = function (timestamp) {
 					let fileTimestamp = splitFilename[0];
 					const fileDate = new Date(parseInt(fileTimestamp));
 					if (fileDate < dateTimestamp) {
-						this.fs.unlinkSync(savePath + file)
+						fs.unlinkSync(savePath + file)
 					}
 				}
 			});

@@ -1,10 +1,18 @@
 "use strict";
 
+const MoodAnalyzer = require("./moodAnalyzer");
+
 function SocketGateway(app) {
 
 	this.app = app;
 	this.io = app.io;
 	this.fileManager = app.fileManager;
+
+	this.moodAnalyzer = new MoodAnalyzer();
+	this.moodAnalyzer.onNewMood(() => {
+		this.io.emit("newMood", this.moodAnalyzer.getMoodLevel());
+	});
+
 	this.activateSocketListeners(app.io);
 
 }
@@ -29,6 +37,7 @@ SocketGateway.prototype.activateSocketListeners = function (io){
 
 		socket.on("message", (args, callback) => {
 			if(this.isUserLoggedIn(socket)) {
+				this.moodAnalyzer.analyzeMessage(args.message);
 				this.emitMessage(socket.username, args.message, Date.now());
                 callback();
 			}
@@ -36,6 +45,7 @@ SocketGateway.prototype.activateSocketListeners = function (io){
 
 		socket.on("messageWithAttachment", (args, callback) => {
 			if(this.isUserLoggedIn(socket)) {
+				this.moodAnalyzer.analyzeMessage(args.message);
 				this.emitMessageWithAttachment(socket.username, args.message, args.attachment, Date.now());
                 callback();
 			}
@@ -43,6 +53,7 @@ SocketGateway.prototype.activateSocketListeners = function (io){
 
 		socket.on("privateMessage", (args, callback) => {
 			if(this.isUserLoggedIn(socket)) {
+				this.moodAnalyzer.analyzeMessage(args.message);
 				this.emitPrivateMessage(socket, args.message, args.otherUsername, Date.now());
 				callback();
 			}
@@ -50,6 +61,7 @@ SocketGateway.prototype.activateSocketListeners = function (io){
 
 		socket.on("privateMessageWithAttachment", (args, callback) => {
 			if(this.isUserLoggedIn(socket)) {
+				this.moodAnalyzer.analyzeMessage(args.message);
 				this.emitPrivateMessageWithAttachment(socket, args.message, args.attachment, args.otherUsername, Date.now());
                 callback();
 			}

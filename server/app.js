@@ -5,6 +5,10 @@ const path = require("path");
 const initServer = require("./server");
 const SocketGateway = require("./socketGateway");
 const FileManager = require("./fileManager");
+const bodyParser = require('body-parser');
+const socketIO = require('socket.io');
+
+require('dotenv').config({silent: true});
 
 const port = process.env.PORT || process.env.VCAP_APP_PORT || 8080;
 const homePath = path.join(__dirname, "..");
@@ -16,14 +20,14 @@ function App() {
 
 	this.expressApp = express();
 
-	/*this.expressApp.get("/", (req, res) => {
-		res.sendFile(clientPath + "/index.html");
-	});*/
-
 	this.expressApp.use(express.static(clientPath));
-	this.io = require('socket.io')(initServer(port, this.expressApp));
+	this.expressApp.use(bodyParser.json());
+
+	this.io = socketIO(initServer(port, this.expressApp));
 	this.users = {};
 	this.fileManager = new FileManager();
+
+
 
 	setInterval(() => {
 		this.fileManager.deleteFilesOlderThan(this.getOldestUserTimestamp());

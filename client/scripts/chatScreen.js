@@ -117,6 +117,10 @@ function ChatScreen(parent) {
 		scrollToBottom();
     }
 
+    function showMoodLevel() {
+
+	}
+
     socket.on("message", function (username, message, timestamp) {
 
         showMessage({
@@ -170,6 +174,10 @@ function ChatScreen(parent) {
         setNumberOfUsersElement();
         showServerMessage(username + " left!");
     });
+
+    socket.on("newMood", function (mood) {
+        console.log(mood);
+	});
 
 	chatScreen.detach = function () {
 		parent.removeChild(domElement);
