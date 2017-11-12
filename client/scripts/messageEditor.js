@@ -58,9 +58,11 @@ function MessageEditor(parent) {
 
 
 
+
 			domElement.appendChild(fileUploadLabel);
 			domElement.appendChild(fileName);
 			domElement.appendChild(addAttachmentButton);
+
 
 		}
 	}
@@ -81,10 +83,34 @@ function MessageEditor(parent) {
 		domElement.appendChild(helpButton);
 	}
 
+	function createMoodLevelIndicator() {
+		var moodLevelIndicator = document.createElement("DIV");
+		moodLevelIndicator.className = "mood-level-indicator";
+
+		var sadSmiley = document.createElement("IMG");
+		sadSmiley.className = "smiley sad";
+		sadSmiley.src = "../resources/sadsmiley.png";
+		moodLevelIndicator.appendChild(sadSmiley);
+
+		var moodLevelBar = document.createElement("IMG");
+		moodLevelBar.className = "mood-level-bar";
+		moodLevelBar.src = "../resources/moodlevel.png";
+		moodLevelIndicator.appendChild(moodLevelBar);
+
+		var happySmiley = document.createElement("IMG");
+		happySmiley.className = "smiley happy";
+		happySmiley.src = "../resources/happysmiley.png";
+		moodLevelIndicator.appendChild(happySmiley);
+
+		domElement.appendChild(moodLevelIndicator);
+	}
+
     domElement.appendChild(messageInputField);
     domElement.appendChild(sendMessageButton);
 	createAddAttachmentButton();
+	createMoodLevelIndicator();
 	createHelpButton();
+
 
 
     parent.appendChild(domElement);

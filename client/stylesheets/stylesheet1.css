@@ -1,6 +1,6 @@
 .textField {
-    background: #f3f2f2;
-    width: 100%;
+    background: #f2f2f2;
+	width: calc(100% - 8px);
    	height: 500px;
     max-height: 500px;
     position: fixed;
@@ -230,6 +230,10 @@ div {
 	position: relative;
 }
 
+.messageBox {
+	width: calc(100% - 10px);
+}
+
 .messageBox .Server {
 	background: #28b8ed;
 }
@@ -243,4 +247,28 @@ div {
 
 .attachment-button {
 	margin-left: 10px;
+}
+
+.mood-level-indicator {
+	border: 1px solid black;
+	margin-left: 2px;
+	position: relative;
+	float: left;
+	height: 28px;
+}
+
+.smiley {
+
+}
+
+.smiley.sad {
+	border-right-width: 1px;
+	border-right-style: solid;
+	border-right-color: black;
+}
+
+.smiley.happy {
+	border-left-width: 1px;
+	border-left-style: solid;
+	border-left-color: black;
 }

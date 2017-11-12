@@ -35,7 +35,7 @@ function ChatScreen(parent) {
     usersContainer.appendChild(usersIcon);
 
     var textField = document.createElement("DIV");
-
+    textField.style.background = "#f2f2f2";
 
     parent.appendChild(domElement);
     domElement.appendChild(logo);
@@ -49,6 +49,10 @@ function ChatScreen(parent) {
 
     domElement.className = "ChatScreen";
     textField.className = "textField";
+
+    socket.emit("getMoodLevel", {}, function (moodLevel) {
+		showMoodLevel(moodLevel);
+	});
 
     function getTimeRepresentation(dateObject){
         var hours = dateObject.getHours() < 10 ? "0" + dateObject.getHours() : dateObject.getHours();
@@ -117,8 +121,18 @@ function ChatScreen(parent) {
 		scrollToBottom();
     }
 
-    function showMoodLevel() {
+    function showMoodLevel(moodLevel) {
+		var positiveOrNegative = moodLevel > 0 ? 1 : -1;
+		var startingColor = 242;
+		var blueStep = 242 / 100;
+		var redStep = moodLevel > 0 ? 242 / 100 : 142 / 100;
+		var greenStep = moodLevel < 0 ? 242 / 100 : 142 / 100;
 
+		var newRed = startingColor - redStep * moodLevel * positiveOrNegative;
+		var newGreen = startingColor - greenStep * moodLevel * positiveOrNegative;
+		var newBlue = startingColor - blueStep * moodLevel * positiveOrNegative;
+
+		textField.style.background = "rgb(" + newRed + ", " + newGreen + ", " + newBlue + ")";
 	}
 
     socket.on("message", function (username, message, timestamp) {
@@ -176,7 +190,7 @@ function ChatScreen(parent) {
     });
 
     socket.on("newMood", function (mood) {
-        console.log(mood);
+        showMoodLevel(mood);
 	});
 
 	chatScreen.detach = function () {

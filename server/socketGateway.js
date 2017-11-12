@@ -78,6 +78,12 @@ SocketGateway.prototype.activateSocketListeners = function (io){
 				callback(this.getMembersList().length);
 			}
 		});
+
+		socket.on("getMoodLevel", (args, callback) => {
+			if(this.isUserLoggedIn(socket)) {
+				callback(this.moodAnalyzer.getMoodLevel());
+			}
+		});
 	});
 };
 
