@@ -4,7 +4,7 @@ const http = require('http');
 
 function initServer (port, app) {
 
-	const server = http.createServer({}, app);
+	const server = http.createServer(app);
 	server.listen(port);
 
 	server.on('error', (error) => {
