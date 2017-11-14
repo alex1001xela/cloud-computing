@@ -19,6 +19,18 @@ const maxNumberOfUsers = 100;
 function App() {
 
 	this.expressApp = express();
+	/*this.expressApp.enable('trust proxy');
+
+	this.expressApp.use((req, res, next) => {
+
+		if(req.secure) {
+			next();
+		}
+		else {
+			console.log(req.headers.host);
+			res.redirect("https://" + req.headers.host + req.url);
+		}
+	});*/
 
 	this.expressApp.use(express.static(clientPath));
 	this.expressApp.use(bodyParser.json());
