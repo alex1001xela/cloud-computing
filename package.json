@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "A Chat application",
   "scripts": {
-    // "prestart": "webpack --config webpack.config.js",
     "start": "node server/app.js"
   },
   "author": "",
