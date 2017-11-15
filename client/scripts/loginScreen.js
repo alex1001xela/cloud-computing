@@ -1,4 +1,4 @@
-function LoginScreen(parent){
+export default function LoginScreen(parent){
     var loginScreen = {};
     var onLoginCallback;
     var domElement = document.createElement("DIV");

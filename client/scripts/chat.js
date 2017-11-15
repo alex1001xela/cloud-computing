@@ -1,6 +1,10 @@
 var socket = io();
 var popupFactory, popup;
-function Chat() {
+import NoBlockPopupFactory from "./noBlockPopupFactory.js";
+import ChatScreen from "./chatScreen";
+import LoginScreen from "./loginScreen";
+
+export default function Chat() {
 
 	var domElement = document.createElement("DIV");
 	var chatScreen, loginScreen;
@@ -51,3 +55,5 @@ function Chat() {
 		component = null;
 	}
 }
+
+new Chat();

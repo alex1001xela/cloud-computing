@@ -1,4 +1,6 @@
-function ChatScreen(parent) {
+import MessageEditor from "./messageEditor";
+
+export default function ChatScreen(parent) {
 
     var chatScreen = {};
 

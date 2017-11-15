@@ -1,6 +1,6 @@
 "use strict";
 
-function NoBlockPopupFactory(parent) {
+export default function NoBlockPopupFactory(parent) {
 
 	function createMainWindow() {
 		var mainWindow = document.createElement("div");
