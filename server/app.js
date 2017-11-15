@@ -32,6 +32,10 @@ function App() {
 		}
 	});*/
 
+	this.expressApp.get("/", (req, res) => {
+		res.sendFile(clientPath + "/index.html");
+	});
+
 	this.expressApp.use(express.static(clientPath));
 	this.expressApp.use(bodyParser.json());
 
