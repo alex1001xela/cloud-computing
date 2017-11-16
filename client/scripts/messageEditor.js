@@ -1,6 +1,6 @@
 import Attachment from "./attachment";
 
-export default function MessageEditor(parent) {
+export default function MessageEditor(parent, socket) {
     var messageEditor = {};
     var attachment;
     var howToUse = document.createElement("DIV");

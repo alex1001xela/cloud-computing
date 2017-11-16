@@ -1,4 +1,4 @@
-export default function LoginScreen(parent){
+export default function LoginScreen(parent, socket){
     var loginScreen = {};
     var onLoginCallback;
     var domElement = document.createElement("DIV");

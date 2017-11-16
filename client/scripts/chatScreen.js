@@ -1,6 +1,6 @@
 import MessageEditor from "./messageEditor";
 
-export default function ChatScreen(parent) {
+export default function ChatScreen(parent, socket) {
 
     var chatScreen = {};
 
@@ -43,7 +43,7 @@ export default function ChatScreen(parent) {
     domElement.appendChild(logo);
     domElement.appendChild(usersContainer);
     domElement.appendChild(textField);
-    new MessageEditor(domElement);
+    new MessageEditor(domElement, socket);
 
     logo.setAttribute("src", "resources/logo.jpg");
     logo.setAttribute("width", "250");

@@ -1,8 +1,10 @@
-var socket = io();
-var popupFactory, popup;
+import io from "socket.io-client";
 import NoBlockPopupFactory from "./noBlockPopupFactory.js";
 import ChatScreen from "./chatScreen";
 import LoginScreen from "./loginScreen";
+
+var popupFactory, popup;
+var socket = io();
 
 export default function Chat() {
 
@@ -43,10 +45,10 @@ export default function Chat() {
 
 
 	function initLoginScreen() {
-		loginScreen = new LoginScreen(domElement);
+		loginScreen = new LoginScreen(domElement, socket);
 		loginScreen.onLogin(function () {
 			removeComponent(loginScreen);
-			chatScreen = new ChatScreen(domElement);
+			chatScreen = new ChatScreen(domElement, socket);
 		});
 	}
 

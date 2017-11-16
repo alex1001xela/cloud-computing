@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A Chat application",
   "scripts": {
-    "start": "node server/app.js"
+    "start": "webpack && node server/app.js"
   },
   "author": "",
   "license": "MIT",
@@ -16,6 +16,7 @@
     "watson-developer-cloud": "^2.42.0"
   },
   "devDependencies": {
+    "socket.io-client": "^2.0.4",
     "webpack": "^3.8.1"
   }
 }
