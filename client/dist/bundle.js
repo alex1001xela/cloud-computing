@@ -7264,7 +7264,7 @@ function LoginScreen(parent, socket){
     logo.className = "logo";
 
     var paragraph = document.createElement("P");
-    paragraph.textContent = "Please enter your name!";
+    paragraph.textContent = "Please enter your username!";
     paragraph.className = "paragraph";
     domElement.appendChild(paragraph);
 
