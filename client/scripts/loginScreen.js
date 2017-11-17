@@ -12,7 +12,7 @@ export default function LoginScreen(parent, socket){
     logo.className = "logo";
 
     var paragraph = document.createElement("P");
-    paragraph.textContent = "Please enter your username!";
+    paragraph.textContent = "Please enter your name!";
     paragraph.className = "paragraph";
     domElement.appendChild(paragraph);
 
