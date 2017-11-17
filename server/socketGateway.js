@@ -20,11 +20,26 @@ function SocketGateway(app) {
 SocketGateway.prototype.activateSocketListeners = function (io){
 	io.on("connection", (socket) => {
 
-		socket.on("login", (username, callback) => {
-			const loginStatus = this.app.addUser(username, socket);
+        socket.on("register", (registerData, callback) => {
+
+            let loginSuccessful = {
+                status: true,
+                reason: ""
+            };
+
+            if (loginSuccessful.status) {
+                socket.username = registerData.username;
+                this.emitNewUser(registerData.username);
+            }
+            callback(loginSuccessful);
+        });
+
+		socket.on("login", (loginData, callback) => {
+			console.log(loginData);
+			const loginStatus = this.app.addUser(loginData.username, socket);
 			if (loginStatus.status) {
-				socket.username = username;
-				this.emitNewUser(username);
+				socket.username = loginData.username;
+				this.emitNewUser(loginData.username);
 			}
 			callback(loginStatus);
 		});

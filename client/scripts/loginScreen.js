@@ -2,7 +2,7 @@ import RegisterScreen from "./registerScreen";
 
 export default function LoginScreen(parent, socket){
     var loginScreen = {};
-    var onLoginCallback;
+    var onLoginCallback, onPressedRegisterCallback;
     var domElement = document.createElement("DIV");
     domElement.className = "login-screen";
     
@@ -42,12 +42,11 @@ export default function LoginScreen(parent, socket){
     domElement.appendChild(submitButton);
 
     var registerScreenLink = document.createElement("DIV");
-    registerScreenLink.className = "register-screen-link";
+    registerScreenLink.className = "login-register-screen-link";
     registerScreenLink.textContent = "Not registered? Press this to register";
 
     registerScreenLink.onclick = function () {
-        loginScreen.detach();
-        new RegisterScreen(parent, socket);
+        onPressedRegisterCallback();
     };
 
     domElement.appendChild(registerScreenLink);
@@ -58,7 +57,10 @@ export default function LoginScreen(parent, socket){
     function submitUsername (username) {
 
         if(isUsernameValid(username.trim())){
-			socket.emit("login", username, function (loginSuccessful) {
+			socket.emit("login", {
+			    "username": username,
+                "password": undefined
+            }, function (loginSuccessful) {
 				if(loginSuccessful.status){
 					onLoginCallback();
 				}
@@ -80,6 +82,10 @@ export default function LoginScreen(parent, socket){
     loginScreen.onLogin = function(callback) {
         onLoginCallback = callback;
     };
+
+    loginScreen.onPressedRegister = function (callback) {
+        onPressedRegisterCallback = callback;
+    }
 
     loginScreen.detach = function () {
         parent.removeChild(domElement);
