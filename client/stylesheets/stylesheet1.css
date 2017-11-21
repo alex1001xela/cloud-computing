@@ -102,9 +102,13 @@
 }
 
 .paragraph {
-	margin-top: 100px;
+	margin-top: 15px;
 	text-align: center;
 	font-family: ROBOTO;
+}
+
+.paragraph:first-of-type {
+	margin-top: 100px;
 }
 
 .submit-login-button {
@@ -155,27 +159,6 @@
 	background: #28b8ed;
   	text-decoration: none;
 }
-
-/*
-.add-attachment-button {
-
-	-webkit-border-radius: 0;
-  	-moz-border-radius: 0;
-  	font-family: ROBOTO;
-  	border: 0px;
-  	color: #ffffff;
-  	font-size: 15px;
-  	background: #000000;
-  	padding: 5px 10px 5px 10px;
-  	text-decoration: none;
-  	width: 124px;
-}
-
-.add-attachment-button:Hover {
-	background: #28b8ed;
-  	text-decoration: none;
-}
-*/
 
 .message-input-field {
 	width: 500px;
@@ -271,4 +254,56 @@ div {
 	border-left-width: 1px;
 	border-left-style: solid;
 	border-left-color: black;
+}
+
+.profile-picture-container {
+	width: 100px;
+	height: 100px;
+	background: #5bdddd;
+	margin: 88px 0 0 88px;
+	border: 2px solid black;
+}
+
+#add-picture-button {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+	cursor: pointer;
+}
+
+.add-picture-label {
+	background-image: url("../resources/portraitplaceholder.png");
+	position: relative;
+	width: 100px;
+	height: 100px;
+	float: right;
+	cursor: pointer;
+}
+
+.register-fields-container {
+	display: inline-block;
+	position: relative;
+	margin-left: calc(50% - 100px);
+}
+
+.text-label {
+	margin-top: 15px;
+	text-align: center;
+	font-family: ROBOTO;
+}
+
+.text-label.login {
+	cursor: pointer;
+}
+
+.profile-picture-register {
+	width: 100px;
+	height: 100px;
+}
+
+.paragraph.register {
+	cursor: pointer;
 }

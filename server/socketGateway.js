@@ -34,8 +34,11 @@ SocketGateway.prototype.activateSocketListeners = function (io){
             callback(loginSuccessful);
         });
 
+        socket.on("profilePictureUpload", (pictureData, callback) => {
+			callback();
+		});
+
 		socket.on("login", (loginData, callback) => {
-			console.log(loginData);
 			const loginStatus = this.app.addUser(loginData.username, socket);
 			if (loginStatus.status) {
 				socket.username = loginData.username;

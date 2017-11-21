@@ -4,7 +4,7 @@
   "description": "A Chat application",
   "scripts": {
     "start": "node server/app.js",
-    "buildAndStart": "webpack && node server/app.js"
+    "build": "webpack"
   },
   "author": "",
   "license": "MIT",

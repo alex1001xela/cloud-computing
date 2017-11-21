@@ -13,10 +13,25 @@ export default function RegisterScreen(parent, socket) {
     domElement.appendChild(logo);
     logo.className = "logo";
 
-    var paragraph = document.createElement("P");
-    paragraph.textContent = "Please enter your name!";
-    paragraph.className = "paragraph";
-    domElement.appendChild(paragraph);
+    var registerFieldsContainer = document.createElement("DIV");
+    registerFieldsContainer.className = "register-fields-container";
+
+
+    var profilePictureContainer = document.createElement("DIV");
+    profilePictureContainer.className = "profile-picture-container";
+
+    var profilePicture = document.createElement("IMG");
+    profilePicture.className = "profile-picture-register";
+	profilePictureContainer.appendChild(profilePicture);
+
+	createUploadPictureButton();
+
+	registerFieldsContainer.appendChild(profilePictureContainer);
+
+    var usernameInputLabel = document.createElement("P");
+    usernameInputLabel.textContent = "Please enter your name!";
+    usernameInputLabel.className = "text-label";
+	registerFieldsContainer.appendChild(usernameInputLabel);
 
     var usernameInputField = document.createElement("INPUT");
     usernameInputField.className = "username-input-field";
@@ -27,17 +42,31 @@ export default function RegisterScreen(parent, socket) {
         }
     };
 
-    domElement.appendChild(usernameInputField);
+	registerFieldsContainer.appendChild(usernameInputField);
+
+    var passwordInputLabel = document.createElement("P");
+    passwordInputLabel.textContent = "Please enter your password";
+    passwordInputLabel.className = "text-label";
+
+	registerFieldsContainer.appendChild(passwordInputLabel);
 
     var passwordInputField = document.createElement("INPUT");
+    passwordInputField.className = "username-input-field";
     passwordInputField.type = "password";
 
-    domElement.appendChild(passwordInputField);
+	registerFieldsContainer.appendChild(passwordInputField);
+
+	var confirmPasswordInputLabel = document.createElement("P");
+	confirmPasswordInputLabel.textContent = "Please confirm your password";
+	confirmPasswordInputLabel.className = "text-label";
+
+	registerFieldsContainer.appendChild(confirmPasswordInputLabel);
 
     var confirmPasswordInputField = document.createElement("INPUT");
+	confirmPasswordInputField.className = "username-input-field";
     confirmPasswordInputField.type = "password";
 
-    domElement.appendChild(confirmPasswordInputField);
+	registerFieldsContainer.appendChild(confirmPasswordInputField);
 
     var submitButton = document.createElement("BUTTON");
     submitButton.className = "submit-login-button";
@@ -50,18 +79,19 @@ export default function RegisterScreen(parent, socket) {
             }
         }
     };
-    domElement.appendChild(submitButton);
+	registerFieldsContainer.appendChild(submitButton);
 
-    var loginScreenLink = document.createElement("DIV");
-    loginScreenLink.className = "login-register-screen-link";
-    loginScreenLink.textContent = "Already registered? Press this to log in";
+    var loginScreenLink = document.createElement("P");
+    loginScreenLink.className = "text-label login";
+    loginScreenLink.textContent = "Already registered? Press here to log in";
 
     loginScreenLink.onclick = function () {
        onPressedLoginCallback();
     };
 
-    domElement.appendChild(loginScreenLink);
+	registerFieldsContainer.appendChild(loginScreenLink);
 
+	domElement.appendChild(registerFieldsContainer);
     parent.appendChild(domElement);
     usernameInputField.focus();
 
@@ -84,6 +114,7 @@ export default function RegisterScreen(parent, socket) {
     }
 
     function matchPasswordToConfirmation(password, confirmationPassword) {
+
         return password === confirmationPassword;
     }
 
@@ -109,6 +140,38 @@ export default function RegisterScreen(parent, socket) {
     function isUsernameValid(username) {
         return !username.includes(" ");
     }
+
+	var fileUploadLabel;
+	function createUploadPictureButton() {
+		if(!fileUploadLabel){
+
+			fileUploadLabel = document.createElement("LABEL");
+			fileUploadLabel.htmlFor = "add-picture-button";
+			fileUploadLabel.className = "add-picture-label";
+
+
+			var uploadPictureButton = document.createElement("INPUT");
+			uploadPictureButton.type = "file";
+			uploadPictureButton.id = "add-picture-button";
+			uploadPictureButton.accept = "image/jpeg, image/png";
+			uploadPictureButton.className = "add-picture-button";
+			uploadPictureButton.onchange = function (event) {
+				var reader = new FileReader();
+
+				var file = event.target.files[0];
+
+				reader.onload = function () {
+					profilePicture.src = reader.result;
+				};
+
+				reader.readAsDataURL(file);
+			};
+
+			profilePicture.appendChild(fileUploadLabel);
+			profilePicture.appendChild(uploadPictureButton);
+		}
+	}
+
 
     registerScreen.onLogin = function(callback) {
         onLoginCallback = callback;

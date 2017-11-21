@@ -41,9 +41,9 @@ export default function LoginScreen(parent, socket){
     };
     domElement.appendChild(submitButton);
 
-    var registerScreenLink = document.createElement("DIV");
-    registerScreenLink.className = "login-register-screen-link";
-    registerScreenLink.textContent = "Not registered? Press this to register";
+    var registerScreenLink = document.createElement("P");
+    registerScreenLink.className = "paragraph register";
+    registerScreenLink.textContent = "Not registered yet? Press here to register";
 
     registerScreenLink.onclick = function () {
         onPressedRegisterCallback();
