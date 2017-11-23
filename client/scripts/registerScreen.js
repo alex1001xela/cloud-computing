@@ -122,7 +122,8 @@ export default function RegisterScreen(parent, socket) {
         if(isUsernameValid(username.trim())){
             socket.emit("register", {
                 "username": username,
-                "password": password
+                "password": password,
+				"pictureArrayBuffer": pictureArrayBuffer
             }, function (loginSuccessful) {
                 if(loginSuccessful.status){
                     onLoginCallback();
@@ -141,7 +142,16 @@ export default function RegisterScreen(parent, socket) {
         return !username.includes(" ");
     }
 
-	var fileUploadLabel;
+	function arrayBufferToBase64(buffer) {
+		var binary = "";
+		var bytes = new Uint8Array(buffer);
+		for (var i = 0; i < bytes.byteLength; i++) {
+			binary += String.fromCharCode( bytes[ i ] );
+		}
+		return "data:image/jpeg;base64," + window.btoa(binary);
+	}
+
+	var fileUploadLabel, pictureArrayBuffer;
 	function createUploadPictureButton() {
 		if(!fileUploadLabel){
 
@@ -161,10 +171,19 @@ export default function RegisterScreen(parent, socket) {
 				var file = event.target.files[0];
 
 				reader.onload = function () {
-					profilePicture.src = reader.result;
+
+					socket.emit("profilePictureUpload", pictureArrayBuffer, function (response) {
+						if(response) {
+							pictureArrayBuffer = reader.result;
+							profilePicture.src = arrayBufferToBase64(pictureArrayBuffer);
+						}
+						else {
+							alert("Please insert a picture with a human face!");
+						}
+					});
 				};
 
-				reader.readAsDataURL(file);
+				reader.readAsArrayBuffer(file);
 			};
 
 			profilePicture.appendChild(fileUploadLabel);

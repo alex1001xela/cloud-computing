@@ -27,15 +27,26 @@ SocketGateway.prototype.activateSocketListeners = function (io){
                 reason: ""
             };
 
-            if (loginSuccessful.status) {
-                socket.username = registerData.username;
-                this.emitNewUser(registerData.username);
-            }
-            callback(loginSuccessful);
+			this.app.doesUsernameExist(registerData.username, (status) => {
+
+				if(status) {
+					loginSuccessful.status = false;
+					loginSuccessful.reason = "This username already exists!";
+					callback(loginSuccessful);
+				}
+				else{
+					this.app.registerUser(registerData, () => {
+						socket.username = registerData.username;
+						this.emitNewUser(registerData.username);
+						callback(loginSuccessful);
+					});
+				}
+			});
+
         });
 
         socket.on("profilePictureUpload", (pictureData, callback) => {
-			callback();
+			this.app.isProfilePictureValid(pictureData, callback);
 		});
 
 		socket.on("login", (loginData, callback) => {
@@ -120,7 +131,7 @@ SocketGateway.prototype.emitMessage = function (username, message, timestamp) {
 
 SocketGateway.prototype.emitMessageWithAttachment = function (username, message, attachment, timestamp) {
 	if(this.fileManager.isFileTypeAllowed(attachment.type)){
-		this.fileManager.saveFile(attachment, (attachmentURL) => {
+		this.fileManager.saveUserUpload(attachment, (attachmentURL) => {
 			this.io.emit("messageWithAttachment", username, message, attachmentURL, timestamp);
 		});
 	}
@@ -137,7 +148,7 @@ SocketGateway.prototype.emitPrivateMessage = function (userSocket, message, othe
 SocketGateway.prototype.emitPrivateMessageWithAttachment = function (userSocket, message, attachment, otherUsername, timestamp) {
 	const otherUserSocket = this.app.users[otherUsername];
 	if(otherUserSocket && this.fileManager.isFileTypeAllowed(attachment.type)) {
-		this.fileManager.saveFile(attachment, (attachmentURL) => {
+		this.fileManager.saveUserUpload(attachment, (attachmentURL) => {
 			userSocket.emit("privateMessageWithAttachment", userSocket.username, message, attachmentURL, timestamp);
 			otherUserSocket.emit("privateMessageWithAttachment", userSocket.username, message, attachmentURL, timestamp);
 		});

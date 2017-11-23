@@ -6,7 +6,9 @@ const fs = require("fs");
 const homePath = path.join(__dirname, "..");
 const clientPath = path.join(homePath, "client");
 const uploadsPath = path.join("uploads", "/");
-const savePath = path.join(clientPath, uploadsPath, "/");
+const saveUploadsPath = path.join(clientPath, uploadsPath, "/");
+const temporaryProfilePicturePath = path.join("temppictures", "/");
+const saveTemporaryProfilePicturePath = path.join(clientPath, temporaryProfilePicturePath, "/");
 
 const allowedMimeTypes = ["image/jpeg", "audio/mpeg", "video/mp4"];
 
@@ -14,14 +16,28 @@ function FileManager() {
 	this.deleteFilesOlderThan(Date.now());
 }
 
-FileManager.prototype.saveFile = function (file, callback) {
+FileManager.prototype.saveUserUpload = function (file, callback) {
+
+	const splitFileName = file.name.split(".");
+	const extension = splitFileName.pop();
+
+	const fileName = Date.now() + "-" + (Math.floor(Math.random() * 1000)) + "." + extension;
+	this.saveFile(saveUploadsPath + fileName, file.fileBuffer, callback);
+
+};
+
+FileManager.prototype.saveTemporaryProfilePicture = function (file, callback) {
 
 	const splitFileName = file.name.split(".");
 	const extension = splitFileName.pop();
 
 	const fileName = Date.now() + "-" + (Math.floor(Math.random() * 1000)) + "." + extension;
 
-	fs.writeFile(savePath + fileName, file.fileBuffer, 'utf8', (err) => {
+	this.saveFile(saveTemporaryProfilePicturePath + fileName, file.fileBuffer, callback);
+};
+
+FileManager.prototype.saveFile = function (path, fileBuffer, callback) {
+	fs.writeFile(path, fileBuffer, 'utf8', (err) => {
 		if(err) {
 			console.error(err);
 		}
@@ -37,7 +53,7 @@ FileManager.prototype.isFileTypeAllowed = function (type) {
 
 FileManager.prototype.deleteFilesOlderThan = function (timestamp) {
 	const dateTimestamp = new Date(timestamp);
-	fs.readdir(savePath, (err, files) => {
+	fs.readdir(saveUploadsPath, (err, files) => {
 
 		if(err) {
 			console.error(err);
@@ -50,7 +66,7 @@ FileManager.prototype.deleteFilesOlderThan = function (timestamp) {
 					let fileTimestamp = splitFilename[0];
 					const fileDate = new Date(parseInt(fileTimestamp));
 					if (fileDate < dateTimestamp) {
-						fs.unlinkSync(savePath + file)
+						fs.unlinkSync(saveUploadsPath + file)
 					}
 				}
 			});

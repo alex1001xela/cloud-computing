@@ -5,10 +5,11 @@ const path = require("path");
 const initServer = require("./server");
 const SocketGateway = require("./socketGateway");
 const FileManager = require("./fileManager");
-const bodyParser = require('body-parser');
-const socketIO = require('socket.io');
+const bodyParser = require("body-parser");
+const socketIO = require("socket.io");
+const DatabaseManager = require("./databaseManager");
 
-require('dotenv').config({silent: true});
+require("dotenv").config({silent: true});
 
 const port = process.env.PORT || process.env.VCAP_APP_PORT || 8080;
 const homePath = path.join(__dirname, "..");
@@ -19,18 +20,6 @@ const maxNumberOfUsers = 100;
 function App() {
 
 	this.expressApp = express();
-	/*this.expressApp.enable('trust proxy');
-
-	this.expressApp.use((req, res, next) => {
-
-		if(req.secure) {
-			next();
-		}
-		else {
-			console.log(req.headers.host);
-			res.redirect("https://" + req.headers.host + req.url);
-		}
-	});*/
 
 	this.expressApp.get("/", (req, res) => {
 		res.sendFile(clientPath + "/index.html");
@@ -42,7 +31,7 @@ function App() {
 	this.io = socketIO(initServer(port, this.expressApp));
 	this.users = {};
 	this.fileManager = new FileManager();
-
+	this.databaseManager = new DatabaseManager();
 
 
 	setInterval(() => {
@@ -61,9 +50,6 @@ App.prototype.addUser = function(username, socket) {
 
 	if(Object.keys(this.users).length === maxNumberOfUsers){
 		loginSuccessful.reason = "The server is full";
-	}
-	else if(username in this.users){
-		loginSuccessful.reason = "This username already exists!";
 	}
 	else {
 		this.users[username] = socket;
@@ -88,6 +74,21 @@ App.prototype.getOldestUserTimestamp = function () {
 		}
 	}
 	return oldestTimestamp;
+};
+
+App.prototype.doesUsernameExist = function (username, callback) {
+	this.databaseManager.doesUsernameExist(username, callback);
+};
+
+App.prototype.registerUser = function (registerData, callback) {
+	this.databaseManager.registerUser(registerData, callback);
+};
+
+App.prototype.isProfilePictureValid = function (pictureArrayBuffer, callback) {
+	this.fileManager.saveTemporaryProfilePicture(pictureArrayBuffer, () => {
+		callback(true);
+	});
+
 };
 
 
