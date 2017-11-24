@@ -26,8 +26,11 @@ function App() {
 	});*/
 
     this.expressApp.get("*", (req, res) => {
-        res.redirect("https://awesome-chat-app.eu-de.mybluemix.net/");
-        // res.sendFile(clientPath + "/index.html");
+        console.log(req);
+        console.log(req.secure);
+        if(!req.secure) {
+            res.redirect("https://awesome-chat-app.eu-de.mybluemix.net" + req.url);
+        }
     });
 
 	this.expressApp.use(express.static(clientPath));
