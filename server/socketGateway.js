@@ -14,7 +14,6 @@ function SocketGateway(app) {
 	});
 
 	this.activateSocketListeners(app.io);
-
 }
 
 SocketGateway.prototype.activateSocketListeners = function (io){
@@ -50,12 +49,15 @@ SocketGateway.prototype.activateSocketListeners = function (io){
 		});
 
 		socket.on("login", (loginData, callback) => {
-			const loginStatus = this.app.addUser(loginData.username, socket);
-			if (loginStatus.status) {
-				socket.username = loginData.username;
-				this.emitNewUser(loginData.username);
-			}
-			callback(loginStatus);
+
+		    this.app.areLoginDataValid(loginData, (loginStatus) => {
+                this.app.addUser(loginData.username, socket);
+                if (loginStatus.status) {
+                    socket.username = loginData.username;
+                    this.emitNewUser(loginData.username);
+                }
+                callback(loginStatus);
+            });
 		});
 
 		socket.on("disconnect", () => {

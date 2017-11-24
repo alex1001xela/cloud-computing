@@ -27,12 +27,11 @@ function App() {
 	});*/
 
     this.expressApp.use((req, res, next) => {
-        console.log(req.secure);
-        if (req.secure) {
-            // request was via https, so do no special handling
+        console.log(req.secure, req.headers.host);
+        if (req.secure || req.headers.host === "localhost:8080") {
+
             next();
         } else {
-            // request was via http, so redirect to https
             res.redirect('https://' + req.headers.host + req.url);
         }
 
@@ -101,8 +100,10 @@ App.prototype.isProfilePictureValid = function (pictureArrayBuffer, callback) {
 	this.fileManager.saveTemporaryProfilePicture(pictureArrayBuffer, () => {
 		callback(true);
 	});
-
 };
 
+App.prototype.areLoginDataValid = function (loginData, callback) {
+    this.databaseManager.areLoginDataValid(loginData, callback);
+};
 
 new App();
