@@ -27,8 +27,9 @@ function App() {
 
     this.expressApp.get("*", (req, res) => {
         console.log(req.secure);
+        console.log(req.headers.host);
         if(!req.secure) {
-            res.redirect("https://awesome-chat-app.eu-de.mybluemix.net" + req.url);
+            res.redirect("https://" + req.headers.host + "/");
         }
         else {
             res.sendFile(clientPath + "/index.html");
