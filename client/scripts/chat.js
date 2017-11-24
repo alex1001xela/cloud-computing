@@ -7,6 +7,7 @@ import RegisterScreen from "./registerScreen";
 var popupFactory, popup;
 var socket = io();
 
+// Test Comment
 export default function Chat() {
 
 	var domElement = document.createElement("DIV");
