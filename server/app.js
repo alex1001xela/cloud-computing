@@ -28,7 +28,8 @@ function App() {
     this.expressApp.get("*", (req, res) => {
         console.log(req.secure);
         console.log(req.headers.host);
-        if(!req.secure) {
+        console.log(req.connection.encrypted);
+        if(!req.connection.encrypted) {
             res.redirect("https://" + req.headers.host + "/");
         }
         else {
