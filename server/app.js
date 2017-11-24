@@ -20,21 +20,21 @@ const maxNumberOfUsers = 100;
 function App() {
 
 	this.expressApp = express();
+    this.expressApp.enable('trust proxy');
 
 	/*this.expressApp.get("/", (req, res) => {
 		res.sendFile(clientPath + "/index.html");
 	});*/
 
-    this.expressApp.get("*", (req, res) => {
-        console.log(req.secure);
-        console.log(req.headers.host);
-        console.log(req.connection.encrypted);
-        if(!req.connection.encrypted) {
-            res.redirect("https://" + req.headers.host + "/");
+    this.expressApp.use((req, res, next) => {
+        if (req.secure) {
+            // request was via https, so do no special handling
+            next();
+        } else {
+            // request was via http, so redirect to https
+            res.redirect('https://' + req.headers.host + req.url);
         }
-        else {
-            res.sendFile(clientPath + "/index.html");
-        }
+
     });
 
 	this.expressApp.use(express.static(clientPath));
