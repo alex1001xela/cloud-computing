@@ -21,9 +21,14 @@ function App() {
 
 	this.expressApp = express();
 
-	this.expressApp.get("/", (req, res) => {
+	/*this.expressApp.get("/", (req, res) => {
 		res.sendFile(clientPath + "/index.html");
-	});
+	});*/
+
+    this.expressApp.get("*", (req, res) => {
+        res.redirect("https://awesome-chat-app.eu-de.mybluemix.net/");
+        // res.sendFile(clientPath + "/index.html");
+    });
 
 	this.expressApp.use(express.static(clientPath));
 	this.expressApp.use(bodyParser.json());
