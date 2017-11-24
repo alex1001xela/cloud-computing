@@ -114,7 +114,6 @@ export default function RegisterScreen(parent, socket) {
     }
 
     function matchPasswordToConfirmation(password, confirmationPassword) {
-
         return password === confirmationPassword;
     }
 

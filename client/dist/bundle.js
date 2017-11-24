@@ -3625,13 +3625,12 @@ function RegisterScreen(parent, socket) {
 				reader.onload = function () {
 
 					socket.emit("profilePictureUpload", pictureArrayBuffer, function (response) {
-						console.log(response);
 						if(response) {
 							pictureArrayBuffer = reader.result;
 							profilePicture.src = arrayBufferToBase64(pictureArrayBuffer);
 						}
 						else {
-
+							alert("Please insert a picture with a human face!");
 						}
 					});
 				};

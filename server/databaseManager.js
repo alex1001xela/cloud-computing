@@ -3,8 +3,7 @@ const bcrypt = require("bcrypt");
 function DatabaseManager() {
 
 
-
-
+    
 
 }
 
