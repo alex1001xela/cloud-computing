@@ -26,10 +26,12 @@ function App() {
 	});*/
 
     this.expressApp.get("*", (req, res) => {
-        console.log(req);
         console.log(req.secure);
         if(!req.secure) {
             res.redirect("https://awesome-chat-app.eu-de.mybluemix.net" + req.url);
+        }
+        else {
+            res.sendFile(clientPath + "/index.html");
         }
     });
 
