@@ -178,11 +178,11 @@ export default function RegisterScreen(parent, socket) {
 						"name":file.name,
 						"size": file.size
 					}, function (response) {
-						if(response) {
-							profilePicture.src = response;
+						if(response.status) {
+							profilePicture.src = response.path;
 						}
 						else {
-							alert("Please insert a picture with a human face!");
+							alert(response.reason);
 						}
 					});
 				};

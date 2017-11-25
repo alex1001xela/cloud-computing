@@ -3622,9 +3622,6 @@ function RegisterScreen(parent, socket) {
 				var file = event.target.files[0];
 
 				reader.onload = function () {
-
-
-
 					// pictureArrayBuffer = reader.result;
 
 					socket.emit("profilePictureUpload", {
@@ -3633,12 +3630,11 @@ function RegisterScreen(parent, socket) {
 						"name":file.name,
 						"size": file.size
 					}, function (response) {
-						if(response) {
-							console.log(response);
-							profilePicture.src = response;
+						if(response.status) {
+							profilePicture.src = response.path;
 						}
 						else {
-							alert("Please insert a picture with a human face!");
+							alert(response.reason);
 						}
 					});
 				};

@@ -102,7 +102,9 @@ App.prototype.isProfilePictureValid = function (pictureData, callback) {
 	this.fileManager.saveTemporaryProfilePicture(pictureData, (picturePath) => {
 
 		this.pictureAnalyzer.isFaceContainedInPicture(picturePath, (result) => {
-			callback(picturePath);
+
+			callback(result);
+
 		});
 
 
