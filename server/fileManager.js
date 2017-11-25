@@ -22,7 +22,9 @@ FileManager.prototype.saveUserUpload = function (file, callback) {
 	const extension = splitFileName.pop();
 
 	const fileName = Date.now() + "-" + (Math.floor(Math.random() * 1000)) + "." + extension;
-	this.saveFile(saveUploadsPath + fileName, file.fileBuffer, callback);
+	this.saveFile(saveUploadsPath, fileName, file.fileBuffer, () => {
+		callback(uploadsPath + fileName);
+	});
 
 };
 
@@ -33,16 +35,18 @@ FileManager.prototype.saveTemporaryProfilePicture = function (file, callback) {
 
 	const fileName = Date.now() + "-" + (Math.floor(Math.random() * 1000)) + "." + extension;
 
-	this.saveFile(saveTemporaryProfilePicturePath + fileName, file.fileBuffer, callback);
+	this.saveFile(saveTemporaryProfilePicturePath, fileName, file.fileBuffer, () => {
+		callback(temporaryProfilePicturePath + fileName);
+	});
 };
 
-FileManager.prototype.saveFile = function (path, fileBuffer, callback) {
-	fs.writeFile(path, fileBuffer, 'utf8', (err) => {
+FileManager.prototype.saveFile = function (folderPath, fileName, fileBuffer, callback) {
+	fs.writeFile(folderPath + fileName, fileBuffer, 'utf8', (err) => {
 		if(err) {
 			console.error(err);
 		}
 		else{
-			callback(uploadsPath + fileName);
+			callback();
 		}
 	});
 };

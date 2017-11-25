@@ -170,11 +170,16 @@ export default function RegisterScreen(parent, socket) {
 				var file = event.target.files[0];
 
 				reader.onload = function () {
+					// pictureArrayBuffer = reader.result;
 
-					socket.emit("profilePictureUpload", pictureArrayBuffer, function (response) {
+					socket.emit("profilePictureUpload", {
+						"fileBuffer": reader.result,
+						"type": file.type,
+						"name":file.name,
+						"size": file.size
+					}, function (response) {
 						if(response) {
-							pictureArrayBuffer = reader.result;
-							profilePicture.src = arrayBufferToBase64(pictureArrayBuffer);
+							profilePicture.src = response;
 						}
 						else {
 							alert("Please insert a picture with a human face!");

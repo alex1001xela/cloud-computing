@@ -3566,7 +3566,6 @@ function RegisterScreen(parent, socket) {
     }
 
     function matchPasswordToConfirmation(password, confirmationPassword) {
-
         return password === confirmationPassword;
     }
 
@@ -3624,10 +3623,19 @@ function RegisterScreen(parent, socket) {
 
 				reader.onload = function () {
 
-					socket.emit("profilePictureUpload", pictureArrayBuffer, function (response) {
+
+
+					// pictureArrayBuffer = reader.result;
+
+					socket.emit("profilePictureUpload", {
+						"fileBuffer": reader.result,
+						"type": file.type,
+						"name":file.name,
+						"size": file.size
+					}, function (response) {
 						if(response) {
-							pictureArrayBuffer = reader.result;
-							profilePicture.src = arrayBufferToBase64(pictureArrayBuffer);
+							console.log(response);
+							profilePicture.src = response;
 						}
 						else {
 							alert("Please insert a picture with a human face!");
@@ -3681,6 +3689,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var popupFactory, popup;
 var socket = __WEBPACK_IMPORTED_MODULE_0_socket_io_client___default()();
 
+// Test Comment
 function Chat() {
 
 	var domElement = document.createElement("DIV");

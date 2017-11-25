@@ -8,6 +8,7 @@ const FileManager = require("./fileManager");
 const bodyParser = require("body-parser");
 const socketIO = require("socket.io");
 const DatabaseManager = require("./databaseManager");
+const PictureAnalyzer = require("./pictureAnalyzer");
 
 require("dotenv").config({silent: true});
 
@@ -27,7 +28,7 @@ function App() {
 	});*/
 
     this.expressApp.use((req, res, next) => {
-        console.log(req.secure, req.headers.host);
+
         if (req.secure || req.headers.host === "localhost:8080") {
 
             next();
@@ -44,6 +45,7 @@ function App() {
 	this.users = {};
 	this.fileManager = new FileManager();
 	this.databaseManager = new DatabaseManager();
+	this.pictureAnalyzer = new PictureAnalyzer();
 
 
 	setInterval(() => {
@@ -96,10 +98,16 @@ App.prototype.registerUser = function (registerData, callback) {
 	this.databaseManager.registerUser(registerData, callback);
 };
 
-App.prototype.isProfilePictureValid = function (pictureArrayBuffer, callback) {
-	this.fileManager.saveTemporaryProfilePicture(pictureArrayBuffer, () => {
-		callback(true);
+App.prototype.isProfilePictureValid = function (pictureData, callback) {
+	this.fileManager.saveTemporaryProfilePicture(pictureData, (picturePath) => {
+
+		this.pictureAnalyzer.isFaceContainedInPicture(picturePath, (result) => {
+			callback(picturePath);
+		});
+
+
 	});
+
 };
 
 App.prototype.areLoginDataValid = function (loginData, callback) {
