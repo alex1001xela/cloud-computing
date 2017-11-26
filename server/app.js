@@ -122,7 +122,9 @@ App.prototype.moveProfilePicture = function (picturePath, callback) {
 	let arrayPicturePathParts = picturePath.split("/");
 	let picture = arrayPicturePathParts[arrayPicturePathParts.length - 1];
 
-	this.fileManager.moveFile(path.join(tempPicturesPath, picture), path.join(profilePicturesPath, picture), callback);
+	this.fileManager.moveFile(path.join(tempPicturesPath, picture), path.join(profilePicturesPath, picture), () => {
+		callback(path.join("/", "profilepictures", picture));
+	});
 };
 
 new App();

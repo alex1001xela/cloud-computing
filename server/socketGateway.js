@@ -35,7 +35,9 @@ SocketGateway.prototype.activateSocketListeners = function (io){
 				}
 				else{
 
-					this.app.moveProfilePicture(registerData.picturePath, () => {
+					this.app.moveProfilePicture(registerData.picturePath, (newPicturePath) => {
+						
+						registerData.picturePath = newPicturePath;
 						this.app.registerUser(registerData, () => {
 							socket.username = registerData.username;
 							this.emitNewUser(registerData.username);
