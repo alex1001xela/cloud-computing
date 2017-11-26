@@ -1,6 +1,4 @@
-"use strict";
-
-export default function NoBlockPopupFactory(parent) {
+export function NoBlockPopupFactory(parent) {
 
 	function createMainWindow() {
 		var mainWindow = document.createElement("div");
@@ -67,6 +65,9 @@ export default function NoBlockPopupFactory(parent) {
 	}
 
 	return {
+		/*
+		Shows a simple popup with an ok button and some text. It doesn't block the whole application compared to alert()
+		 */
 		inform: function (bodyText, onOk) {
 			var mainWindow = createMainWindow();
 			var footer = createFooter();

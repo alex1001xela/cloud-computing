@@ -1,17 +1,20 @@
 const request = require("request");
 const fs = require("fs");
 const path = require("path");
+const api_key = require("../settings.json").pictureAnalyzer.api_key;
 
 function PictureAnalyzer() {
-
 }
 
+/*
+Checks with the IBM Watson Visual Recognition tool is the picture contains a face
+ */
 PictureAnalyzer.prototype.isFaceContainedInPicture = function (picturePath, callback) {
 
 	const file = fs.createReadStream(path.join("client", picturePath));
 
 	request.post({
-		"url": "https://gateway-a.watsonplatform.net/visual-recognition/api/v3/detect_faces?api_key=ae8f4e9a3fc3cca545f26e7ac3cc9af560e067ed&version=2016-05-20",
+		"url": "https://gateway-a.watsonplatform.net/visual-recognition/api/v3/detect_faces?api_key=" + api_key + "&version=2016-05-20",
 		"formData": {
 			"images_file": file
 		}

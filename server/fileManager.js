@@ -13,31 +13,43 @@ const saveTemporaryProfilePicturePath = path.join(clientPath, temporaryProfilePi
 const allowedMimeTypes = ["image/jpeg", "audio/mpeg", "video/mp4"];
 
 function FileManager() {
-	this.deleteFilesOlderThan(Date.now());
+	this.deleteUploadsOlderThan(Date.now()); // on starting the server all old files are deleted
+	this.deleteTempPicturesOlderThan(Date.now());
 }
 
+/*
+Saves a file uploaded from the user in the chat
+ */
 FileManager.prototype.saveUserUpload = function (file, callback) {
 
-	const splitFileName = file.name.split(".");
-	const extension = splitFileName.pop();
+	const fileName = this.convertFileNameToTimestampAndRandomNumberFileName(file);
 
-	const fileName = Date.now() + "-" + (Math.floor(Math.random() * 1000)) + "." + extension;
 	this.saveFile(saveUploadsPath, fileName, file.fileBuffer, () => {
 		callback(uploadsPath + fileName);
 	});
 
 };
 
+/*
+Saves an uploaded profile picture to the temppictures folder
+ */
 FileManager.prototype.saveTemporaryProfilePicture = function (file, callback) {
 
-	const splitFileName = file.name.split(".");
-	const extension = splitFileName.pop();
-
-	const fileName = Date.now() + "-" + (Math.floor(Math.random() * 1000)) + "." + extension;
+	const fileName = this.convertFileNameToTimestampAndRandomNumberFileName(file);
 
 	this.saveFile(saveTemporaryProfilePicturePath, fileName, file.fileBuffer, () => {
 		callback(temporaryProfilePicturePath + fileName);
 	});
+};
+
+/*
+Converts a file's name to a one easier to manage, with a timestamp and a random number
+ */
+FileManager.prototype.convertFileNameToTimestampAndRandomNumberFileName = function (file) {
+	const splitFileName = file.name.split(".");
+	const extension = splitFileName.pop();
+
+	return Date.now() + "-" + (Math.floor(Math.random() * 1000)) + "." + extension;
 };
 
 FileManager.prototype.saveFile = function (folderPath, fileName, fileBuffer, callback) {
@@ -55,9 +67,20 @@ FileManager.prototype.isFileTypeAllowed = function (type) {
 	return (allowedMimeTypes.indexOf(type) > -1);
 };
 
-FileManager.prototype.deleteFilesOlderThan = function (timestamp) {
+FileManager.prototype.deleteUploadsOlderThan = function (timestamp) {
+	this.deleteFilesOlderThan(saveUploadsPath, timestamp);
+};
+
+FileManager.prototype.deleteTempPicturesOlderThan = function (timestamp) {
+	this.deleteFilesOlderThan(saveTemporaryProfilePicturePath, timestamp);
+};
+
+/*
+Checks in the given folder for files older than the given timestamp and deletes them
+ */
+FileManager.prototype.deleteFilesOlderThan = function (folder, timestamp) {
 	const dateTimestamp = new Date(timestamp);
-	fs.readdir(saveUploadsPath, (err, files) => {
+	fs.readdir(folder, (err, files) => {
 
 		if(err) {
 			console.error(err);
@@ -70,7 +93,7 @@ FileManager.prototype.deleteFilesOlderThan = function (timestamp) {
 					let fileTimestamp = splitFilename[0];
 					const fileDate = new Date(parseInt(fileTimestamp));
 					if (fileDate < dateTimestamp) {
-						fs.unlinkSync(saveUploadsPath + file)
+						fs.unlinkSync(folder + file)
 					}
 				}
 			});

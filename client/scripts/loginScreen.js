@@ -1,6 +1,4 @@
-import RegisterScreen from "./registerScreen";
-
-export default function LoginScreen(parent, socket){
+export function LoginScreen(parent, socket){
     var loginScreen = {};
     var onLoginCallback, onPressedRegisterCallback;
     var domElement = document.createElement("DIV");
@@ -85,10 +83,12 @@ export default function LoginScreen(parent, socket){
 
     loginScreen.onPressedRegister = function (callback) {
         onPressedRegisterCallback = callback;
-    }
+    };
 
     loginScreen.detach = function () {
-        parent.removeChild(domElement);
+        if(domElement.parentNode === parent) {
+			parent.removeChild(domElement);
+        }
     };
 
     return loginScreen;

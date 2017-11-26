@@ -1,4 +1,4 @@
-export default function Attachment(fileBuffer, type, name, size) {
+export function Attachment(fileBuffer, type, name, size) {
     var attachment = {};
 
     attachment.fileBuffer = fileBuffer;

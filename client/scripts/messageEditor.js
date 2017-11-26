@@ -1,8 +1,8 @@
-import Attachment from "./attachment";
+import {Attachment} from "./attachment";
 
-export default function MessageEditor(parent, socket) {
+export function MessageEditor (parent, socket) {
     var messageEditor = {};
-    var attachment;
+    var attachment, fileUploadLabel, fileName;
     var howToUse = document.createElement("DIV");
 	howToUse.appendChild(document.createTextNode("1. \\list to get a list of the available users"));
     howToUse.appendChild(document.createElement("BR"));
@@ -28,7 +28,6 @@ export default function MessageEditor(parent, socket) {
         }
     };
 
-	var fileUploadLabel, fileName;
     function createAddAttachmentButton() {
     	if(!fileUploadLabel){
 
@@ -74,12 +73,12 @@ export default function MessageEditor(parent, socket) {
 		helpButton.src = "../resources/help.png";
 		helpButton.className = "help-button";
 		helpButton.onclick = function () {
-			if(popup){
-				popup.parentNode.removeChild(popup);
+			if(window.popup){
+				window.popup.parentNode.removeChild(window.popup);
 			}
 
-			popup = popupFactory.inform(howToUse, function () {
-				popup = null;
+			window.popup = window.popupFactory.inform(howToUse, function () {
+				window.popup = null;
 			});
 		};
 		domElement.appendChild(helpButton);
@@ -133,11 +132,11 @@ export default function MessageEditor(parent, socket) {
 
     function getUsersList() {
         socket.emit("getUsersList", {}, function (members) {
-			if(popup){
-				popup.parentNode.removeChild(popup);
+			if(window.popup){
+				window.popup.parentNode.removeChild(window.popup);
 			}
-			popup = popupFactory.inform(members.toString(), function () {
-				popup = null;
+			window.popup = window.popupFactory.inform(members.toString(), function () {
+				window.popup = null;
 			});
             clearTextField();
         })

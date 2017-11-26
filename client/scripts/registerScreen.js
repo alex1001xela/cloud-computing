@@ -1,8 +1,6 @@
-import LoginScreen from "./loginScreen";
-
-export default function RegisterScreen(parent, socket) {
+export function RegisterScreen(parent, socket) {
     var registerScreen = {};
-    var onPressedLoginCallback, onLoginCallback;
+    var onPressedLoginCallback, onLoginCallback, fileUploadLabel;
     var domElement = document.createElement("DIV");
     domElement.className = "register-screen";
 
@@ -74,7 +72,7 @@ export default function RegisterScreen(parent, socket) {
 
     submitButton.onclick = function () {
         if(usernameInputField.value.length > 0){
-            if(matchPasswordToConfirmation(passwordInputField.value, confirmPasswordInputField.value)){
+            if(doPasswordAndConfirmationMatch(passwordInputField.value, confirmPasswordInputField.value)){
                 submitRegisterData(usernameInputField.value, passwordInputField.value);
             }
         }
@@ -113,7 +111,7 @@ export default function RegisterScreen(parent, socket) {
 
     }
 
-    function matchPasswordToConfirmation(password, confirmationPassword) {
+    function doPasswordAndConfirmationMatch(password, confirmationPassword) {
         return password === confirmationPassword;
     }
 
@@ -141,16 +139,6 @@ export default function RegisterScreen(parent, socket) {
         return !username.includes(" ");
     }
 
-	function arrayBufferToBase64(buffer) {
-		var binary = "";
-		var bytes = new Uint8Array(buffer);
-		for (var i = 0; i < bytes.byteLength; i++) {
-			binary += String.fromCharCode( bytes[ i ] );
-		}
-		return "data:image/jpeg;base64," + window.btoa(binary);
-	}
-
-	var fileUploadLabel, pictureArrayBuffer;
 	function createUploadPictureButton() {
 		if(!fileUploadLabel){
 

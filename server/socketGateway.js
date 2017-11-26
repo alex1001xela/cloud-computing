@@ -36,7 +36,7 @@ SocketGateway.prototype.activateSocketListeners = function (io){
 				else{
 
 					this.app.moveProfilePicture(registerData.picturePath, (newPicturePath) => {
-						
+
 						registerData.picturePath = newPicturePath;
 						this.app.registerUser(registerData, () => {
 							socket.username = registerData.username;
@@ -70,6 +70,7 @@ SocketGateway.prototype.activateSocketListeners = function (io){
 		socket.on("disconnect", () => {
 			if(this.isUserLoggedIn(socket)) {
 				this.emitUserLeft(socket.username);
+				this.app.removeUser(socket.username);
 			}
 		});
 
@@ -130,7 +131,6 @@ SocketGateway.prototype.emitNewUser = function (username) {
 };
 
 SocketGateway.prototype.emitUserLeft = function (username) {
-	this.app.removeUser(username);
 	this.io.emit("userLeft", username);
 };
 

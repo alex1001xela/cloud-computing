@@ -1,6 +1,6 @@
-import MessageEditor from "./messageEditor";
+import {MessageEditor} from "./messageEditor";
 
-export default function ChatScreen(parent, socket) {
+export function ChatScreen(parent, socket) {
 
     var chatScreen = {};
 
@@ -12,12 +12,12 @@ export default function ChatScreen(parent, socket) {
 
 
     usersContainer.onclick = function () {
-		if(popup){
-			popup.parentNode.removeChild(popup);
+		if(window.popup){
+			window.popup.parentNode.removeChild(window.popup);
 		}
 		socket.emit("getUsersList", {}, function (members) {
-			popup = popupFactory.inform(members.toString(), function () {
-				popup = null;
+			window.popup = window.popupFactory.inform(members.toString(), function () {
+				window.popup = null;
 			});
 		});
 	};
@@ -27,7 +27,7 @@ export default function ChatScreen(parent, socket) {
     var numberOfUsers = 0;
     socket.emit("getUsersCount", {}, function (count) {
         numberOfUsers = count;
-        setNumberOfUsersElement();
+        setNumberOfUsers();
     });
 
     var usersIcon = document.createElement("IMG");
@@ -64,7 +64,7 @@ export default function ChatScreen(parent, socket) {
         return hours + ":" + minutes + ":" + seconds;
     }
 
-    function setNumberOfUsersElement() {
+    function setNumberOfUsers() {
         usersCount.textContent = numberOfUsers + "/100";
     }
 
@@ -72,7 +72,7 @@ export default function ChatScreen(parent, socket) {
 		textField.scrollTop = textField.scrollHeight;
 	}
 
-    function showMessage(args) {
+    function showUserMessage(args) {
 
         var messageBox = document.createElement("DIV");
         var usernameText = document.createElement("DIV");
@@ -123,6 +123,9 @@ export default function ChatScreen(parent, socket) {
 		scrollToBottom();
     }
 
+    /*
+    Changes the background color of the chat based on the current mood level
+     */
     function showMoodLevel(moodLevel) {
 		var positiveOrNegative = moodLevel > 0 ? 1 : -1;
 		var startingColor = 242;
@@ -139,7 +142,7 @@ export default function ChatScreen(parent, socket) {
 
     socket.on("message", function (username, message, timestamp) {
 
-        showMessage({
+        showUserMessage({
             username: username,
             message: message,
             timestamp: timestamp,
@@ -149,7 +152,7 @@ export default function ChatScreen(parent, socket) {
 
     socket.on("privateMessage", function (username, message, timestamp) {
 
-        showMessage({
+        showUserMessage({
             username: username,
             message: message,
             timestamp: timestamp,
@@ -159,7 +162,7 @@ export default function ChatScreen(parent, socket) {
 
     socket.on("messageWithAttachment", function (username, message, attachmentURL, timestamp) {
 
-        showMessage({
+        showUserMessage({
             username: username,
             message: message,
             timestamp: timestamp,
@@ -170,7 +173,7 @@ export default function ChatScreen(parent, socket) {
 
     socket.on("privateMessageWithAttachment", function (username, message, attachmentURL, timestamp) {
 
-        showMessage({
+        showUserMessage({
             username: username,
             message: message,
             timestamp: timestamp,
@@ -181,13 +184,13 @@ export default function ChatScreen(parent, socket) {
 
     socket.on("newUser", function (username) {
         numberOfUsers++;
-        setNumberOfUsersElement();
+        setNumberOfUsers();
         showServerMessage(username + " joined!");
     });
 
     socket.on("userLeft", function (username) {
         numberOfUsers--;
-        setNumberOfUsersElement();
+        setNumberOfUsers();
         showServerMessage(username + " left!");
     });
 
