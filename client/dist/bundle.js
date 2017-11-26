@@ -3574,7 +3574,7 @@ function RegisterScreen(parent, socket) {
             socket.emit("register", {
                 "username": username,
                 "password": password,
-				"pictureArrayBuffer": pictureArrayBuffer
+				"picturePath": profilePicture.src
             }, function (loginSuccessful) {
                 if(loginSuccessful.status){
                     onLoginCallback();

@@ -78,4 +78,16 @@ FileManager.prototype.deleteFilesOlderThan = function (timestamp) {
 	});
 };
 
+FileManager.prototype.moveFile = function (originalPath, targetPath, callback) {
+	fs.rename(originalPath, targetPath, function (err) {
+		if (err) {
+			console.error(err);
+		}
+		else {
+			callback();
+		}
+	});
+
+};
+
 module.exports = FileManager;

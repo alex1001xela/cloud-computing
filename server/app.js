@@ -15,6 +15,8 @@ require("dotenv").config({silent: true});
 const port = process.env.PORT || process.env.VCAP_APP_PORT || 8080;
 const homePath = path.join(__dirname, "..");
 const clientPath = path.join(homePath, "client");
+const profilePicturesPath = path.join(clientPath, "profilepictures");
+const tempPicturesPath = path.join(clientPath, "temppictures");
 
 const maxNumberOfUsers = 100;
 
@@ -114,6 +116,13 @@ App.prototype.isProfilePictureValid = function (pictureData, callback) {
 
 App.prototype.areLoginDataValid = function (loginData, callback) {
     this.databaseManager.areLoginDataValid(loginData, callback);
+};
+
+App.prototype.moveProfilePicture = function (picturePath, callback) {
+	let arrayPicturePathParts = picturePath.split("/");
+	let picture = arrayPicturePathParts[arrayPicturePathParts.length - 1];
+
+	this.fileManager.moveFile(path.join(tempPicturesPath, picture), path.join(profilePicturesPath, picture), callback);
 };
 
 new App();
