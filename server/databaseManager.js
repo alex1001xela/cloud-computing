@@ -3,8 +3,6 @@ const bcrypt = require("bcrypt");
 function DatabaseManager() {
 
 
-    
-
 }
 
 
@@ -22,7 +20,10 @@ DatabaseManager.prototype.doesUsernameExist = function (username, callback) {
 * }
 * */
 
-DatabaseManager.prototype.registerUser = function (registerData, callback) {
+DatabaseManager.prototype.registerUser = function (username, password, picturePath, callback) {
+	
+	var hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+
 	callback();
 };
 
