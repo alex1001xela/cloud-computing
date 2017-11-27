@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const fs = require("fs");
 // Database Connection
 var db;
 var cloudant;
@@ -8,7 +9,7 @@ var dbCredentials = {
 
 function DatabaseManager() {
 
-initDBConnection();
+this.initDBConnection();
 
 }
 
@@ -66,7 +67,7 @@ DatabaseManager.prototype.initDBConnection = function (callback) {
     //When running on Bluemix, this variable will be set to a json object
     //containing all the service credentials of all the bound services
     if (process.env.VCAP_SERVICES) {
-        dbCredentials.url = getDBCredentialsUrl(process.env.VCAP_SERVICES);
+        dbCredentials.url = this.getDBCredentialsUrl(process.env.VCAP_SERVICES);
     } else { //When running locally, the VCAP_SERVICES will not be set
 
         // When running this app locally you can get your Cloudant credentials
@@ -76,7 +77,7 @@ DatabaseManager.prototype.initDBConnection = function (callback) {
         // Alternately you could point to a local database here instead of a
         // Bluemix service.
         // url will be in this format: https://username:password@xxxxxxxxx-bluemix.cloudant.com
-        dbCredentials.url = getDBCredentialsUrl(fs.readFileSync("vcap-local.json", "utf-8"));
+        dbCredentials.url = this.getDBCredentialsUrl(fs.readFileSync("vcap-local.json", "utf-8"));
     }
 
     cloudant = require('cloudant')(dbCredentials.url);
@@ -91,8 +92,6 @@ DatabaseManager.prototype.initDBConnection = function (callback) {
     db = cloudant.use(dbCredentials.dbName);
 
     console.log('Database connection establish..');
-}
-
-
+};
 
 module.exports = DatabaseManager;
