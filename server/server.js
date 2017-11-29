@@ -1,10 +1,23 @@
 "use strict";
 
-const http = require('http');
+const https = require("https");
+const http = require("http");
+const constants = require("constants");
 
-function initServer (port, app) {
+function initServer (port, app, isOnline) {
 
-	const server = http.createServer(app);
+	let server;
+
+	app.secureProtocol = "SSLv23_method";
+	app.secureOptions = constants.SSL_OP_NO_SSLv3;
+
+	if(isOnline) {
+		server = https.createServer(app);
+	}
+	else {
+		server = http.createServer(app);
+	}
+
 	server.listen(port);
 
 	server.on('error', (error) => {

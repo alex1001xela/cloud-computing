@@ -3359,7 +3359,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-var socket = __WEBPACK_IMPORTED_MODULE_0_socket_io_client___default()();
+var socket = __WEBPACK_IMPORTED_MODULE_0_socket_io_client___default()(window.location.href, {secure: true});
+console.log("socket", socket);
+console.log(window.location.href);
+
+//'https://localhost', {secure: true}
 
 
 function Chat() {

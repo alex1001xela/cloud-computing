@@ -21,7 +21,7 @@ const tempPicturesPath = path.join(clientPath, "temppictures");
 
 const maxNumberOfUsers = 100;
 
-
+console.log();
 
 function App() {
 
@@ -53,7 +53,7 @@ function App() {
 	this.fileManager = new FileManager();
 	this.databaseManager = new DatabaseManager();
 	this.pictureAnalyzer = new PictureAnalyzer();
-	this.io = socketIO(initServer(port, this.expressApp));
+	this.io = socketIO(initServer(port, this.expressApp, process.env.VCAP_APP_PORT));
 
 	setInterval(() => {
 		this.fileManager.deleteUploadsOlderThan(this.getOldestUserTimestamp());// purge some uploads every 30'
