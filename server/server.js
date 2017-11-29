@@ -2,10 +2,15 @@
 
 const https = require("https");
 const http = require("http");
+const constants = require("constants");
 
 function initServer (port, app, isOnline) {
 
 	let server;
+
+	app.secureProtocol = "SSLv23_method";
+	app.secureOptions = constants.SSL_OP_NO_SSLv3;
+
 	if(isOnline) {
 		server = https.createServer(app);
 	}
