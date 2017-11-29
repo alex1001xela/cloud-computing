@@ -9,7 +9,7 @@ var dbCredentials = {
 
 function DatabaseManager() {
 
-	// this.initDBConnection();
+	this.initDBConnection();
 
 }
 
@@ -68,6 +68,7 @@ DatabaseManager.prototype.getDBCredentialsUrl = function (jsonData, callback) {
 DatabaseManager.prototype.initDBConnection = function (callback) {
     //When running on Bluemix, this variable will be set to a json object
     //containing all the service credentials of all the bound services
+	console.log("VCAP_SERVICES", process.env.VCAP_SERVICES);
     if (process.env.VCAP_SERVICES) {
         dbCredentials.url = this.getDBCredentialsUrl(process.env.VCAP_SERVICES);
     } else { //When running locally, the VCAP_SERVICES will not be set
