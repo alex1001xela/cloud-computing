@@ -19,11 +19,7 @@ export function LoginScreen(parent, socket){
     var usernameInputField = document.createElement("INPUT");
     usernameInputField.className = "username-input-field";
     
-    usernameInputField.onkeyup = function (event) {
-        if(event.key === "Enter" && usernameInputField.value.length > 0){
-            submitLoginData(usernameInputField.value);
-        }
-    };
+
 
     domElement.appendChild(usernameInputField);
 
@@ -31,12 +27,20 @@ export function LoginScreen(parent, socket){
 	passwordInputLabel.textContent = "Please enter your password";
 	passwordInputLabel.className = "text-label";
 
+
+
 	domElement.appendChild(passwordInputLabel);
 
 	var passwordInputField = document.createElement("INPUT");
 	passwordInputField.className = "username-input-field";
 	passwordInputField.type = "password";
 	passwordInputField.autocomplete = "off";
+
+	passwordInputField.onkeyup = function (event) {
+		if(event.key === "Enter" && usernameInputField.value.length > 0){
+			submitLoginData(usernameInputField.value, passwordInputField.value);
+		}
+	};
 
 	domElement.appendChild(passwordInputField);
 

@@ -21,16 +21,11 @@ const tempPicturesPath = path.join(clientPath, "temppictures");
 
 const maxNumberOfUsers = 100;
 
-console.log();
-
 function App() {
 
 	this.expressApp = express();
 	this.expressApp.use(helmet());
 	this.expressApp.enable("trust proxy");
-	/*this.expressApp.get("/", (req, res) => {
-		res.sendFile(clientPath + "/index.html");
-	});*/
 
     this.expressApp.use((req, res, next) => {
 

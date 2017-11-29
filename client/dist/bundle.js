@@ -3359,15 +3359,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-var socket = __WEBPACK_IMPORTED_MODULE_0_socket_io_client___default()(window.location.href, {secure: true});
-console.log("socket", socket);
-console.log(window.location.href);
-
-//'https://localhost', {secure: true}
 
 
 function Chat() {
 
+
+	var socket = __WEBPACK_IMPORTED_MODULE_0_socket_io_client___default()(window.location.href, {secure: true});
 	var domElement = document.createElement("DIV");
 	var chatScreen, loginScreen, registerScreen;
 
@@ -7300,11 +7297,7 @@ function LoginScreen(parent, socket){
     var usernameInputField = document.createElement("INPUT");
     usernameInputField.className = "username-input-field";
     
-    usernameInputField.onkeyup = function (event) {
-        if(event.key === "Enter" && usernameInputField.value.length > 0){
-            submitLoginData(usernameInputField.value);
-        }
-    };
+
 
     domElement.appendChild(usernameInputField);
 
@@ -7312,12 +7305,20 @@ function LoginScreen(parent, socket){
 	passwordInputLabel.textContent = "Please enter your password";
 	passwordInputLabel.className = "text-label";
 
+
+
 	domElement.appendChild(passwordInputLabel);
 
 	var passwordInputField = document.createElement("INPUT");
 	passwordInputField.className = "username-input-field";
 	passwordInputField.type = "password";
 	passwordInputField.autocomplete = "off";
+
+	passwordInputField.onkeyup = function (event) {
+		if(event.key === "Enter" && usernameInputField.value.length > 0){
+			submitLoginData(usernameInputField.value, passwordInputField.value);
+		}
+	};
 
 	domElement.appendChild(passwordInputField);
 
