@@ -36,6 +36,7 @@ export function LoginScreen(parent, socket){
 	var passwordInputField = document.createElement("INPUT");
 	passwordInputField.className = "username-input-field";
 	passwordInputField.type = "password";
+	passwordInputField.autocomplete = "off";
 
 	domElement.appendChild(passwordInputField);
 

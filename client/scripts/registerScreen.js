@@ -45,6 +45,7 @@ export function RegisterScreen(parent, socket) {
     var passwordInputField = document.createElement("INPUT");
     passwordInputField.className = "username-input-field";
     passwordInputField.type = "password";
+	passwordInputField.autocomplete = "off";
 
 	registerFieldsContainer.appendChild(passwordInputField);
 
@@ -57,6 +58,7 @@ export function RegisterScreen(parent, socket) {
     var confirmPasswordInputField = document.createElement("INPUT");
 	confirmPasswordInputField.className = "username-input-field";
     confirmPasswordInputField.type = "password";
+	confirmPasswordInputField.autocomplete = "off";
 
 	registerFieldsContainer.appendChild(confirmPasswordInputField);
 
