@@ -47,6 +47,7 @@ function App() {
 
 
 	this.users = {};
+	console.log("PERHAPS_HERE", process.env.VCAP_SERVICES);
 	this.fileManager = new FileManager();
 	this.databaseManager = new DatabaseManager();
 	this.pictureAnalyzer = new PictureAnalyzer();
