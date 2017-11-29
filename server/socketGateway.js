@@ -58,10 +58,13 @@ SocketGateway.prototype.activateSocketListeners = function (io){
 		socket.on("login", (loginData, callback) => {
 
 		    this.app.areLoginDataValid(loginData, (loginStatus) => {
+
                 this.app.addUser(loginData.username, socket);
                 if (loginStatus.status) {
+
+                	loginStatus.username = loginData.username;
                     socket.username = loginData.username;
-                    this.emitNewUser(loginData.username);
+                    this.emitNewUser(loginStatus);
                 }
                 callback(loginStatus);
             });
@@ -126,8 +129,8 @@ SocketGateway.prototype.activateSocketListeners = function (io){
 	});
 };
 
-SocketGateway.prototype.emitNewUser = function (username) {
-	this.io.emit("newUser", username);
+SocketGateway.prototype.emitNewUser = function (loginStatus) {
+	this.io.emit("newUser", loginStatus);
 };
 
 SocketGateway.prototype.emitUserLeft = function (username) {

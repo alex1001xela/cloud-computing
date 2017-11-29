@@ -7016,10 +7016,10 @@ function ChatScreen(parent, socket) {
         });
     });
 
-    socket.on("newUser", function (username) {
+    socket.on("newUser", function (loginStatus) {
         numberOfUsers++;
         setNumberOfUsers();
-        showServerMessage(username + " joined!");
+        showServerMessage(loginStatus.username + " joined!");
     });
 
     socket.on("userLeft", function (username) {
@@ -7298,11 +7298,23 @@ function LoginScreen(parent, socket){
     
     usernameInputField.onkeyup = function (event) {
         if(event.key === "Enter" && usernameInputField.value.length > 0){
-            submitUsername(usernameInputField.value);
+            submitLoginData(usernameInputField.value);
         }
     };
 
     domElement.appendChild(usernameInputField);
+
+	var passwordInputLabel = document.createElement("P");
+	passwordInputLabel.textContent = "Please enter your password";
+	passwordInputLabel.className = "text-label";
+
+	domElement.appendChild(passwordInputLabel);
+
+	var passwordInputField = document.createElement("INPUT");
+	passwordInputField.className = "username-input-field";
+	passwordInputField.type = "password";
+
+	domElement.appendChild(passwordInputField);
 
 
     var submitButton = document.createElement("BUTTON");
@@ -7311,7 +7323,7 @@ function LoginScreen(parent, socket){
     
     submitButton.onclick = function () {
         if(usernameInputField.value.length > 0){
-            submitUsername(usernameInputField.value);
+            submitLoginData(usernameInputField.value, passwordInputField.value);
         }
     };
     domElement.appendChild(submitButton);
@@ -7329,12 +7341,12 @@ function LoginScreen(parent, socket){
     parent.appendChild(domElement);
     usernameInputField.focus();
 
-    function submitUsername (username) {
+    function submitLoginData (username, password) {
 
-        if(isUsernameValid(username.trim())){
+        if(isUsernameValid(username.trim()) && isPasswordValid(password.trim())){
 			socket.emit("login", {
 			    "username": username,
-                "password": undefined
+                "password": password
             }, function (loginSuccessful) {
 				if(loginSuccessful.status){
 					onLoginCallback();
@@ -7351,7 +7363,11 @@ function LoginScreen(parent, socket){
     }
 
     function isUsernameValid(username) {
-        return !username.includes(" ");
+        return !username.includes(" ") && username.length > 0;
+	}
+
+	function isPasswordValid(password) {
+		return !password.includes(" ") && password.length > 0;
 	}
 
     loginScreen.onLogin = function(callback) {

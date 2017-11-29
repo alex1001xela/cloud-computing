@@ -182,10 +182,10 @@ export function ChatScreen(parent, socket) {
         });
     });
 
-    socket.on("newUser", function (username) {
+    socket.on("newUser", function (loginStatus) {
         numberOfUsers++;
         setNumberOfUsers();
-        showServerMessage(username + " joined!");
+        showServerMessage(loginStatus.username + " joined!");
     });
 
     socket.on("userLeft", function (username) {
