@@ -15,6 +15,19 @@ const allowedMimeTypes = ["image/jpeg", "audio/mpeg", "video/mp4"];
 function FileManager() {
 	this.deleteUploadsOlderThan(Date.now()); // on starting the server all old files are deleted
 	this.deleteTempPicturesOlderThan(Date.now());
+
+	if (!fs.existsSync(saveUploadsPath)){
+		fs.mkdirSync(saveUploadsPath);
+	}
+
+	if (!fs.existsSync(saveTemporaryProfilePicturePath)){
+		fs.mkdirSync(saveTemporaryProfilePicturePath);
+	}
+
+	if (!fs.existsSync(saveUploadsPath)){
+		fs.mkdirSync(saveUploadsPath);
+	}
+
 }
 
 /*
