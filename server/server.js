@@ -12,7 +12,7 @@ function initServer (port, app) {
 	});
 
 	server.on('listening', () => {
-		console.log("Listening on " + port);
+		console.log("Server listening on " + port);
 	});
 
 	return server;
