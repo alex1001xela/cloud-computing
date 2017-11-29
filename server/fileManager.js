@@ -10,11 +10,12 @@ const saveUploadsPath = path.join(clientPath, uploadsPath, "/");
 const temporaryProfilePicturePath = path.join("temppictures", "/");
 const saveTemporaryProfilePicturePath = path.join(clientPath, temporaryProfilePicturePath, "/");
 
+const saveProfilePicturesPath = path.join(clientPath, "profilepictures");
+
+
 const allowedMimeTypes = ["image/jpeg", "audio/mpeg", "video/mp4"];
 
 function FileManager() {
-	this.deleteUploadsOlderThan(Date.now()); // on starting the server all old files are deleted
-	this.deleteTempPicturesOlderThan(Date.now());
 
 	if (!fs.existsSync(saveUploadsPath)){
 		fs.mkdirSync(saveUploadsPath);
@@ -24,10 +25,12 @@ function FileManager() {
 		fs.mkdirSync(saveTemporaryProfilePicturePath);
 	}
 
-	if (!fs.existsSync(saveUploadsPath)){
-		fs.mkdirSync(saveUploadsPath);
+	if (!fs.existsSync(saveProfilePicturesPath)){
+		fs.mkdirSync(saveProfilePicturesPath);
 	}
 
+	this.deleteUploadsOlderThan(Date.now()); // on starting the server all old files are deleted
+	this.deleteTempPicturesOlderThan(Date.now());
 }
 
 /*
