@@ -52,6 +52,7 @@ DatabaseManager.prototype.areLoginDataValid = function (loginData, callback) {
 
 DatabaseManager.prototype.getDBCredentialsUrl = function (jsonData, callback) {
     var vcapServices = JSON.parse(jsonData);
+    console.log(jsonData);
     // Pattern match to find the first instance of a Cloudant service in
     // VCAP_SERVICES. If you know your service key, you can access the
     // service credentials directly by using the vcapServices object.
