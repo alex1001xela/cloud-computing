@@ -1,10 +1,18 @@
 "use strict";
 
-const http = require("https");
+const https = require("https");
+const http = require("http");
 
-function initServer (port, app) {
+function initServer (port, app, isOnline) {
 
-	const server = http.createServer(app);
+	let server;
+	if(isOnline) {
+		server = https.createServer(app);
+	}
+	else {
+		server = http.createServer(app);
+	}
+
 	server.listen(port);
 
 	server.on('error', (error) => {
