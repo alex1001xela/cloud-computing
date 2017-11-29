@@ -99,8 +99,8 @@ App.prototype.doesUsernameExist = function (username, callback) {
 	this.databaseManager.doesUsernameExist(username, callback);
 };
 
-App.prototype.registerUser = function (username, password, picturePath, callback) {
-	this.databaseManager.registerUser(username, password, picturePath, callback);
+App.prototype.registerUser = function (registerData, callback) {
+	this.databaseManager.registerUser(registerData, callback);
 };
 
 /*

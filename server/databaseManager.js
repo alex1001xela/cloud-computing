@@ -31,23 +31,23 @@ DatabaseManager.prototype.doesUsernameExist = function (username, callback) {
 };
 
 
-DatabaseManager.prototype.registerUser = function (username, password, picturePath, callback) {
+DatabaseManager.prototype.registerUser = function (registerData, callback) {
 	
 	
 
-    if(this.doesUsernameExist(username)) {
-        console.log('user : '+ username + 'already exist');
+    if(this.doesUsernameExist(registerData.username)) {
+        console.log('user : '+ registerData.username + 'already exist');
     }
     else
     {
 
-        var hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+        var hashPassword = bcrypt.hashSync(registerData.password, bcrypt.genSaltSync(8), null);
 
         db.insert({
-        "username": username,
-        "_id": username,
+        "username": registerData.username,
+        "_id": registerData.username,
         "password": hashPassword,
-        "picturePath": picturePath
+        "picturePath": registerData.picturePath
         });
 
         console.log('new user : '+ username);
