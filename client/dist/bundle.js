@@ -7429,12 +7429,6 @@ function RegisterScreen(parent, socket) {
     var usernameInputField = document.createElement("INPUT");
     usernameInputField.className = "username-input-field";
 
-    usernameInputField.onkeyup = function (event) {
-        if(event.key === "Enter" && usernameInputField.value.length > 0){
-            submitUsername(usernameInputField.value);
-        }
-    };
-
 	registerFieldsContainer.appendChild(usernameInputField);
 
     var passwordInputLabel = document.createElement("P");
@@ -7487,24 +7481,6 @@ function RegisterScreen(parent, socket) {
 	domElement.appendChild(registerFieldsContainer);
     parent.appendChild(domElement);
     usernameInputField.focus();
-
-    function submitUsername (username) {
-
-        if(isUsernameValid(username.trim())){
-            socket.emit("login", username, function (loginSuccessful) {
-                if(loginSuccessful.status){
-                    onLoginCallback();
-                }
-                else{
-                    alert(loginSuccessful.reason);
-                }
-            });
-        }
-        else{
-            alert("Please enter a username without an empty space.");
-        }
-
-    }
 
     function doPasswordAndConfirmationMatch(password, confirmationPassword) {
         return password === confirmationPassword;

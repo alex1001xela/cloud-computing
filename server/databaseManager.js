@@ -9,7 +9,7 @@ var dbCredentials = {
 
 function DatabaseManager() {
 
-//this.initDBConnection();
+	this.initDBConnection();
 
 }
 
