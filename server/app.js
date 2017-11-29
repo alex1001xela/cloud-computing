@@ -26,8 +26,8 @@ const maxNumberOfUsers = 100;
 function App() {
 
 	this.expressApp = express();
-    this.expressApp.enable("trust proxy");
 	this.expressApp.use(helmet());
+	this.expressApp.enable("trust proxy");
 	/*this.expressApp.get("/", (req, res) => {
 		res.sendFile(clientPath + "/index.html");
 	});*/
