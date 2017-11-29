@@ -4,7 +4,9 @@ import {ChatScreen} from "./chatScreen";
 import {LoginScreen} from "./loginScreen";
 import {RegisterScreen} from "./registerScreen";
 
-var socket = io();
+var socket = io(window.location.href, {secure: true});
+
+//'https://localhost', {secure: true}
 
 
 export function Chat() {

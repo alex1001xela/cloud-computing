@@ -3358,8 +3358,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
+console.log(window.location.href);
+var socket = __WEBPACK_IMPORTED_MODULE_0_socket_io_client___default()({secure: true});
 
-var socket = __WEBPACK_IMPORTED_MODULE_0_socket_io_client___default()();
+//'https://localhost', {secure: true}
 
 
 function Chat() {
