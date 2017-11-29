@@ -8,46 +8,74 @@ var dbCredentials = {
 };
 
 function DatabaseManager() {
-	// this.initDBConnection();
-
+    this.initDBConnection();
+    // TEST
+    //this.registerUser('alpha','beta','user/alpha/profilepict.jpg');
+    //this.doesUsernameExist('alpha');
+    //this.areLoginDataValid('alpha','beta');
 }
-
-
 
 DatabaseManager.prototype.doesUsernameExist = function (username, callback) {
 
-	callback(false);
+     db.get(username, function(err, data){
+            if(!err) {
+                console.log("Found document : " + JSON.stringify(data));
+                return true;
+            }
+            else 
+            {
+                console.log("Document not found in database");
+                return false;
+            }
+     });
 };
 
-/*
-* registerData = {
-* 	"username": username,
-*   "password": password,
-*	"picturePath": ""
-* }
-* */
 
 DatabaseManager.prototype.registerUser = function (username, password, picturePath, callback) {
 	
-	var hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+	
 
-	callback();
+    if(this.doesUsernameExist(username)) {
+        console.log('user : '+ username + 'already exist');
+    }
+    else
+    {
+
+        var hashPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+
+        db.insert({
+        "username": username,
+        "_id": username,
+        "password": hashPassword,
+        "picturePath": picturePath
+        });
+
+        console.log('new user : '+ username);
+
+    }
 };
 
-/*
-*
-* loginData = {
-* 	"username": username,
-*   "password": password
-* }
-*
-*
-* */
-DatabaseManager.prototype.areLoginDataValid = function (loginData, callback) {
-	callback({
-		status: true,
-		picturePath: ""
-	});
+
+DatabaseManager.prototype.areLoginDataValid = function (username, password, callback) {
+
+     db.get(username, function(err, data){
+            if(!err) {
+                if(bcrypt.compareSync(password, data.password)) {
+                    console.log("login data valid..");
+                    return true;     
+                }
+                else
+                {
+                    console.log("login data invalid..");
+                    return false;
+                }
+            }
+            else 
+            {
+                console.log("User not found in database");
+                return false;
+            }
+     });
 };
 
 DatabaseManager.prototype.getDBCredentialsUrl = function (jsonData, callback) {
@@ -95,6 +123,7 @@ DatabaseManager.prototype.initDBConnection = function (callback) {
     db = cloudant.use(dbCredentials.dbName);
 
     console.log('Database connection establish..');
+
 };
 
 module.exports = DatabaseManager;
