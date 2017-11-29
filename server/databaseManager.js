@@ -52,12 +52,10 @@ DatabaseManager.prototype.areLoginDataValid = function (loginData, callback) {
 
 DatabaseManager.prototype.getDBCredentialsUrl = function (jsonData, callback) {
     var vcapServices = JSON.parse(jsonData);
-    console.log("vcapServices", vcapServices);
     // Pattern match to find the first instance of a Cloudant service in
     // VCAP_SERVICES. If you know your service key, you can access the
     // service credentials directly by using the vcapServices object.
     for (var vcapService in vcapServices) {
-    	console.log("vcapService", vcapService);
         if (vcapService.match(/cloudant/i)) {
             return vcapServices[vcapService][0].credentials.url;
         }
@@ -67,7 +65,7 @@ DatabaseManager.prototype.getDBCredentialsUrl = function (jsonData, callback) {
 DatabaseManager.prototype.initDBConnection = function (callback) {
     //When running on Bluemix, this variable will be set to a json object
     //containing all the service credentials of all the bound services
-	console.log("WHAT IS THE VALUE OF VCAP_SERVICES: ", process.env.VCAP_SERVICES);
+
     if (process.env.VCAP_SERVICES) {
         dbCredentials.url = this.getDBCredentialsUrl(process.env.VCAP_SERVICES);
     } else { //When running locally, the VCAP_SERVICES will not be set
@@ -81,7 +79,9 @@ DatabaseManager.prototype.initDBConnection = function (callback) {
         // url will be in this format: https://username:password@xxxxxxxxx-bluemix.cloudant.com
         dbCredentials.url = this.getDBCredentialsUrl(fs.readFileSync("vcap-local.json", "utf-8"));
     }
-	console.log("credentials", dbCredentials);
+
+    console.log(dbCredentials.url);
+
     cloudant = require('cloudant')(dbCredentials.url);
 
     // check if DB exists if not create

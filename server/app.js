@@ -48,9 +48,6 @@ function App() {
 
 	this.users = {};
 	this.fileManager = new FileManager();
-
-	console.log("WHAT IS THE VALUE OF VCAP_SERVICES: ", process.env.VCAP_SERVICES);
-
 	this.databaseManager = new DatabaseManager();
 	this.pictureAnalyzer = new PictureAnalyzer();
 	this.io = socketIO(initServer(port, this.expressApp));
