@@ -34,11 +34,13 @@ function App() {
 
     this.expressApp.use((req, res, next) => {
 
+		res.setHeader("Content-Security-Policy", "script-src 'self' " + "https://" + req.headers.host + req.url);
+
         if (req.secure || req.headers.host === "localhost:8080") { // allowing localhost without https
 
             next();
         } else {
-            res.redirect('https://' + req.headers.host + req.url);
+            res.redirect("https://" + req.headers.host + req.url);
         }
 
     });
