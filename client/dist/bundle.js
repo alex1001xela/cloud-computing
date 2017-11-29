@@ -7495,7 +7495,8 @@ function RegisterScreen(parent, socket) {
     }
 
     function submitRegisterData(username, password) {
-        if(isUsernameValid(username.trim())){
+        if(isUsernameValid(username.trim()) && isPasswordValid(password.trim()) && profilePicture.src !== ""){
+        	console.log(profilePicture.src);
             socket.emit("register", {
                 "username": username,
                 "password": password,
@@ -7509,14 +7510,21 @@ function RegisterScreen(parent, socket) {
                 }
             });
         }
+        else if(profilePicture.src === "") {
+			alert("Please upload a picture with a face.");
+		}
         else{
-            alert("Please enter a username without an empty space.");
+            alert("Please enter a username or password without an empty space.");
         }
     }
 
-    function isUsernameValid(username) {
-        return !username.includes(" ");
-    }
+	function isUsernameValid(username) {
+		return !username.includes(" ") && username.length > 0;
+	}
+
+	function isPasswordValid(password) {
+		return !password.includes(" ") && password.length > 0;
+	}
 
 	function createUploadPictureButton() {
 		if(!fileUploadLabel){
