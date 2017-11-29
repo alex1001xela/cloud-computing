@@ -45,12 +45,12 @@ function App() {
 	this.expressApp.use(express.static(clientPath));
 	this.expressApp.use(bodyParser.json());
 
-	this.io = socketIO(initServer(port, this.expressApp));
+
 	this.users = {};
 	this.fileManager = new FileManager();
 	this.databaseManager = new DatabaseManager();
 	this.pictureAnalyzer = new PictureAnalyzer();
-
+	this.io = socketIO(initServer(port, this.expressApp));
 
 	setInterval(() => {
 		this.fileManager.deleteUploadsOlderThan(this.getOldestUserTimestamp());// purge some uploads every 30'
