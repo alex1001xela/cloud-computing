@@ -16,7 +16,7 @@ function DatabaseManager() {
 }
 
 DatabaseManager.prototype.doesUsernameExist = function (username, callback) {
-
+    /**
      db.get(username, function(err, data){
             if(!err) {
                 console.log("Found document : " + JSON.stringify(data));
@@ -28,14 +28,14 @@ DatabaseManager.prototype.doesUsernameExist = function (username, callback) {
                 return false;
             }
      });
+     **/
+     callback(false);
 };
 
 
 DatabaseManager.prototype.registerUser = function (registerData, callback) {
 	
-	
-
-    if(this.doesUsernameExist(registerData.username)) {
+	if(this.doesUsernameExist(registerData.username)) {
         console.log('user : '+ registerData.username + 'already exist');
     }
     else
@@ -50,17 +50,17 @@ DatabaseManager.prototype.registerUser = function (registerData, callback) {
         "picturePath": registerData.picturePath
         });
 
-        console.log('new user : '+ username);
-
+        console.log('new user : '+ registerData.username);
+        callback();
     }
 };
 
 
-DatabaseManager.prototype.areLoginDataValid = function (username, password, callback) {
+DatabaseManager.prototype.areLoginDataValid = function (loginData, callback) {
 
-     db.get(username, function(err, data){
+     db.get(loginData.username, function(err, data){
             if(!err) {
-                if(bcrypt.compareSync(password, data.password)) {
+                if(bcrypt.compareSync(loginData.password, data.password)) {
                     console.log("login data valid..");
                     return true;     
                 }
