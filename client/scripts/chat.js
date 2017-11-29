@@ -5,6 +5,8 @@ import {LoginScreen} from "./loginScreen";
 import {RegisterScreen} from "./registerScreen";
 
 var socket = io(window.location.href, {secure: true});
+console.log("socket", socket);
+console.log(window.location.href);
 
 //'https://localhost', {secure: true}
 
