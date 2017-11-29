@@ -6,6 +6,7 @@ const initServer = require("./server");
 const SocketGateway = require("./socketGateway");
 const FileManager = require("./fileManager");
 const bodyParser = require("body-parser");
+const helmet = require("helmet");
 const socketIO = require("socket.io");
 const DatabaseManager = require("./databaseManager");
 const PictureAnalyzer = require("./pictureAnalyzer");
@@ -26,7 +27,7 @@ function App() {
 
 	this.expressApp = express();
     this.expressApp.enable("trust proxy");
-
+	this.expressApp.use(helmet());
 	/*this.expressApp.get("/", (req, res) => {
 		res.sendFile(clientPath + "/index.html");
 	});*/
@@ -47,7 +48,6 @@ function App() {
 
 
 	this.users = {};
-	console.log("PERHAPS_HERE", process.env.VCAP_SERVICES);
 	this.fileManager = new FileManager();
 	this.databaseManager = new DatabaseManager();
 	this.pictureAnalyzer = new PictureAnalyzer();
