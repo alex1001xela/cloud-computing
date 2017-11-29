@@ -20,6 +20,8 @@ const tempPicturesPath = path.join(clientPath, "temppictures");
 
 const maxNumberOfUsers = 100;
 
+
+
 function App() {
 
 	this.expressApp = express();
