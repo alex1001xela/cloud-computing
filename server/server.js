@@ -11,6 +11,8 @@ function initServer (port, app, isOnline) {
 	app.secureProtocol = "SSLv23_method";
 	app.secureOptions = constants.SSL_OP_NO_SSLv3;
 
+	console.error("IS_ONLINE", isOnline);
+
 	if(isOnline) {
 		server = https.createServer(app);
 	}
