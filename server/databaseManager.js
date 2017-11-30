@@ -35,11 +35,13 @@ DatabaseManager.prototype.doesUsernameExist = function (username, callback) {
 
 DatabaseManager.prototype.registerUser = function (registerData, callback) {
 	
-	if(this.doesUsernameExist(registerData.username)) {
-        console.log('user : '+ registerData.username + 'already exist');
-    }
-    else
-    {
+    this.doesUsernameExist(registerData.username, (result) => {
+        
+
+        if(result) {
+            console.log('user : '+ registerData.username + 'already exist');
+        }
+        else{
 
         var hashPassword = bcrypt.hashSync(registerData.password, bcrypt.genSaltSync(8), null);
 
@@ -53,6 +55,14 @@ DatabaseManager.prototype.registerUser = function (registerData, callback) {
         console.log('new user : '+ registerData.username);
         callback();
     }
+
+
+
+    });
+
+
+
+	
 };
 
 
