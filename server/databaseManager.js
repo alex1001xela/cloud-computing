@@ -8,7 +8,7 @@ var dbCredentials = {
 };
 
 function DatabaseManager() {
-    this.initDBConnection();
+    // this.initDBConnection();
     // TEST
     //this.registerUser('alpha','beta','user/alpha/profilepict.jpg');
     //this.doesUsernameExist('alpha');
@@ -80,7 +80,6 @@ DatabaseManager.prototype.areLoginDataValid = function (loginData, callback) {
 
 DatabaseManager.prototype.getDBCredentialsUrl = function (jsonData, callback) {
     var vcapServices = JSON.parse(jsonData);
-    console.log(jsonData);
     // Pattern match to find the first instance of a Cloudant service in
     // VCAP_SERVICES. If you know your service key, you can access the
     // service credentials directly by using the vcapServices object.
@@ -114,9 +113,6 @@ DatabaseManager.prototype.initDBConnection = function (callback) {
     **/
 
     dbCredentials.url = this.getDBCredentialsUrl(fs.readFileSync("vcap-local.json", "utf-8"));
-
-
-    console.log(dbCredentials.url);
 
     cloudant = require('cloudant')(dbCredentials.url);
 
