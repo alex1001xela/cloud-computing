@@ -79,12 +79,18 @@ DatabaseManager.prototype.areLoginDataValid = function (loginData, callback) {
             if(!err) {
                 if(bcrypt.compareSync(loginData.password, data.password)) {
                     console.log("login data valid..");
-                    callback(true);  
+                    callback({
+                        "status": true,
+                        "picturePath": data.picturePath
+                    });
                 }
                 else
                 {
                     console.log("login data invalid..");
-                    callback(false);
+                    callback({
+						"status": false,
+						"picturePath": data.picturePath
+                    });
                 }
             }
             else 
