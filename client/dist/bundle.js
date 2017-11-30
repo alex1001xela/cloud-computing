@@ -7496,7 +7496,6 @@ function RegisterScreen(parent, socket) {
 
     function submitRegisterData(username, password) {
         if(isUsernameValid(username.trim()) && isPasswordValid(password.trim()) && profilePicture.src !== ""){
-        	console.log(profilePicture.src);
             socket.emit("register", {
                 "username": username,
                 "password": password,

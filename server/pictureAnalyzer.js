@@ -10,7 +10,13 @@ function PictureAnalyzer() {
 Checks with the IBM Watson Visual Recognition tool is the picture contains a face
  */
 PictureAnalyzer.prototype.isFaceContainedInPicture = function (picturePath, callback) {
+	callback({
+				"reason": "",
+				"status": true,
+				"path": picturePath
+			});
 
+	return;
 	const file = fs.createReadStream(path.join("client", picturePath));
 
 	request.post({
@@ -19,13 +25,16 @@ PictureAnalyzer.prototype.isFaceContainedInPicture = function (picturePath, call
 			"images_file": file
 		}
 	}, (err, res, body) => {
+
+
+
 		if(err) {
 			console.error(err);
 		}
 		else {
 
 			const bodyJSON = JSON.parse(body);
-
+		
 			const image = bodyJSON.images[0];
 
 			const reply = {
@@ -43,7 +52,7 @@ PictureAnalyzer.prototype.isFaceContainedInPicture = function (picturePath, call
 				reply.status = false;
 			}
 
-			callback(reply);
+			// callback(reply);
 		}
 
 	});
