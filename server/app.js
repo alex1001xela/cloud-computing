@@ -24,14 +24,11 @@ const maxNumberOfUsers = 100;
 function App() {
 
 	this.expressApp = express();
-	this.expressApp.use(helmet());
+	// this.expressApp.use(helmet());
 	this.expressApp.enable("trust proxy");
 
     this.expressApp.use((req, res, next) => {
-		console.log("REQUEST", req);
-    	console.log("SECURE", req.secure);
-		console.log("HOST", req.headers.host);
-		// res.setHeader("Content-Security-Policy", "script-src 'self' " + "https://" + req.headers.host + req.url);
+		res.setHeader("Content-Security-Policy", "script-src 'self' " + "https://" + req.headers.host + req.url);
 
         if (req.secure || req.headers.host === "localhost:8080") { // allowing localhost without https
 

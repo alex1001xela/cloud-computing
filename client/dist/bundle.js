@@ -7539,6 +7539,7 @@ function RegisterScreen(parent, socket) {
 			uploadPictureButton.accept = "image/jpeg, image/png";
 			uploadPictureButton.className = "add-picture-button";
 			uploadPictureButton.onchange = function (event) {
+                console.log("Bla");
 				var reader = new FileReader();
 
 				var file = event.target.files[0];
