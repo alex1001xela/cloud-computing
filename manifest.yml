@@ -1,5 +1,5 @@
 applications:
 - name: awesome-chat-app
-  memory: 512M
+  memory: 1024M
   instances: 1
   host: awesome-chat-app
