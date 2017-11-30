@@ -7470,7 +7470,7 @@ function RegisterScreen(parent, socket) {
     submitButton.onclick = function () {
         if(usernameInputField.value.length > 0){
             if(doPasswordAndConfirmationMatch(passwordInputField.value, confirmPasswordInputField.value)){
-                submitRegisterData(usernameInputField.value, passwordInputField.value);
+                submitRegisterData(usernameInputField.value, passwordInputField.value, profilePicture.src);
             }
         }
     };
@@ -7494,12 +7494,12 @@ function RegisterScreen(parent, socket) {
         return password === confirmationPassword;
     }
 
-    function submitRegisterData(username, password) {
+    function submitRegisterData(username, password, picturePath) {
         if(isUsernameValid(username.trim()) && isPasswordValid(password.trim()) && profilePicture.src !== ""){
             socket.emit("register", {
                 "username": username,
                 "password": password,
-				"picturePath": profilePicture.src
+				"picturePath": picturePath
             }, function (loginSuccessful) {
                 if(loginSuccessful.status){
                     onLoginCallback();
@@ -7539,7 +7539,7 @@ function RegisterScreen(parent, socket) {
 			uploadPictureButton.accept = "image/jpeg, image/png";
 			uploadPictureButton.className = "add-picture-button";
 			uploadPictureButton.onchange = function (event) {
-                console.log("Bla");
+
 				var reader = new FileReader();
 
 				var file = event.target.files[0];
