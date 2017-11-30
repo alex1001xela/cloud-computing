@@ -59,9 +59,10 @@ SocketGateway.prototype.activateSocketListeners = function (io){
 
 		    this.app.areLoginDataValid(loginData, (loginStatus) => {
 
-                this.app.addUser(loginData.username, socket);
-                if (loginStatus.status) {
 
+                if (loginStatus.status) {
+                	
+					this.app.addUser(loginData.username, socket);
                 	loginStatus.username = loginData.username;
                     socket.username = loginData.username;
                     this.emitNewUser(loginStatus);
