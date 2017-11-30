@@ -8,7 +8,7 @@ var dbCredentials = {
 };
 
 function DatabaseManager() {
-    // this.initDBConnection();
+    this.initDBConnection();
     // TEST
     //this.registerUser('alpha','beta','user/alpha/profilepict.jpg');
     //this.doesUsernameExist('alpha');
