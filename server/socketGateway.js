@@ -40,6 +40,8 @@ SocketGateway.prototype.activateSocketListeners = function (io){
 						registerData.picturePath = newPicturePath;
 						this.app.registerUser(registerData, () => {
 							socket.username = registerData.username;
+							this.app.addUser(registerData.username, socket);
+
 							this.emitNewUser(registerData.username);
 							callback(loginSuccessful);
 						});
