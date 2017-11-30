@@ -20,12 +20,16 @@ DatabaseManager.prototype.doesUsernameExist = function (username, callback) {
     db.get(username, function(err, data){
             if(!err) {
                 console.log("Found document : " + JSON.stringify(data));
-                callback(true);
+                callback({
+                        "status": true
+                });
             }
             else 
             {
                 console.log("Document not found in database");
-                callback(false);
+                callback({
+                        "status": false
+                });
             }
      });
     
@@ -36,6 +40,7 @@ DatabaseManager.prototype.doesUsernameExist = function (username, callback) {
 DatabaseManager.prototype.registerUser = function (registerData, callback) {
 	   
         // with checking system
+        /*
         if(this.doesUsernameExist(registerData.username)) {
             console.log('user : '+ registerData.username + 'already exist');
         }
@@ -53,9 +58,10 @@ DatabaseManager.prototype.registerUser = function (registerData, callback) {
         console.log('new user : '+ registerData.username);
         callback();
         }
+        */
 
         // without checking system
-        /**
+    
         var hashPassword = bcrypt.hashSync(registerData.password, bcrypt.genSaltSync(8), null);
 
         db.insert({
@@ -68,7 +74,7 @@ DatabaseManager.prototype.registerUser = function (registerData, callback) {
 
         console.log('new user : '+ registerData.username);
         callback();
-        **/
+        
 
 };
 
@@ -86,17 +92,20 @@ DatabaseManager.prototype.areLoginDataValid = function (loginData, callback) {
                 }
                 else
                 {
-                    console.log("login data invalid..");
+                    console.log("password are incorect..");
                     callback({
 						"status": false,
-						"picturePath": data.picturePath
+						"reason": "password are incorect"
                     });
                 }
             }
             else 
             {
-                console.log("User not found in database");
-                callback(false);
+                console.log("User not found in database..");
+                 callback({
+                        "status": false,
+                        "reason": "User not found in database"
+                    });
             }
      });
 };

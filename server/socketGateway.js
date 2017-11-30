@@ -28,7 +28,7 @@ SocketGateway.prototype.activateSocketListeners = function (io){
 
 			this.app.doesUsernameExist(registerData.username, (status) => {
 
-				if(status) {
+				if(!status) {
 					loginSuccessful.status = false;
 					loginSuccessful.reason = "This username already exists!";
 					callback(loginSuccessful);
@@ -44,8 +44,6 @@ SocketGateway.prototype.activateSocketListeners = function (io){
 							callback(loginSuccessful);
 						});
 					});
-
-
 				}
 			});
 
