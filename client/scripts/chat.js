@@ -8,8 +8,8 @@ import {RegisterScreen} from "./registerScreen";
 
 export function Chat() {
 
-
-	var socket = io(window.location.href, {secure: true});
+	//window.location.href, {secure: true}
+	var socket = io();
 	var domElement = document.createElement("DIV");
 	var chatScreen, loginScreen, registerScreen;
 
