@@ -9,12 +9,11 @@ var dbCredentials = {
 
 function DatabaseManager() {
     this.initDBConnection();
-    // TEST
-    //this.registerUser('alpha','beta','user/alpha/profilepict.jpg');
-    //this.doesUsernameExist('alpha');
-    //this.areLoginDataValid('alpha','beta');
 }
 
+/*
+    Check if the username already exist on databases
+*/
 DatabaseManager.prototype.doesUsernameExist = function (username, callback) {
     
     db.get(username, function(err, data){
@@ -32,21 +31,14 @@ DatabaseManager.prototype.doesUsernameExist = function (username, callback) {
                 });
             }
      });
-    
-
 };
 
-
+/* 
+    Save the user data to database
+*/
 DatabaseManager.prototype.registerUser = function (registerData, callback) {
 	   
-        // with checking system
-        /*
-        if(this.doesUsernameExist(registerData.username)) {
-            console.log('user : '+ registerData.username + 'already exist');
-        }
-        else{
-
-        var hashPassword = bcrypt.hashSync(registerData.password, bcrypt.genSaltSync(8), null);
+       var hashPassword = bcrypt.hashSync(registerData.password, bcrypt.genSaltSync(8), null);
 
         db.insert({
         "username": registerData.username,
@@ -54,31 +46,14 @@ DatabaseManager.prototype.registerUser = function (registerData, callback) {
         "password": hashPassword,
         "picturePath": registerData.picturePath
         });
-
+       s
         console.log('new user : '+ registerData.username);
-        callback();
-        }
-        */
-
-        // without checking system
-    
-        var hashPassword = bcrypt.hashSync(registerData.password, bcrypt.genSaltSync(8), null);
-
-        db.insert({
-        "username": registerData.username,
-        "_id": registerData.username,
-        "password": hashPassword,
-        "picturePath": registerData.picturePath
-        });
-       
-
-        console.log('new user : '+ registerData.username);
-        callback();
-        
-
+        callback();s
 };
 
-
+/*
+    Check if the login data valid (username & password)
+*/
 DatabaseManager.prototype.areLoginDataValid = function (loginData, callback) {
 
      db.get(loginData.username, function(err, data){
@@ -110,6 +85,9 @@ DatabaseManager.prototype.areLoginDataValid = function (loginData, callback) {
      });
 };
 
+/*
+    Get the database credentials URLs
+*/
 DatabaseManager.prototype.getDBCredentialsUrl = function (jsonData, callback) {
     var vcapServices = JSON.parse(jsonData);
     // Pattern match to find the first instance of a Cloudant service in
@@ -122,28 +100,11 @@ DatabaseManager.prototype.getDBCredentialsUrl = function (jsonData, callback) {
     }
 };
 
+/*
+    Initiate the database connection
+*/
 DatabaseManager.prototype.initDBConnection = function (callback) {
-    //When running on Bluemix, this variable will be set to a json object
-    //containing all the service credentials of all the bound services
-
-    /**
-    if (process.env.VCAP_SERVICES) {
-        dbCredentials.url = this.getDBCredentialsUrl(process.env.VCAP_SERVICES);
-    } else { 
-
-    //When running locally, the VCAP_SERVICES will not be set
-
-        // When running this app locally you can get your Cloudant credentials
-        // from Bluemix (VCAP_SERVICES in "cf env" output or the Environment
-        // Variables section for an app in the Bluemix console dashboard).
-        // Once you have the credentials, paste them into a file called vcap-local.json.
-        // Alternately you could point to a local database here instead of a
-        // Bluemix service.
-        // url will be in this format: https://username:password@xxxxxxxxx-bluemix.cloudant.com
-        dbCredentials.url = this.getDBCredentialsUrl(fs.readFileSync("vcap-local.json", "utf-8"));
-    }
-    **/
-
+  
     dbCredentials.url = this.getDBCredentialsUrl(fs.readFileSync("vcap-local.json", "utf-8"));
 
     cloudant = require('cloudant')(dbCredentials.url);

@@ -1,13 +1,13 @@
 "use strict";
 
 /*
-Parts of this sourcecode from https://github.com/HRTCloudDemo/HRTToneDemo. License on the bottom of this file.
+    Parts of this sourcecode from https://github.com/HRTCloudDemo/HRTToneDemo. License on the bottom of this file.
  */
 
 const ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
 
 /*
-A wrapper around IBM's ToneAnalyzer, with a mood level
+    A wrapper around IBM's ToneAnalyzer, with a mood level
  */
 function MoodAnalyzer() {
 
@@ -17,10 +17,16 @@ function MoodAnalyzer() {
 	});
 }
 
+/*
+    Get a new mood
+*/
 MoodAnalyzer.prototype.onNewMood = function (callback) {
 	this.newMoodCallback = callback;
 };
 
+/*  
+    Analyze the message
+*/
 MoodAnalyzer.prototype.analyzeMessage = function (message) {
 	const toneRequest = this.createToneRequest(message);
 	this.toneAnalyzer.tone_chat(toneRequest, (error, response) => {
@@ -29,12 +35,16 @@ MoodAnalyzer.prototype.analyzeMessage = function (message) {
 	});
 };
 
+/*
+    create tone request
+*/
 MoodAnalyzer.prototype.createToneRequest = function (message) {
 	let toneChatRequest = {utterances: []};
 	toneChatRequest.utterances.push({"text": message});
 
 	return toneChatRequest;
 };
+
 /*
 Abstracts the mood response to happy or unhappy.
  */
@@ -63,6 +73,9 @@ MoodAnalyzer.prototype.happyOrUnhappy = function (response) {
 	}
 };
 
+/*
+    Get the mood levels
+*/
 MoodAnalyzer.prototype.getMoodLevel = function () {
 	return this.moodLevel;
 };

@@ -7,7 +7,7 @@ function PictureAnalyzer() {
 }
 
 /*
-Checks with the IBM Watson Visual Recognition tool is the picture contains a face
+	Checks with the IBM Watson Visual Recognition tool is the picture contains a face
  */
 PictureAnalyzer.prototype.isFaceContainedInPicture = function (picturePath, callback) {
 	/*callback({

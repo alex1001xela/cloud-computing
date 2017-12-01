@@ -34,7 +34,7 @@ function FileManager() {
 }
 
 /*
-Saves a file uploaded from the user in the chat
+	Saves a file uploaded from the user in the chat
  */
 FileManager.prototype.saveUserUpload = function (file, callback) {
 
@@ -47,7 +47,7 @@ FileManager.prototype.saveUserUpload = function (file, callback) {
 };
 
 /*
-Saves an uploaded profile picture to the temppictures folder
+	Saves an uploaded profile picture to the temppictures folder
  */
 FileManager.prototype.saveTemporaryProfilePicture = function (file, callback) {
 
@@ -59,7 +59,7 @@ FileManager.prototype.saveTemporaryProfilePicture = function (file, callback) {
 };
 
 /*
-Converts a file's name to a one easier to manage, with a timestamp and a random number
+	Converts a file's name to a one easier to manage, with a timestamp and a random number
  */
 FileManager.prototype.convertFileNameToTimestampAndRandomNumberFileName = function (file) {
 	const splitFileName = file.name.split(".");
@@ -68,6 +68,9 @@ FileManager.prototype.convertFileNameToTimestampAndRandomNumberFileName = functi
 	return Date.now() + "-" + (Math.floor(Math.random() * 1000)) + "." + extension;
 };
 
+/*
+	Save file into define folder
+*/
 FileManager.prototype.saveFile = function (folderPath, fileName, fileBuffer, callback) {
 	fs.writeFile(folderPath + fileName, fileBuffer, 'utf8', (err) => {
 		if(err) {
@@ -79,20 +82,29 @@ FileManager.prototype.saveFile = function (folderPath, fileName, fileBuffer, cal
 	});
 };
 
+/*
+	Checks if the file format valid
+*/
 FileManager.prototype.isFileTypeAllowed = function (type) {
 	return (allowedMimeTypes.indexOf(type) > -1);
 };
 
+/*
+	Deletes upload picture
+*/
 FileManager.prototype.deleteUploadsOlderThan = function (timestamp) {
 	this.deleteFilesOlderThan(saveUploadsPath, timestamp);
 };
 
+/*
+	Deletes temporary picture
+*/
 FileManager.prototype.deleteTempPicturesOlderThan = function (timestamp) {
 	this.deleteFilesOlderThan(saveTemporaryProfilePicturePath, timestamp);
 };
 
 /*
-Checks in the given folder for files older than the given timestamp and deletes them
+	Checks in the given folder for files older than the given timestamp and deletes them
  */
 FileManager.prototype.deleteFilesOlderThan = function (folder, timestamp) {
 	const dateTimestamp = new Date(timestamp);
@@ -117,6 +129,9 @@ FileManager.prototype.deleteFilesOlderThan = function (folder, timestamp) {
 	});
 };
 
+/*
+	moves the file to target path
+*/
 FileManager.prototype.moveFile = function (originalPath, targetPath, callback) {
 	fs.rename(originalPath, targetPath, function (err) {
 		if (err) {

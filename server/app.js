@@ -56,6 +56,9 @@ function App() {
 	new SocketGateway(this);
 }
 
+/*
+    Add the user
+*/
 App.prototype.addUser = function(username, socket) {
 
 	let loginSuccessful = {
@@ -73,6 +76,9 @@ App.prototype.addUser = function(username, socket) {
 	return loginSuccessful;
 };
 
+/*
+    Remove the user
+*/
 App.prototype.removeUser = function (username) {
 	delete this.users[username];
 };
@@ -94,10 +100,16 @@ App.prototype.getOldestUserTimestamp = function () {
 	return oldestTimestamp;
 };
 
+/*
+    Check if the username already exist on databases
+*/
 App.prototype.doesUsernameExist = function (username, callback) {
 	this.databaseManager.doesUsernameExist(username, callback);
 };
 
+/* 
+    Save the user data to database
+*/
 App.prototype.registerUser = function (registerData, callback) {
 	this.databaseManager.registerUser(registerData, callback);
 };
@@ -119,6 +131,9 @@ App.prototype.isProfilePictureValid = function (pictureData, callback) {
 
 };
 
+/*
+    Check if the login data valid (username & password)
+*/
 App.prototype.areLoginDataValid = function (loginData, callback) {
     this.databaseManager.areLoginDataValid(loginData, callback);
 };
