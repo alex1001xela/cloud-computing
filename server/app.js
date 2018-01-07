@@ -10,7 +10,6 @@ const helmet = require("helmet");
 const socketIO = require("socket.io");
 const DatabaseManager = require("./databaseManager");
 const PictureAnalyzer = require("./pictureAnalyzer");
-// const RedisGateway = require("./redisGateway");
 
 require("dotenv").config({silent: true});
 
@@ -46,8 +45,7 @@ function App() {
 
 	this.users = {};
 	this.fileManager = new FileManager();
-	// this.redisGateway = new RedisGateway();
-	this.databaseManager = new DatabaseManager();
+	// this.databaseManager = new DatabaseManager();
 	this.pictureAnalyzer = new PictureAnalyzer();
 	this.io = socketIO(initServer(port, this.expressApp, process.env.VCAP_APP_PORT));
 
