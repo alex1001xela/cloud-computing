@@ -10,13 +10,13 @@ function PictureAnalyzer() {
 	Checks with the IBM Watson Visual Recognition tool is the picture contains a face
  */
 PictureAnalyzer.prototype.isFaceContainedInPicture = function (picturePath, callback) {
-	callback({
-				"reason": "",
-				"status": true,
-				"path": picturePath
-			});
-
-	return;
+	// callback({
+	// 			"reason": "",
+	// 			"status": true,
+	// 			"path": picturePath
+	// 		});
+	//
+	// return;
 	const file = fs.createReadStream(path.join("client", picturePath));
 
 	request.post({
