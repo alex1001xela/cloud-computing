@@ -44,9 +44,9 @@ function App() {
 
 
 	this.users = {};
-	// this.fileManager = new FileManager();
-	// this.databaseManager = new DatabaseManager();
-	// this.pictureAnalyzer = new PictureAnalyzer();
+	this.fileManager = new FileManager();
+	this.databaseManager = new DatabaseManager();
+	this.pictureAnalyzer = new PictureAnalyzer();
 	this.io = socketIO(initServer(port, this.expressApp, process.env.VCAP_APP_PORT));
 
 	setInterval(() => {
