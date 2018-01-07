@@ -1,11 +1,18 @@
 "use strict";
 
 const MoodAnalyzer = require("./moodAnalyzer");
-
+const redisOptions = {
+	host: "redis-13166.c10.us-east-1-2.ec2.cloud.redislabs.com",
+	password: "6tY6qGh49h4E2OAhugA",
+	port: 13166,
+	no_ready_check: true
+};
 function SocketGateway(app) {
+	const redis = require('socket.io-redis');
 
 	this.app = app;
 	this.io = app.io;
+	this.io.adapter(redis(redisOptions));
 	this.fileManager = app.fileManager;
 
 	this.moodAnalyzer = new MoodAnalyzer();
@@ -18,6 +25,15 @@ function SocketGateway(app) {
 
 SocketGateway.prototype.activateSocketListeners = function (io){
 	io.on("connection", (socket) => {
+
+		io.of('/').adapter.customHook = (data, callback) => {
+			const eventName = data.eventName;
+			switch (eventName) {
+				case "getUsersList":
+					callback(this.getMembersList());
+					break;
+			}
+		};
 
         socket.on("register", (registerData, callback) => {
 
@@ -59,9 +75,8 @@ SocketGateway.prototype.activateSocketListeners = function (io){
 
 		    this.app.areLoginDataValid(loginData, (loginStatus) => {
 
-
                 if (loginStatus.status) {
-                	
+
 					this.app.addUser(loginData.username, socket);
                 	loginStatus.username = loginData.username;
                     socket.username = loginData.username;
@@ -79,6 +94,7 @@ SocketGateway.prototype.activateSocketListeners = function (io){
 		});
 
 		socket.on("message", (args, callback) => {
+
 			if(this.isUserLoggedIn(socket)) {
 				this.moodAnalyzer.analyzeMessage(args.message);
 				this.emitMessage(socket.username, args.message, Date.now());
@@ -112,13 +128,15 @@ SocketGateway.prototype.activateSocketListeners = function (io){
 
 		socket.on("getUsersList", (args, callback) => {
 			if(this.isUserLoggedIn(socket)) {
-				callback(this.getMembersList());
-			}
-		});
-
-		socket.on("getUsersCount", (args, callback) => {
-			if(this.isUserLoggedIn(socket)) {
-				callback(this.getMembersList().length);
+				io.of('/').adapter.customRequest({
+					eventName: "getUsersList"
+				}, function(err, replies){
+					let finalReply = [];
+					replies.forEach((reply) => {
+						finalReply = finalReply.concat(reply);
+					});
+					callback(finalReply);
+				});
 			}
 		});
 

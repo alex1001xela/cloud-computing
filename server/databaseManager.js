@@ -46,9 +46,9 @@ DatabaseManager.prototype.registerUser = function (registerData, callback) {
         "password": hashPassword,
         "picturePath": registerData.picturePath
         });
-       s
+
         console.log('new user : '+ registerData.username);
-        callback();s
+        callback();
 };
 
 /*

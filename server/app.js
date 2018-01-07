@@ -10,10 +10,11 @@ const helmet = require("helmet");
 const socketIO = require("socket.io");
 const DatabaseManager = require("./databaseManager");
 const PictureAnalyzer = require("./pictureAnalyzer");
+// const RedisGateway = require("./redisGateway");
 
 require("dotenv").config({silent: true});
 
-const port = process.env.PORT || process.env.VCAP_APP_PORT || 8080;
+const port = process.env.PORT || process.env.VCAP_APP_PORT || process.argv[2] || 8080;
 const homePath = path.join(__dirname, "..");
 const clientPath = path.join(homePath, "client");
 const profilePicturesPath = path.join(clientPath, "profilepictures");
@@ -30,7 +31,7 @@ function App() {
     this.expressApp.use((req, res, next) => {
 		res.setHeader("Content-Security-Policy", "script-src 'self' " + "https://" + req.headers.host + req.url);
 
-        if (req.secure || req.headers.host === "localhost:8080") { // allowing localhost without https
+        if (req.secure || req.headers.host === "localhost:" + port) { // allowing localhost without https
 
             next();
         } else {
@@ -45,6 +46,7 @@ function App() {
 
 	this.users = {};
 	this.fileManager = new FileManager();
+	// this.redisGateway = new RedisGateway();
 	this.databaseManager = new DatabaseManager();
 	this.pictureAnalyzer = new PictureAnalyzer();
 	this.io = socketIO(initServer(port, this.expressApp, process.env.VCAP_APP_PORT));

@@ -25,8 +25,8 @@ export function ChatScreen(parent, socket) {
     usersCount.className = "users-count";
 
     var numberOfUsers = 0;
-    socket.emit("getUsersCount", {}, function (count) {
-        numberOfUsers = count;
+    socket.emit("getUsersList", {}, function (list) {
+        numberOfUsers = list.length;
         setNumberOfUsers();
     });
 
