@@ -133,7 +133,8 @@ SocketGateway.prototype.activateSocketListeners = function (io){
 				}, function(err, replies){
 					let finalReply = [];
 					replies.forEach((reply) => {
-						if(reply.length > 0) {
+						
+						if(reply && reply.length > 0) {
 							finalReply = finalReply.concat(reply);	
 						}
 					});
