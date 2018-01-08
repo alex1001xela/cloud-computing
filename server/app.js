@@ -25,23 +25,19 @@ function App() {
 
 	this.expressApp = express();
 	this.expressApp.use(helmet());
-	this.expressApp.enable("trust proxy");
+	// this.expressApp.enable("trust proxy");
 
-    // this.expressApp.use((req, res, next) => {
-		// res.setHeader("Content-Security-Policy", "script-src 'self' " + "https://" + req.headers.host + req.url);
-	//
-    //     if (req.secure || req.headers.host === "localhost:" + port) { // allowing localhost without https
-	//
-    //         next();
-    //     } else {
-    //         res.redirect("https://" + req.headers.host + req.url);
-    //     }
-	//
-    // });
+    this.expressApp.use((req, res, next) => {
+		res.setHeader("Content-Security-Policy", "script-src 'self' " + "https://" + req.headers.host + req.url);
 
-	this.expressApp.get("/", (req, res) => {
-		res.sendFile(clientPath + "/index.html");
-	});
+        if (req.secure || req.headers.host === "localhost:" + port) { // allowing localhost without https
+
+            next();
+        } else {
+            res.redirect("https://" + req.headers.host + req.url);
+        }
+
+    });
 
 	this.expressApp.use(express.static(clientPath));
 	this.expressApp.use(bodyParser.json());
