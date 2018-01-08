@@ -1,5 +1,5 @@
 "use strict";
-
+require("dotenv").config({silent: true});
 const express = require("express");
 const path = require("path");
 const initServer = require("./server");
@@ -11,7 +11,7 @@ const socketIO = require("socket.io");
 const DatabaseManager = require("./databaseManager");
 const PictureAnalyzer = require("./pictureAnalyzer");
 
-require("dotenv").config({silent: true});
+
 
 const port = process.env.PORT || process.env.VCAP_APP_PORT || process.argv[2] || 8080;
 const homePath = path.join(__dirname, "..");
@@ -25,7 +25,7 @@ function App() {
 
 	this.expressApp = express();
 	this.expressApp.use(helmet());
-	// this.expressApp.enable("trust proxy");
+	this.expressApp.enable("trust proxy");
 
     this.expressApp.use((req, res, next) => {
 		res.setHeader("Content-Security-Policy", "script-src 'self' " + "https://" + req.headers.host + req.url);
