@@ -12,8 +12,8 @@ const DatabaseManager = require("./databaseManager");
 const PictureAnalyzer = require("./pictureAnalyzer");
 
 require("dotenv").config({silent: true});
-
-const port = process.env.PORT || process.env.VCAP_APP_PORT || process.argv[2] || 8080;
+// process.env.PORT || 
+const port = process.env.VCAP_APP_PORT || process.argv[2] || 8080;
 const homePath = path.join(__dirname, "..");
 const clientPath = path.join(homePath, "client");
 const profilePicturesPath = path.join(clientPath, "profilepictures");
