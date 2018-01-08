@@ -12,8 +12,8 @@ const DatabaseManager = require("./databaseManager");
 const PictureAnalyzer = require("./pictureAnalyzer");
 
 require("dotenv").config({silent: true});
-// process.env.PORT || 
-const port = process.env.VCAP_APP_PORT || process.argv[2] || 8080;
+
+const port = process.env.PORT || process.env.VCAP_APP_PORT || process.argv[2] || 8080;
 const homePath = path.join(__dirname, "..");
 const clientPath = path.join(homePath, "client");
 const profilePicturesPath = path.join(clientPath, "profilepictures");
@@ -27,17 +27,21 @@ function App() {
 	this.expressApp.use(helmet());
 	this.expressApp.enable("trust proxy");
 
-    this.expressApp.use((req, res, next) => {
-		res.setHeader("Content-Security-Policy", "script-src 'self' " + "https://" + req.headers.host + req.url);
+    // this.expressApp.use((req, res, next) => {
+		// res.setHeader("Content-Security-Policy", "script-src 'self' " + "https://" + req.headers.host + req.url);
+	//
+    //     if (req.secure || req.headers.host === "localhost:" + port) { // allowing localhost without https
+	//
+    //         next();
+    //     } else {
+    //         res.redirect("https://" + req.headers.host + req.url);
+    //     }
+	//
+    // });
 
-        if (req.secure || req.headers.host === "localhost:" + port) { // allowing localhost without https
-
-            next();
-        } else {
-            res.redirect("https://" + req.headers.host + req.url);
-        }
-
-    });
+	this.expressApp.get("/", (req, res) => {
+		res.sendFile(clientPath + "/index.html");
+	});
 
 	this.expressApp.use(express.static(clientPath));
 	this.expressApp.use(bodyParser.json());
