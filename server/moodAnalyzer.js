@@ -67,11 +67,9 @@ MoodAnalyzer.prototype.happyOrUnhappy = function (response) {
 		}
 	}
 	if (happyValue >= unhappyValue) {
-		this.incrementMood();
 		change = "+";
 	}
 	else {
-		this.decrementMood();
 		change = "-";
 	}
 

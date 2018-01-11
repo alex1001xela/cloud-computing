@@ -17,6 +17,7 @@ function SocketGateway(app) {
 
 	this.moodAnalyzer = new MoodAnalyzer();
 	this.moodAnalyzer.onNewMood((moodChange) => {
+		this.informOnMoodChange(moodChange);
 		this.io.emit("newMood", moodChange);
 	});
 
@@ -28,7 +29,7 @@ SocketGateway.prototype.activateSocketListeners = function (io){
 
 		io.of('/').adapter.customHook = (data, callback) => {
 			const eventName = data.eventName;
-			console.log("RECEIVER", data);
+
 			switch (eventName) {
 				case "getUsersList":
 					callback(this.getMembersList());
@@ -37,7 +38,12 @@ SocketGateway.prototype.activateSocketListeners = function (io){
 					callback(this.moodAnalyzer.getMoodLevel());
 					break;
 				case "newMoodServer":
-					console.log(data);
+					if(data.moodChange === "+") {
+						this.moodAnalyzer.incrementMood();
+					}
+					else {
+						this.moodAnalyzer.decrementMood();
+					}
 					break;
 			}
 		};
@@ -172,6 +178,13 @@ SocketGateway.prototype.getMoodLevel = function (callback) {
 		}
 		this.moodAnalyzer.setMoodLevel(reply);
 		callback(reply);
+	});
+};
+
+SocketGateway.prototype.informOnMoodChange = function (moodChange) {
+	this.io.of('/').adapter.customRequest({
+		eventName: "newMoodServer",
+		moodChange: moodChange
 	});
 };
 
