@@ -12,7 +12,7 @@ console.log("IS_ONLINE", isOnline);
 	app.secureOptions = constants.SSL_OP_NO_SSLv3;
 
 	if(isOnline) {
-		server = https.createServer(app);
+		server = http.createServer(app);
 	}
 	else {
 		server = http.createServer(app);
