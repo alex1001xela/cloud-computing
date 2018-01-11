@@ -36,6 +36,9 @@ SocketGateway.prototype.activateSocketListeners = function (io){
 				case "getMoodLevel":
 					callback(this.moodAnalyzer.getMoodLevel());
 					break;
+				case "newMoodServer":
+					console.log(data);
+					break;
 			}
 		};
 

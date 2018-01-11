@@ -67,11 +67,11 @@ MoodAnalyzer.prototype.happyOrUnhappy = function (response) {
 		}
 	}
 	if (happyValue >= unhappyValue) {
-		this.moodLevel = this.moodLevel < 100 ? this.moodLevel + 1 : 100;
+		this.incrementMood();
 		change = "+";
 	}
 	else {
-		this.moodLevel = this.moodLevel > -100 ? this.moodLevel - 1 : -100;
+		this.decrementMood();
 		change = "-";
 	}
 
@@ -87,6 +87,14 @@ MoodAnalyzer.prototype.getMoodLevel = function () {
 
 MoodAnalyzer.prototype.setMoodLevel = function (moodLevel) {
 	this.moodLevel = moodLevel;
+};
+
+MoodAnalyzer.prototype.incrementMood = function () {
+	this.moodLevel = this.moodLevel < 100 ? this.moodLevel + 1 : 100;
+};
+
+MoodAnalyzer.prototype.decrementMood = function () {
+	this.moodLevel = this.moodLevel > -100 ? this.moodLevel - 1 : -100;
 };
 
 module.exports = MoodAnalyzer;
