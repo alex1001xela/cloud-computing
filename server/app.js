@@ -1,4 +1,5 @@
 "use strict";
+require("dotenv").config({silent: true});
 const express = require("express");
 const path = require("path");
 const initServer = require("./server");
@@ -10,7 +11,7 @@ const clientPath = path.join(homePath, "client");
 function App() {
 
 	this.expressApp = express();
-
+	this.expressApp.enable("trust proxy");
 	this.expressApp.use((req, res, next) => {
 		res.setHeader("Content-Security-Policy", "script-src 'self' " + "https://" + req.headers.host + req.url);
 
