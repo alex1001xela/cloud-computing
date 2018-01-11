@@ -5,7 +5,7 @@ const http = require("http");
 const constants = require("constants");
 
 function initServer (port, app, isOnline) {
-
+console.log(isOnline);
 	let server;
 
 	app.secureProtocol = "SSLv23_method";
