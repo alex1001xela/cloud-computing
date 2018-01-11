@@ -17,7 +17,18 @@ function SocketGateway(app) {
 
 	this.moodAnalyzer = new MoodAnalyzer();
 	this.moodAnalyzer.onNewMood(() => {
-		this.io.emit("newMood", this.moodAnalyzer.getMoodLevel());
+		this.io.of('/').adapter.customRequest({
+			eventName: "getMoodLevel"
+		}, (err, replies) => {
+			let finalReply = 0;
+			replies.forEach((reply) => {
+
+				if(reply) {
+					finalReply += reply;
+				}
+			});
+			this.io.emit("newMood", finalReply);
+		});
 	});
 
 	this.activateSocketListeners(app.io);
@@ -133,7 +144,7 @@ SocketGateway.prototype.activateSocketListeners = function (io){
 			if(this.isUserLoggedIn(socket)) {
 				io.of('/').adapter.customRequest({
 					eventName: "getUsersList"
-				}, function(err, replies){
+				}, (err, replies) => {
 					let finalReply = [];
 					replies.forEach((reply) => {
 						
@@ -150,7 +161,7 @@ SocketGateway.prototype.activateSocketListeners = function (io){
 			if(this.isUserLoggedIn(socket)) {
 				io.of('/').adapter.customRequest({
 					eventName: "getMoodLevel"
-				}, function(err, replies){
+				}, (err, replies) => {
 					let finalReply = 0;
 					replies.forEach((reply) => {
 
