@@ -32,6 +32,9 @@ SocketGateway.prototype.activateSocketListeners = function (io){
 				case "getUsersList":
 					callback(this.getMembersList());
 					break;
+				case "getMoodLevel":
+					callback(this.moodAnalyzer.getMoodLevel());
+					break;
 			}
 		};
 
@@ -145,7 +148,18 @@ SocketGateway.prototype.activateSocketListeners = function (io){
 
 		socket.on("getMoodLevel", (args, callback) => {
 			if(this.isUserLoggedIn(socket)) {
-				callback(this.moodAnalyzer.getMoodLevel());
+				io.of('/').adapter.customRequest({
+					eventName: "getMoodLevel"
+				}, function(err, replies){
+					let finalReply = 0;
+					replies.forEach((reply) => {
+
+						if(reply) {
+							finalReply += reply;
+						}
+					});
+					callback(finalReply);
+				});
 			}
 		});
 	});
