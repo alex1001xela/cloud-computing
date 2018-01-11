@@ -6838,6 +6838,7 @@ function NoBlockPopupFactory(parent) {
 function ChatScreen(parent, socket) {
 
     var chatScreen = {};
+    var moodLevel = 0;
 
     var domElement = document.createElement("DIV");
     var logo = document.createElement("IMG");
@@ -6887,8 +6888,9 @@ function ChatScreen(parent, socket) {
     domElement.className = "ChatScreen";
     textField.className = "textField";
 
-    socket.emit("getMoodLevel", {}, function (moodLevel) {
-		showMoodLevel(moodLevel);
+    socket.emit("getMoodLevel", {}, function (incomingMoodLevel) {
+		moodLevel = incomingMoodLevel;
+		showMoodLevel();
 	});
 
     function getTimeRepresentation(dateObject){
@@ -6961,7 +6963,7 @@ function ChatScreen(parent, socket) {
     /*
     Changes the background color of the chat based on the current mood level
      */
-    function showMoodLevel(moodLevel) {
+    function showMoodLevel() {
 		var positiveOrNegative = moodLevel > 0 ? 1 : -1;
 		var startingColor = 242;
 		var blueStep = 242 / 100;
@@ -6973,6 +6975,15 @@ function ChatScreen(parent, socket) {
 		var newBlue = startingColor - blueStep * moodLevel * positiveOrNegative;
 
 		textField.style.background = "rgb(" + newRed + ", " + newGreen + ", " + newBlue + ")";
+	}
+
+	function changeMoodLevel(levelChange) {
+        if(levelChange === "+") {
+            moodLevel++;
+        }
+        else {
+            moodLevel--;
+        }
 	}
 
     socket.on("message", function (username, message, timestamp) {
@@ -7029,8 +7040,9 @@ function ChatScreen(parent, socket) {
         showServerMessage(username + " left!");
     });
 
-    socket.on("newMood", function (mood) {
-        showMoodLevel(mood);
+    socket.on("newMood", function (moodChange) {
+		changeMoodLevel(moodChange);
+        showMoodLevel();
 	});
 
 	chatScreen.detach = function () {

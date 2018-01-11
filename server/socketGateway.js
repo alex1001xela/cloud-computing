@@ -16,19 +16,8 @@ function SocketGateway(app) {
 	this.fileManager = app.fileManager;
 
 	this.moodAnalyzer = new MoodAnalyzer();
-	this.moodAnalyzer.onNewMood(() => {
-		this.io.of('/').adapter.customRequest({
-			eventName: "getMoodLevel"
-		}, (err, replies) => {
-			let finalReply = 0;
-			replies.forEach((reply) => {
-
-				if(reply) {
-					finalReply += reply;
-				}
-			});
-			this.io.emit("newMood", finalReply);
-		});
+	this.moodAnalyzer.onNewMood((moodChange) => {
+		this.io.emit("newMood", moodChange);
 	});
 
 	this.activateSocketListeners(app.io);
@@ -39,6 +28,7 @@ SocketGateway.prototype.activateSocketListeners = function (io){
 
 		io.of('/').adapter.customHook = (data, callback) => {
 			const eventName = data.eventName;
+			console.log("RECEIVER", data);
 			switch (eventName) {
 				case "getUsersList":
 					callback(this.getMembersList());
@@ -159,20 +149,26 @@ SocketGateway.prototype.activateSocketListeners = function (io){
 
 		socket.on("getMoodLevel", (args, callback) => {
 			if(this.isUserLoggedIn(socket)) {
-				io.of('/').adapter.customRequest({
-					eventName: "getMoodLevel"
-				}, (err, replies) => {
-					let finalReply = 0;
-					replies.forEach((reply) => {
-
-						if(reply) {
-							finalReply += reply;
-						}
-					});
-					callback(finalReply);
-				});
+				this.getMoodLevel(callback)
 			}
 		});
+	});
+};
+
+SocketGateway.prototype.getMoodLevel = function (callback) {
+	this.io.of('/').adapter.customRequest({
+		eventName: "getMoodLevel"
+	}, (err, replies) => {
+		let reply;
+		let firstReply = replies[0];
+		if(firstReply && firstReply !== 0) {
+			reply = firstReply;
+		}
+		else {
+			reply = 0;
+		}
+		this.moodAnalyzer.setMoodLevel(reply);
+		callback(reply);
 	});
 };
 

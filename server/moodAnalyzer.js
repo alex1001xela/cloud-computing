@@ -30,8 +30,8 @@ MoodAnalyzer.prototype.onNewMood = function (callback) {
 MoodAnalyzer.prototype.analyzeMessage = function (message) {
 	const toneRequest = this.createToneRequest(message);
 	this.toneAnalyzer.tone_chat(toneRequest, (error, response) => {
-		this.happyOrUnhappy(response);
-		this.newMoodCallback(this.moodLevel);
+		let change = this.happyOrUnhappy(response);
+		this.newMoodCallback(change);
 	});
 };
 
@@ -54,6 +54,7 @@ MoodAnalyzer.prototype.happyOrUnhappy = function (response) {
 
 	let happyValue = 0;
 	let unhappyValue = 0;
+	let change = "";
 	for (let i in response.utterances_tone) {
 		let utteranceTones = response.utterances_tone[i].tones;
 		for (let j in utteranceTones) {
@@ -67,10 +68,14 @@ MoodAnalyzer.prototype.happyOrUnhappy = function (response) {
 	}
 	if (happyValue >= unhappyValue) {
 		this.moodLevel = this.moodLevel < 100 ? this.moodLevel + 1 : 100;
+		change = "+";
 	}
 	else {
 		this.moodLevel = this.moodLevel > -100 ? this.moodLevel - 1 : -100;
+		change = "-";
 	}
+
+	return change;
 };
 
 /*
@@ -78,6 +83,10 @@ MoodAnalyzer.prototype.happyOrUnhappy = function (response) {
 */
 MoodAnalyzer.prototype.getMoodLevel = function () {
 	return this.moodLevel;
+};
+
+MoodAnalyzer.prototype.setMoodLevel = function (moodLevel) {
+	this.moodLevel = moodLevel;
 };
 
 module.exports = MoodAnalyzer;
